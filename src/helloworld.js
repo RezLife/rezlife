@@ -3,7 +3,7 @@
  Express is a framework package (or in JS terms, a "module"), which makes
  it easier for us to organize our web application
 **/
-const express = require('express'); 
+const express = require('express');
 
 //the function returns an express "object", which we can do all sorts of things with
 const app = express(); 
