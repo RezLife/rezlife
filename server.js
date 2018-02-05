@@ -23,6 +23,11 @@ app.get('/',function(req,res){
 	res.sendFile(path.join(publicPath,'views','homepage.html'));
 });
 
+app.get('/resapp',function(req,res){
+	//type in what to do when the browser requests localhost:3000/helloworld
+	res.sendFile(path.join(publicPath,'views','resapp.html'));
+});
+
 
 
 
