@@ -14,14 +14,18 @@ var publicPath = path.join(__dirname,'public');
 //first argument determines the address of which the server sends the file to.
 //(in this example, it serves: localhost:3000/ , in the second it is localhost:3000/helloworld)
 app.use(express.static(publicPath));
+app.get('/log-in', function(req, res) {
+    res.sendFile(path.join(publicPath,'views','log-in.html'));
+});
+
 app.get('/',function(req,res){
 	//type in what to do when the browser requests localhost:3000/helloworld
 	res.sendFile(path.join(publicPath,'views','homepage.html'));
 });
 
-app.get('/log-in', function(req, res) {
-    res.sendFile(path.join(publicPath,'views','log-in.html'));
-});
+
+
+
 
 //the server is listening on port 3000. access in browser with localhost:3000
 app.listen(3000, function(req,res){
