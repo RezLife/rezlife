@@ -20,6 +20,12 @@ app.get('/helloworld',function(req,res){
 	res.send('Hello World!');
 });
 
+
+app.get('/samidpenn',function(req,res){
+	//type in what to do when the browser requests localhost:3000/helloworld
+	res.send('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+});
+
 //the server is listening on port 3000. access in browser with localhost:3000
 app.listen(3000, function(req,res){
 	console.log('Listening on port 3000...');
