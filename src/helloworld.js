@@ -14,7 +14,7 @@ const app = express();
 //(in this example, it serves: localhost:3000/ , in the second it is localhost:3000/helloworld)
 app.use('/',express.static(__dirname + '/views'));
 
-//function to sorve a helloworld
+//function to serve a helloworld
 app.get('/helloworld',function(req,res){
 	//type in what to do when the browser requests localhost:3000/helloworld
 	res.send('Hello World!');
