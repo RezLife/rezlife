@@ -9,7 +9,6 @@ const app = express();
 
 app.use('/',express.static(__dirname + '/views'));
 
-
 app.get('/test',function(req,res){	
 	res.send('This is a test! I am testing to make sure that my tools work');
 });
