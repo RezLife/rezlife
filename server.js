@@ -16,15 +16,15 @@ var publicPath = path.join(__dirname,'public');
 app.use(express.static(publicPath));
 
 app.get('/',function(req,res){
-	res.sendFile(path.join(publicPath,'views','homepage.html'));
+	res.sendFile(path.join(publicPath,'views/home','homepage.html'));
 });
 
 app.get('/log-in', function(req, res) {
-    res.sendFile(path.join(publicPath,'views','log-in.html'));
+    res.sendFile(path.join(publicPath,'views/login','log-in.html'));
 });
 
 app.get('/resapp',function(req,res){
-	res.sendFile(path.join(publicPath,'views','resapp.html'));
+	res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
 });
 
 
