@@ -34,6 +34,10 @@ app.get('/resapp',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
 });
 
+app.get('/blank',function(req,res){
+	res.sendFile(path.join(publicPath,'views/webapp','blank.html'));
+});
+
 app.get('/charts.html',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp/charts.html'))
 })
