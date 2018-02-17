@@ -330,7 +330,6 @@ iframe {
   color: #fff;
   line-height: 1.2;
   text-transform: uppercase;
-
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -341,9 +340,8 @@ iframe {
   padding: 0 20px;
   width: 100%;
   height: 62px;
-  background-color: #2b6cef;
+  background-color: #7a04fc;
   border-radius: 3px;
-
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;

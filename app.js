@@ -1,23 +1,30 @@
-/** 
- "import" express javascript library
- Express is a framework package (or in JS terms, a "module"), which makes
- it easier for us to organize our web application
-**/
-const express = require('express'); 
+
+//"import" express javascript library
+var express = require('express'); 
+var path = require('path');
 
 //the function returns an express "object", which we can do all sorts of things with
-const app = express(); 
-var path = require('path');
+var app = express(); 
 var publicPath = path.join(__dirname,'public');
-//function used to "serve" or for the server to deliver a static html file, 
-//which is stored in the views directory stated as "index.html". 
-//first argument determines the address of which the server sends the file to.
-//(in this example, it serves: localhost:3000/ , in the second it is localhost:3000/log-in)
-app.use(express.static(publicPath));
+
+//middleware, serves static files
+app.use('/',express.static(publicPath));
+// app.get('/',function(req,res){
+// 	res.sendFile(path.join(__dirname,'forfun.html'));
+// });
+//app.get('/forfun',function(req,res){
+// 	res.sendFile(path.join(__dirname,'forfun.html'));
+// })
+//handles requests
+
 
 app.get('/',function(req,res){
 	res.sendFile(path.join(publicPath,'views/home','homepage.html'));
 });
+
+app.get('/start',function(req,res){
+	res.sendFile(path.join(__dirname,'public/views/start.html'))
+})
 
 app.get('/log-in', function(req, res) {
     res.sendFile(path.join(publicPath,'views/login','log-in.html'));
@@ -26,6 +33,10 @@ app.get('/log-in', function(req, res) {
 app.get('/resapp',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
 });
+
+app.get('/charts.html',function(req,res){
+	res.sendFile(path.join(publicPath,'views/webapp/charts.html'))
+})
 
 
 
