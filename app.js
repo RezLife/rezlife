@@ -26,21 +26,34 @@ app.get('/start',function(req,res){
 	res.sendFile(path.join(__dirname,'public/views/start.html'))
 })
 
-app.get('/log-in', function(req, res) {
-    res.sendFile(path.join(publicPath,'views/login','log-in.html'));
+app.get('/login', function(req, res) {
+    res.sendFile(path.join(publicPath,'views/login','login.html'));
 });
 
 app.get('/resapp',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
 });
 
+app.get('/accounts',function(req,res){
+	res.sendFile(path.join(publicPath,'views/webapp','accounts.html'));
+});
+app.get('/roster',function(req,res){
+	res.sendFile(path.join(publicPath,'views/webapp','roster.html'));
+});
+app.get('/calendar',function(req,res){
+	res.sendFile(path.join(publicPath,'views/webapp','calendar.html'));
+});
+app.get('/inopen',function(req,res){
+	res.sendFile(path.join(publicPath,'views/webapp','inopen.html'));
+});
+app.get('/emergency',function(req,res){
+	res.sendFile(path.join(publicPath,'views/webapp','emergency.html'));
+});
+
 app.get('/blank',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','blank.html'));
 });
 
-app.get('/charts.html',function(req,res){
-	res.sendFile(path.join(publicPath,'views/webapp/charts.html'))
-})
 
 
 
