@@ -8,9 +8,11 @@
     "cookie-parser": "~1.4.3",
     "ejs": "~2.5.2",
     "express": "~4.14.0",
+    "express-fileupload": "^0.4.0",
     "express-session": "~1.14.1",
     "method-override": "~2.3.6",
     "mysql": "2.15.0",
+    "nodemon": "^1.15.0",
     "passport": "~0.3.2",
     "passport-local": "~1.0.0"
   }

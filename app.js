@@ -2,9 +2,11 @@
 //"import" express javascript library
 var express = require('express'); 
 var path = require('path');
+var fileUpload = require('express-fileupload');
 
 //the function returns an express "object", which we can do all sorts of things with
-var app = express(); 
+var app = express();
+app.use(fileUpload());
 var publicPath = path.join(__dirname,'public');
 
 //middleware, serves static files
@@ -23,8 +25,8 @@ app.get('/',function(req,res){
 });
 
 app.get('/start',function(req,res){
-	res.sendFile(path.join(__dirname,'public/views/start.html'))
-})
+	res.sendFile(path.join(__dirname,'public/views/start.html'));
+});
 
 app.get('/login', function(req, res) {
     res.sendFile(path.join(publicPath,'views/login','login.html'));
@@ -54,7 +56,23 @@ app.get('/blank',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','blank.html'));
 });
 
+app.post('/upload', function(req, res) {
+    if (!req.files)
+        return res.status(400).send('No files were uploaded.');
 
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    var chart = req.files.chartupload;
+
+    // Use the mv() method to place the file somewhere on your server
+    chart.mv(path.join(__dirname, 'chart'), function(err) {
+        if (err) {
+        	console.log(1);
+            return res.status(500).send(err);
+        }
+
+        res.sendFile(path.join(publicPath,'views/webapp','roster.html'));
+    });
+});
 
 
 
