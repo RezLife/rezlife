@@ -56,17 +56,17 @@ app.get('/blank',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','blank.html'));
 });
 
+// This handles the uploading done in the roster tab.
 app.post('/upload', function(req, res) {
     if (!req.files)
         return res.status(400).send('No files were uploaded.');
 
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    // The name of the input field is used to retrieve the uploaded file
     var chart = req.files.chartupload;
 
     // Use the mv() method to place the file somewhere on your server
     chart.mv(path.join(__dirname, 'chart'), function(err) {
         if (err) {
-        	console.log(1);
             return res.status(500).send(err);
         }
 
