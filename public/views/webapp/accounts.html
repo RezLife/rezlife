@@ -173,12 +173,32 @@
         <li class="breadcrumb-item">
           <a href="resapp">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Blank Page</li>
+        <li class="breadcrumb-item active">Accounts</li>
       </ol>
       <div class="row">
         <div class="col-12">
-          <h1>Blank</h1>
-          <p>This is an example of a blank page that you can use as a starting point for creating new ones.</p>
+          <h1>Create Account</h1>
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
+						<input class="input100" type="text" name="email" placeholder="User email">
+						<span class="focus-input100"></span>
+          </div>
+          <br/>
+          <p>Admin or RA:</p>
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Role is required">
+						<input class="input100" type="text" name="role" placeholder="Role">
+						<span class="focus-input100"></span>
+          </div>
+          <br/>
+          <p>If RA:</p>
+						<input class="input100" type="text" name="floor" placeholder="Floor">
+            <span class="focus-input100"></span>
+            <br/><br/>
+						<input class="input100" type="text" name="building" placeholder="Building">
+            <span class="focus-input100"></span>
+            <br/><br/>
+            <div>
+              <a class="btn btn-primary" href="accounts">Create</a>
+            </div>
         </div>
       </div>
     </div>
