@@ -7,48 +7,80 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- <meta name = "viewport" content = "width=device-width, initial-scale=1"> -->
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+	<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+	<link href='https://fonts.googleapis.com/css?family=Patua One' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
 </head>
+<style>
+.masthead{
+	
+  position: relative;
+  background-color: #343a40;
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.25), 
+      rgba(0, 0, 0, 0.25)
+    ),url("../images/dorm.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 16rem;
+  padding-bottom: 14rem;
+}
+.patua{
+	font-family:'Patua One';
+	font-color: 'black';
+	font-size: 22px;
+}
 
-
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-    	<a class="navbar-brand" href="#">
-      		<img src="pencils.svg" width="30" height="30" alt="">
-      	</a>
-      <a class="navbar-brand" href="#">RezLife</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="start">Start Page</a></li>
-      <li><a href="#">Page 2</a></li>
-      <li><a href="#">Page 3</a></li>
-    </ul>
-  </div>
-</nav>
-
+.raleway{
+	font-family:'Open Sans';
+	font-size:15px;
+	color:'white';
+}
+.patua-button{
+	font-family:'Patua One';
+	font-color: 'black';
+	font-size: 15;
+}
+.mast-text{
+	font-family: 'Patua One';
+	font-weight:20;
+	margin-bottom:3rem!important;
+}
+</style>
 <body>
-	<h1>
-		Welcome to Rezlife!
-	</h1>
-	<p>
-	</p>
+	<nav class="navbar navbar-light bg-light fixed-top">
+		  <div class="container-fluid">
+		  	<a class="patua" href="#">
+				<img width=40px height=40px src="../images/icons/ra.png">
+				RezLife App.
+		  	</a>
+
+		  <a class="raleway btn btn-primary" onclick = "window.location.href='login'">Staff Sign In</a>
+	  	</div>
+	</nav>
+
+	 <!-- Masthead -->
+    <header class="masthead text-white text-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-9 mx-auto">
+            <h1 class="mast-text">Welcome to the RezLife App!</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+
 </body>
-
-<div class="container-fluid bg-2 text-center">
-  <h3>Please Log In Here</h3>
-  <p>Only if you're an Ra...</p>
-  <button type="button" class="btn btn-info" onclick = "window.location.href='login'">Log-In</button>
-</div>
-
 
 
 
