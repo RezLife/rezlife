@@ -35,6 +35,11 @@ app.get('/resapp',function(req,res){
 app.get('/accounts',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','accounts.html'));
 });
+
+app.post('/accounts',function(req,res){
+	
+});
+
 app.get('/roster',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','roster.html'));
 });
