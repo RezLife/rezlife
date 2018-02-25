@@ -11,21 +11,10 @@ var publicPath = path.join(__dirname,'public');
 
 //middleware, serves static files
 app.use('/',express.static(publicPath));
-// app.get('/',function(req,res){
-// 	res.sendFile(path.join(__dirname,'forfun.html'));
-// });
-//app.get('/forfun',function(req,res){
-// 	res.sendFile(path.join(__dirname,'forfun.html'));
-// })
-//handles requests
 
-
+//handles get requests
 app.get('/',function(req,res){
 	res.sendFile(path.join(publicPath,'views/home','homepage.html'));
-});
-
-app.get('/start',function(req,res){
-	res.sendFile(path.join(__dirname,'public/views/start.html'));
 });
 
 app.get('/login', function(req, res) {
