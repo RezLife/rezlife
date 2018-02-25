@@ -1,4 +1,4 @@
-i
+
 //"import" express javascript library
 var express = require('express'); 
 var path = require('path');
@@ -17,14 +17,9 @@ app.get('/',function(req,res){
 	res.sendFile(path.join(publicPath,'views/home','homepage.html'));
 });
 
-app.get('/start',function(req,res){
-	res.sendFile(path.join(__dirname,'public/views/start.html'));
-});
-
 app.get('/login', function(req, res) {
     res.sendFile(path.join(publicPath,'views/login','login.html'));
 });
-
 
 app.get('/resapp',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
