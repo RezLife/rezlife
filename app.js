@@ -1,4 +1,4 @@
-
+i
 //"import" express javascript library
 var express = require('express'); 
 var path = require('path');
@@ -11,9 +11,6 @@ var publicPath = path.join(__dirname,'public');
 
 //middleware, serves static files
 app.use('/',express.static(publicPath));
-
-
-
 
 //handles get requests
 app.get('/',function(req,res){
