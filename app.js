@@ -65,7 +65,7 @@ app.post('/upload', function(req, res) {
     var chart = req.files.chartupload;
 
     // Use the mv() method to place the file somewhere on your server
-    chart.mv(path.join(__dirname, 'chart'), function(err) {
+    chart.mv(path.join(__dirname, 'chart.jpg'), function(err) {
         if (err) {
             return res.status(500).send(err);
         }
