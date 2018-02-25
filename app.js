@@ -25,6 +25,7 @@ app.get('/login', function(req, res) {
     res.sendFile(path.join(publicPath,'views/login','login.html'));
 });
 
+
 app.get('/resapp',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
 });
