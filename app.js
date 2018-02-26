@@ -12,22 +12,14 @@ var publicPath = path.join(__dirname,'public');
 //middleware, serves static files
 app.use('/',express.static(publicPath));
 
-
-
-
 //handles get requests
 app.get('/',function(req,res){
 	res.sendFile(path.join(publicPath,'views/home','homepage.html'));
 });
 
-app.get('/start',function(req,res){
-	res.sendFile(path.join(__dirname,'public/views/start.html'));
-});
-
 app.get('/login', function(req, res) {
     res.sendFile(path.join(publicPath,'views/login','login.html'));
 });
-
 
 app.get('/resapp',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
@@ -69,7 +61,7 @@ app.post('/upload', function(req, res) {
     var chart = req.files.chartupload;
 
     // Use the mv() method to place the file somewhere on your server
-    chart.mv(path.join(__dirname, 'chart'), function(err) {
+    chart.mv(path.join(__dirname, 'chart.jpg'), function(err) {
         if (err) {
             return res.status(500).send(err);
         }
