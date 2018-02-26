@@ -38,7 +38,9 @@ app.get('/accounts',function(req,res){
 });
 
 app.post('/accounts',function(req,res){
-	
+	if (req.params.email) {
+            res.send("YOU DID IT!!!");
+        }
 });
 
 app.get('/roster',function(req,res){
