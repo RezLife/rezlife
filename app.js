@@ -24,6 +24,9 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
+    if (req.body) {
+        res.send(req.body);
+    }
     res.send("FINALLY!!!");
 });
 
