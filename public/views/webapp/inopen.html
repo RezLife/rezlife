@@ -2,6 +2,48 @@
 <html lang="en">
 
 <head>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 40%;
+        }
+        
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-right: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even){background-color: #f2f2f2}
+        
+        th {
+            background-color: rgb(41, 7, 233);
+            color: white;
+        }
+        </style>
+  <script>
+    function addRow(){
+      var table = document.getElementsByTagName('table')[0];
+      var newRow = table.insertRow(1);
+
+      var cel1 = newRow.insertCell(0);
+      var cel2 = newRow.insertCell(1);
+      var cel3 = newRow.insertCell(2);
+      var cel4 = newRow.insertCell(3);
+      var cel5 = newRow.insertCell(4);
+      var cel6 = newRow.insertCell(5);
+      var cel7 = newRow.insertCell(6);
+      var cel8 = newRow.insertCell(7);
+
+      cel1.innerHTML = "Jill";
+      cel2.innerHTML = "";
+      cel3.innerHTML = "IN";
+      cel4.innerHTML = "Open";
+      cel5.innerHTML = "";
+      cel6.innerHTML = "";
+      cel7.innerHTML = "IN";
+    }
+  </script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -179,9 +221,54 @@
         <div class="col-12">
           <h1>IN/OPEN</h1>
           <p>This Schedual allows you to see when your RAs will be In, Open, Or Off</p>
-          <img src="images/schedule.JPG" alt="Schedule">
+          <table>
+            <tr>
+              <th>RAs</th>
+              <th>Mon</th> 
+              <th>Tues</th>
+              <th>Wed</th>
+              <th>Thur</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+            </tr>
+            <script>
+
+            </script>
+            <tr>
+              <td>Jill</td>
+              <td> </th> 
+              <td>IN</th>
+              <td></th>
+              <td>Open</th>
+              <td></th>
+              <td>IN</th>
+              <td></th>
+            </tr>
+            <tr>
+              <td>Samid</td>
+              <td> </th> 
+              <td>IN</th>
+              <td></th>
+              <td>Open</th>
+              <td></th>
+              <td>IN</th>
+              <td></th>
+            </tr>
+            <tr>
+              <td>Caleb</td>
+              <td> </th> 
+              <td>IN</th>
+              <td></th>
+              <td>Open</th>
+              <td></th>
+              <td>IN</th>
+              <td></th>
+            </tr>
+          </table>
+          <!-- <img src="images/schedule.JPG" alt="Schedule"> -->
           <br/>
-          <button type="button">Edit</button>
+          <button onclick="addRow();">Add</button>
           &nbsp;
           <button type="button">Search</button>
         </div>
