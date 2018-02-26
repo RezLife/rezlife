@@ -186,6 +186,21 @@
             <div class="card-body">
               <!--the upload button-->
               <form action="upload" method="post" enctype="multipart/form-data">
+                Dorm
+                <select name="dorm">
+                  <option value="Smith-Traber">Smith-Traber</option>
+                  <option value="Fischer">Fischer</option>
+                  <option value="MacEvans">MacEvans</option>
+                  <option value="Williston">Williston</option>
+                  <option value="Apartments">Apartments</option>
+                  <option value="Houses">Houses</option>
+                </select><br>
+                Semester
+                <select value="semester">
+                  <option value="Fall">Fall</option>
+                  <option value="Spring">Spring</option>
+                </select>
+                <input type="number" name="year" value="2017"><br>
                 <input type="file" name="chartupload"><br>
                 <input type="submit" value="Upload">
               </form>

@@ -16,7 +16,6 @@ fs.readFile('./smithtraber.csv', function(err, data) {
 	parse(data, {comment: '#'}, function(err, output){
 		if (err) throw err;
 		csv = output;
-		console.log("parsed " + csv[0].length);
 
 		con.connect(function (err) {
 			if (err) throw err;
