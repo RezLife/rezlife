@@ -3,6 +3,7 @@
 var express = require('express'); 
 var path = require('path');
 var fileUpload = require('express-fileupload');
+var bodyParser = require('body-parser');
 
 //the function returns an express "object", which we can do all sorts of things with
 var app = express();
@@ -11,6 +12,7 @@ var publicPath = path.join(__dirname,'public');
 
 //middleware, serves static files
 app.use('/',express.static(publicPath));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //handles get requests
 app.get('/',function(req,res){
@@ -21,18 +23,25 @@ app.get('/login', function(req, res) {
     res.sendFile(path.join(publicPath,'views/login','login.html'));
 });
 
+app.post('/login', function(req, res) {
+    res.send("FINALLY!!!");
+});
+
 app.get('/resapp',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
 });
 
 app.get('/accounts',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','accounts.html'));
-});
+}); 
 
 app.post('/accounts',function(req,res){
-	if (req.params.email) {
-            res.send("YOU DID IT!!!");
+	if (req.body) {
+            res.send(req.body);
         }
+    else {
+        res.send("Failed :(");
+    }
 });
 
 app.get('/roster',function(req,res){
