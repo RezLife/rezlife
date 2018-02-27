@@ -184,7 +184,7 @@
               </i> Upload new student chart
             </div>
             <div class="card-body">
-              <!--the upload button-->
+              <!--the upload form-->
               <form action="upload" method="post" enctype="multipart/form-data">
                 Dorm
                 <select name="dorm">
@@ -196,11 +196,13 @@
                   <option value="Houses">Houses</option>
                 </select><br>
                 Semester
-                <select value="semester">
+                <select id="semester" name="semester">
                   <option value="Fall">Fall</option>
                   <option value="Spring">Spring</option>
                 </select>
-                <input type="number" name="year" value="2017"><br>
+                <!--The number field has a min, max, and a pattern that only allows integers.-->
+                <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*"><br>
+                Floor chart
                 <input type="file" name="chartupload"><br>
                 <input type="submit" value="Upload">
               </form>

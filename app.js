@@ -1,6 +1,7 @@
 
 //"import" express javascript library
-var express = require('express'); 
+var express = require('express');
+var body = require('body-parser');
 var path = require('path');
 var fileUpload = require('express-fileupload');
 
@@ -45,6 +46,8 @@ app.get('/blank',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','blank.html'));
 });
 
+app.use(body.urlencoded());
+
 // This handles the uploading done in the roster tab.
 app.post('/upload', function(req, res) {
     if (!req.files)
@@ -53,13 +56,18 @@ app.post('/upload', function(req, res) {
     // The name of the input field is used to retrieve the uploaded file
     var chart = req.files.chartupload;
 
+    console.log("Dorm: " + req.body["dorm"] + "\nSemester: " + req.body["semester"] + " of "
+        + req.body["year"]);
+
     // Use the mv() method to place the file somewhere on your server
     chart.mv(path.join(__dirname, 'chart.jpg'), function(err) {
         if (err) {
             return res.status(500).send(err);
         }
 
-        res.sendFile(path.join(publicPath,'views/webapp','roster.html'));
+        // after uploading, send you back to the roster page.
+        res.redirect("/roster");
+
     });
 });
 
