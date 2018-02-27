@@ -35,7 +35,15 @@ fs.readFile('./smithtraber.csv', function(err, data) {
 				// parse in all the students
 				con.query("INSERT INTO students (" + columns2 + ") VALUES ?", [csv.slice(1)], function(err, result, fields) {
 					if (err) throw err;
-					con.end();
+                    con.end();
+
+
+                    //display upload complete div
+                    var x = document.getElementById("myDiv");
+                    if (x.style.display == "none") {
+
+                        x.style.display = "block";
+                    }
 				});
 			});
 		});
