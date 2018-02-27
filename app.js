@@ -1,7 +1,7 @@
 
 //"import" express javascript library
 var express = require('express');
-var body = require('body-parser');
+var bodyParser = require('body-parser');
 var path = require('path');
 var fs = require('fs');
 var mysql = require('mysql');
@@ -15,6 +15,7 @@ var publicPath = path.join(__dirname,'public');
 
 //middleware, serves static files
 app.use('/',express.static(publicPath));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //handles get requests
 app.get('/',function(req,res){
@@ -25,13 +26,30 @@ app.get('/login', function(req, res) {
     res.sendFile(path.join(publicPath,'views/login','login.html'));
 });
 
+app.post('/login', function(req, res) {
+    if (req.body) {
+        res.send(req.body);
+    }
+    res.send("FINALLY!!!");
+});
+
 app.get('/resapp',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
 });
 
 app.get('/accounts',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','accounts.html'));
+}); 
+
+app.post('/accounts',function(req,res){
+	if (req.body) {
+            res.send(req.body);
+        }
+    else {
+        res.send("Failed :(");
+    }
 });
+
 app.get('/roster',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','roster.html'));
 });
@@ -48,9 +66,6 @@ app.get('/emergency',function(req,res){
 app.get('/blank',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','blank.html'));
 });
-
-// this allows you to get form info with req.body["name"]
-app.use(body.urlencoded());
 
 // This handles the uploading done in the roster tab.
 app.post('/upload', function(req, res) {
