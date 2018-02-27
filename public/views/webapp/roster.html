@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -14,6 +14,16 @@
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
+
+    <style>
+        #myDIV {
+            width: 100%;
+            padding: 50px 0;
+            text-align: center;
+            background-color: lightgreen;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -204,7 +214,12 @@
                 <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*"><br>
                 Floor chart:
                 <input type="file" name="chartupload"><br>
-                <input type="submit" value="Upload">
+                <input type="submit" value="Upload" onclick="myFunction()">
+
+                  <div id="myDIV" style="display: none;">
+                      File uploaded successfully!
+                  </div>
+
               </form>
             </div>
             <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
@@ -253,6 +268,18 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
   </div>
+
+    <!-- Script for successful upload message for upload roster-->
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myDIV");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
 </body>
 
 </html>
