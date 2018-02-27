@@ -1,0 +1,64 @@
+
+/*Responsive CSS*/
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'roboto', sans-serif;
+  color: #000;
+  font-size: 16px;
+  background: #ffffff;
+  line-height: 1.6em;
+}
+
+.no-bullet{
+  list-style:none;
+}
+
+#container {
+  width: 60%;
+  margin: 150px auto;
+  overflow: auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  height: 40px;
+  background: #6bb170;
+  color: white;
+  text-align: center;
+  padding-top: 13px;
+}
+
+.faq li { padding: 20px; }
+
+.faq li.q {
+  font-weight: bold;
+  font-size: 120%;
+  border-bottom: 1px #ddd solid;
+  cursor: pointer;
+}
+
+.faq li.a {
+  background: #ffffff;
+  display: none;
+  color:#000;
+}
+
+.rotate {
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+@media (max-width:800px) {
+
+#container { width: 90%; }
+}
