@@ -20,28 +20,94 @@
             background-color: rgb(41, 7, 233);
             color: white;
         }
+        .popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
         </style>
   <script>
+    function myFunction(id) {
+      var stat = "p".concat(id);
+      var popup = document.getElementById(stat);
+      popup.classList.toggle("show");
+    }
+    function func(val, id){
+	    var status= "In";
+      if(val==2)status = "Open";
+      else if(val==3) status = "-----"
+	    document.getElementById(id).innerHTML=status;
+      popup.classList.toggle("hidden");
+    }
     function addRow(){
       var table = document.getElementsByTagName('table')[0];
-      var newRow = table.insertRow(1);
+      
+        var newRow = table.insertRow(1);
+        var schedule = new Array(8);
+        for(var i = 0; i < 8; i++){
+          schedule[i] = newRow.insertCell(i);
+        }
+        
 
-      var cel1 = newRow.insertCell(0);
-      var cel2 = newRow.insertCell(1);
-      var cel3 = newRow.insertCell(2);
-      var cel4 = newRow.insertCell(3);
-      var cel5 = newRow.insertCell(4);
-      var cel6 = newRow.insertCell(5);
-      var cel7 = newRow.insertCell(6);
-      var cel8 = newRow.insertCell(7);
+        schedule[0].innerHTML = "Jill";
+        schedule[1].innerHTML = '<div id=1 class="popup" onclick="myFunction(1)">In<span class="popuptext" id="p1"><button onclick="func(1, 1)">In</button><button onclick="func(2, 1)">Open</button><button onclick="func(3, 1)">Off</button></span>';
+        schedule[2].innerHTML = '<div id=2 class="popup" onclick="myFunction(2)">Open<span class="popuptext" id="p2"><button onclick="func(1, 2)">In</button><button onclick="func(2, 2)">Open</button><button onclick="func(3, 2)">Off</button></span>';
+        schedule[3].innerHTML = "Open";
+        schedule[4].innerHTML = "    ";
+        schedule[5].innerHTML = "    ";
+        schedule[6].innerHTML = "IN";
+        schedule[7].innerHTML = "----";
 
-      cel1.innerHTML = "Jill";
-      cel2.innerHTML = "";
-      cel3.innerHTML = "IN";
-      cel4.innerHTML = "Open";
-      cel5.innerHTML = "";
-      cel6.innerHTML = "";
-      cel7.innerHTML = "IN";
     }
   </script>
   <meta charset="utf-8">
@@ -268,6 +334,9 @@
           </table>
           <!-- <img src="images/schedule.JPG" alt="Schedule"> -->
           <br/>
+          <script type="text/javascript">
+            addRow();
+        </script>
           <button onclick="addRow();">Add</button>
           &nbsp;
           <button type="button">Search</button>

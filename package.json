@@ -6,13 +6,18 @@
     "body-parser": "^1.15.2",
     "connect-flash": "~0.1.1",
     "cookie-parser": "~1.4.3",
+<<<<<<< HEAD
+=======
+    "csv": "^2.0.0",
+>>>>>>> 2bd3c5208c88446c7193304c4912df4af0515673
     "csv-parse": "^2.0.4",
     "ejs": "~2.5.2",
-    "express": "~4.14.0",
+    "express": "^4.14.1",
     "express-fileupload": "^0.4.0",
     "express-session": "~1.14.1",
+    "fs": "0.0.1-security",
     "method-override": "~2.3.6",
-    "mysql": "2.15.0",
+    "mysql": "^2.15.0",
     "nodemon": "^1.15.1",
     "passport": "~0.3.2",
     "passport-local": "~1.0.0"
