@@ -3,7 +3,10 @@
 var express = require('express');
 var body = require('body-parser');
 var path = require('path');
+var fs = require('fs');
+var mysql = require('mysql');
 var fileUpload = require('express-fileupload');
+var chartParser = require('./chartParser.js');
 
 //the function returns an express "object", which we can do all sorts of things with
 var app = express();
@@ -46,6 +49,7 @@ app.get('/blank',function(req,res){
 	res.sendFile(path.join(publicPath,'views/webapp','blank.html'));
 });
 
+// this allows you to get form info with req.body["name"]
 app.use(body.urlencoded());
 
 // This handles the uploading done in the roster tab.
@@ -59,15 +63,27 @@ app.post('/upload', function(req, res) {
     console.log("Dorm: " + req.body["dorm"] + "\nSemester: " + req.body["semester"] + " of "
         + req.body["year"]);
 
+    var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
+
     // Use the mv() method to place the file somewhere on your server
-    chart.mv(path.join(__dirname, 'chart.jpg'), function(err) {
+    chart.mv(path.join(__dirname, 'chart'), function(err) {
         if (err) {
             return res.status(500).send(err);
         }
 
         // after uploading, send you back to the roster page.
         res.redirect("/roster");
+        var con = mysql.createConnection ( {
+            host: "localhost",
+            user: "root",
+            password: "",
+            database: "housing"
+        });
 
+        chartParser.parseIntoDatabase(con, "./chart", chartid, function () {
+            // After dealing with the file, delete it.
+            fs.unlink(path.join(__dirname, 'chart'), function (err) {});
+        });
     });
 });
 

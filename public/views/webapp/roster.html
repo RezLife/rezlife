@@ -186,31 +186,31 @@
             <div class="card-body">
               <!--the upload form-->
               <form action="upload" method="post" enctype="multipart/form-data">
-                Dorm
+                Dorm:
                 <select name="dorm">
-                  <option value="Smith-Traber">Smith-Traber</option>
-                  <option value="Fischer">Fischer</option>
-                  <option value="MacEvans">MacEvans</option>
-                  <option value="Williston">Williston</option>
-                  <option value="Apartments">Apartments</option>
-                  <option value="Houses">Houses</option>
+                  <option value="smithtraber">Smith-Traber</option>
+                  <option value="fischer">Fischer</option>
+                  <option value="macevans">MacEvans</option>
+                  <option value="williston">Williston</option>
+                  <option value="apartments">Apartments</option>
+                  <option value="houses">Houses</option>
                 </select><br>
-                Semester
-                <select id="semester" name="semester">
-                  <option value="Fall">Fall</option>
-                  <option value="Spring">Spring</option>
+                Semester:
+                <select name="semester">
+                  <option value="fall">Fall</option>
+                  <option value="spring">Spring</option>
                 </select>
                 <!--The number field has a min, max, and a pattern that only allows integers.-->
                 <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*"><br>
-                Floor chart
+                Floor chart:
                 <input type="file" name="chartupload"><br>
                 <input type="submit" value="Upload">
               </form>
             </div>
             <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
           </div>
-          <h1>Blank</h1>
-          <p>This is an example of a Roster that you can use as a starting point for creating new ones.</p>
+          <!--<h1>Blank</h1>-->
+          <!--<p>This is an example of a Roster that you can use as a starting point for creating new ones.</p>-->
         </div>
       </div>
     </div>
