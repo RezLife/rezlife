@@ -100,11 +100,11 @@
         
 
         schedule[0].innerHTML = "Jill";
-        for(var i = 1; i < 8; i++){
+        for(var i = 1; i < 7; i++){
           var part1 = '<div id='.concat(i);
           part1 = part1.concat(' class="popup" onclick="myFunction(');
           part1 = part1.concat(i);
-          part1 = part1.concat('">In<span class="popuptext" id="p');
+          part1 = part1.concat(')">In<span class="popuptext" id="p');
           part1 = part1.concat(i);
           part1 = part1.concat('"><button onclick="func(1, ');
           part1 = part1.concat(i);
@@ -116,13 +116,7 @@
 
           schedule[i].innerHTML = part1;
         }
-        schedule[1].innerHTML = '<div id=1 class="popup" onclick="myFunction(1)">In<span class="popuptext" id="p1"><button onclick="func(1, 1)">In</button><button onclick="func(2, 1)">Open</button><button onclick="func(3, 1)">Off</button></span>';
-        schedule[2].innerHTML = '<div id=2 class="popup" onclick="myFunction(2)">Open<span class="popuptext" id="p2"><button onclick="func(1, 2)">In</button><button onclick="func(2, 2)">Open</button><button onclick="func(3, 2)">Off</button></span>';
-        schedule[3].innerHTML = "Open";
-        schedule[4].innerHTML = "    ";
-        schedule[5].innerHTML = "    ";
-        schedule[6].innerHTML = "IN";
-        schedule[7].innerHTML = "----";
+        schedule[7].innerHTML = '<div id=7 class="popup" onclick="myFunction(7)">Open<span class="popuptext" id="p7"><button onclick="func(1, 7)">In</button><button onclick="func(2, 7)">Open</button><button onclick="func(3, 7)">Off</button></span>';
 
     }
   </script>
