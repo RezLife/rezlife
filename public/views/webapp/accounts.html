@@ -178,30 +178,32 @@
       <div class="row">
         <div class="col-12">
           <h1>Create Account</h1>
-          <div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="email" placeholder="User email">
-						<span class="focus-input100"></span>
-          </div>
-          <br/>
-          <p>Select type of account:</p>
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Role is required">
-              <select>
-                <option value="RA">RA</option>
-                <option value="Admin">Admin</option>
-              </select>
-						<span class="focus-input100"></span>
-          </div>
-          <br/>
-          <p>If RA:</p>
-						<input class="input100" type="text" name="floor" placeholder="Floor">
-            <span class="focus-input100"></span>
-            <br/><br/>
-						<input class="input100" type="text" name="building" placeholder="Building">
-            <span class="focus-input100"></span>
-            <br/><br/>
-            <div>
-              <a class="btn btn-primary" href="accounts">Create</a>
+
+
+          <form action="/accounts" method="post" target="_blank">
+            <div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
+              <input class="input100" type="text" name="email" placeholder="User email">
+              <span class="focus-input100"></span>
             </div>
+            <br/>
+            <p>Select type of account:</p>
+            <div class="wrap-input100 validate-input m-b-16" data-validate = "Role is required">
+                <select>
+                  <option value="RA">RA</option>
+                  <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <br/>
+            <p>If RA:</p>
+              <input class="input100" type="text" name="floor" placeholder="Floor">
+              <span class="focus-input100"></span>
+              <br/><br/>
+              <input class="input100" type="text" name="building" placeholder="Building">
+              <span class="focus-input100"></span>
+              <br/><br/>
+            <input type="submit" value="Create">
+          </form>
+          
         </div>
       </div>
     </div>
