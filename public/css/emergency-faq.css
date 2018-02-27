@@ -15,7 +15,6 @@ body {
   line-height: 1.6em;
 }
 
-/*ul, li { list-style: none; }*/
 .no-bullet{
   list-style:none;
 }
@@ -42,7 +41,6 @@ h1 {
 .faq li { padding: 20px; }
 
 .faq li.q {
-  background: #4FC2E;
   font-weight: bold;
   font-size: 120%;
   border-bottom: 1px #ddd solid;

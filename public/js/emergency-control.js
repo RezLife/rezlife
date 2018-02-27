@@ -15,11 +15,10 @@ $(document).ready(function () {
 
     //Question handler
     $('li.q').on('click', function () {
-        var answer = $(this).next()
-        //gets next element
-        //opens .a of selected question
-        answer.slideToggle(speed).siblings('li.a').slideUp();
-            //selects all other answers and slides up any open answer
+        var answer = $(this).next()//next element: answer of the question
+
+        answer.slideToggle(speed)//opens .a of selected question
+        answer.siblings('li.a').slideUp();//closes .a of any open answer
 
         //Grab img from clicked question
         var img = $(this).children('img');
