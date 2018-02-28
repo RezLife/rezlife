@@ -10,9 +10,21 @@ var app = express();
 app.use(fileUpload());
 var publicPath = path.join(__dirname,'public');
 
+//connect to mysql database
+var mysql = require('mysql');
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "guestuser",
+  password: "guestpass",
+  database: "mydb"
+});
+
 //middleware, serves static files
 app.use('/',express.static(publicPath));
+
+//read urls and receive json from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //handles get requests
 app.get('/',function(req,res){
@@ -27,7 +39,9 @@ app.post('/login', function(req, res) {
     if (req.body) {
         res.send(req.body);
     }
-    res.send("FINALLY!!!");
+    else {
+        res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
+    }
 });
 
 app.get('/resapp',function(req,res){
@@ -43,7 +57,7 @@ app.post('/accounts',function(req,res){
             res.send(req.body);
         }
     else {
-        res.send("Failed :(");
+        res.send("Failed to receive account creation info");
     }
 });
 
