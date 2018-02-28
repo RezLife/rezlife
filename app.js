@@ -40,12 +40,7 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-    if (req.body) {
-        res.send(req.body);
-    }
-    else {
-        res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
-    }
+    res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
 });
 
 app.get('/resapp',function(req,res){
