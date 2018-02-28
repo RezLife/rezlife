@@ -13,9 +13,22 @@ var app = express();
 app.use(fileUpload());
 var publicPath = path.join(__dirname,'public');
 
+//connect to mysql database
+var mysql = require('mysql');
+var con = mysql.createConnection({
+  host: "localhost",
+  port: "3306",
+  user: "guest",
+  password: "guestpass",
+  database: "testdb"
+});
+
 //middleware, serves static files
 app.use('/',express.static(publicPath));
+
+//read urls and receive json from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //handles get requests
 app.get('/',function(req,res){
@@ -30,7 +43,9 @@ app.post('/login', function(req, res) {
     if (req.body) {
         res.send(req.body);
     }
-    res.send("FINALLY!!!");
+    else {
+        res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
+    }
 });
 
 app.get('/resapp',function(req,res){
@@ -42,11 +57,23 @@ app.get('/accounts',function(req,res){
 }); 
 
 app.post('/accounts',function(req,res){
-	if (req.body) {
-            res.send(req.body);
-        }
-    else {
-        res.send("Failed :(");
+    if (req.body && req.body.email && req.body.role) {
+      con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        var email = req.body.email;
+        var password = "temppass";
+        var role = req.body.role;
+        var sql = `INSERT INTO user (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
+        con.query(sql, function (err, result) {
+          if (err) throw err;
+          console.log("1 record inserted");
+        });
+      });
+      res.send("Account added!");
+    } else {
+        if (req.body) res.send(req.body);
+        else res.send("Error: no parameters received.");
     }
 });
 

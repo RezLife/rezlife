@@ -85,7 +85,7 @@
     function func(val, id){
 	    var status= "In";
       if(val==2)status = "Open";
-      else if(val==3) status = "-----"
+      else if(val==3) status = "----"
 	    document.getElementById(id).innerHTML= status;
       var stat = "p".concat(id);
       var popup = document.getElementById(stat);
@@ -93,7 +93,9 @@
     }
     function addRow(){
       var table = document.getElementsByTagName('table')[0];
-      
+      if( typeof addRow.counter == 'undefined' ) {
+        addRow.counter = 0;
+    }
         var newRow = table.insertRow(1);
         var schedule = new Array(8);
         for(var i = 0; i < 8; i++){
@@ -101,8 +103,8 @@
         }
         
 
-        schedule[0].innerHTML = "Jill";
-        for(var i = 1; i < 7; i++){
+        schedule[0].innerHTML = "Steve";
+        for(var i = 1; i < 8; i++){
           var part1 = "<div id=".concat(i);
           part1 = part1.concat(' class="popup" onclick="myFunction(');
           part1 = part1.concat(i);
@@ -118,7 +120,7 @@
 
           schedule[i].innerHTML = part1;
         }
-        schedule[7].innerHTML = '<div id=7 class="popup" onclick="myFunction(7)">Open<span class="popuptext" id="p7"><button onclick="func(1, 7)">In</button><button onclick="func(2, 7)">Open</button><button onclick="func(3, 7)">Off</button></span>';
+        
 
     }
   </script>
@@ -299,6 +301,7 @@
         <div class="col-12">
           <h1>IN/OPEN</h1>
           <p>This Schedual allows you to see when your RAs will be In, Open, Or Off</p>
+          <p>Click on a value to change it</p>
           <table>
             <tr>
               <th>RAs</th>
@@ -315,33 +318,33 @@
             </script>
             <tr>
               <td>Jill</td>
-              <td> </th> 
+              <td>----</th> 
               <td>In</th>
-              <td></th>
+              <td>----</th>
               <td>Open</th>
-              <td></th>
+              <td>----</th>
               <td>In</th>
-              <td></th>
+              <td>----</th>
             </tr>
             <tr>
               <td>Samid</td>
               <td>Open</th> 
-              <td> </th>
+              <td>----</th>
               <td>In</th>
               <td>Open</th>
-              <td></th>
+              <td>----</th>
               <td>Open</th>
-              <td></th>
+              <td>----</th>
             </tr>
             <tr>
               <td>Caleb</td>
-              <td> </th> 
+              <td>----</th> 
               <td>In</th>
               <td>In</th>
-              <td></th>
-              <td></th>
+              <td>----</th>
+              <td>----</th>
               <td>Open</th>
-              <td></th>
+              <td>----</th>
             </tr>
           </table>
           <!-- <img src="images/schedule.JPG" alt="Schedule"> -->
@@ -349,7 +352,7 @@
           <script type="text/javascript">
             addRow();
         </script>
-          <button onclick="addRow();">Add</button>
+          <!--<button onclick="addRow();">Add</button>-->
           &nbsp;
           <button type="button">Search</button>
         </div>
