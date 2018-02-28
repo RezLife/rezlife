@@ -14,13 +14,15 @@
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
+  <link href="css/emergency-faq.css" rel="stylesheet">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="resapp">RezLife App</a>
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -86,7 +88,8 @@
             <a class="dropdown-item" href="#">
               <strong>David Miller</strong>
               <span class="small float-right text-muted">11:21 AM</span>
-              <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!</div>
+              <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end
+                of the box so they don't overflow over to the sides!</div>
             </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">
@@ -98,7 +101,8 @@
             <a class="dropdown-item" href="#">
               <strong>John Doe</strong>
               <span class="small float-right text-muted">11:21 AM</span>
-              <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
+              <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can
+                discuss distribution.</div>
             </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item small" href="#">View all messages</a>
@@ -178,53 +182,94 @@
       <div class="row">
         <div class="col-12">
           <div id="emergency-content">
-            <h1>Emergency Information System</h1>
-            <p>Use the buttons on the right to browse emergencies.</p>
+   
+
+            <h2>
+              <b><center>Emergency Information</b></center>
+            </h2>
+            <p>
+              <center>Browse below to retrieve procedures and information about a specific kind of emergency.</center>
+            </p>
+            <div class="faq_container">
+              <ul class="faq no-bullet">
+
+                <li class="q no-bullet">
+                  <img src="images/icons/arrow.png"> Storms / Lightning
+                </li>
+                <!-- Answer -->
+                <li class="a no-bullet">
+                  <p>
+                    Wheaton has a warning system that alerts the campus to the likelihood of lightning. This system is meant to warn pedestrians
+                    on campus, but is also especially helpful for warning sports team. The warning system is located on top
+                    of the SRC and uses blasts of a horn to indicate its warning.
+                    <ul>
+                  <dl class="row">
+                  <dt class="col-sm-3">One long blast</dt>
+                   <dd class="col-sm-9"><p class="font-italic">Take cover</p></dd>
+                   <dt class="col-sm-3">Three short blasts</dt>
+                   <dd class="col-sm-9"><p class="font-italic">All clear</p></dd>
+                   </dl>
+                    </ul>
+                  </p>
+                </li>
+
+
+                <li class="q">
+                  <img src="images/icons/arrow.png"> Tornado
+                </li>
+                <li class="a">
+                  <p id="tornado-content"></p>
+                </li>
+              </ul>
+
+            </div>
+
           </div>
-          <button id="tornado-button">Tornado</button>
-          <button id="emergency-home-button">Home</button>
+          </nav>
+
         </div>
       </div>
     </div>
-    <!-- /.container-fluid-->
-    <!-- /.content-wrapper-->
-    <footer class="sticky-footer">
-      <div class="container">
-        <div class="text-center">
-          <small>Copyright © Wheaton College 2018</small>
-        </div>
+  </div>
+  <!-- /.container-fluid-->
+  <!-- /.content-wrapper-->
+  <footer class="sticky-footer">
+    <div class="container">
+      <div class="text-center">
+        <small>Copyright © Wheaton College 2018</small>
       </div>
-    </footer>
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fa fa-angle-up"></i>
-    </a>
-    <!-- Logout Modal-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login">Logout</a>
-          </div>
+    </div>
+  </footer>
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fa fa-angle-up"></i>
+  </a>
+  <!-- Logout Modal-->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login">Logout</a>
         </div>
       </div>
     </div>
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin.min.js"></script>
-    <script src="js/emergency-control.js"></script>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin.min.js"></script>
+  <script src="js/emergency-control.js"></script>
   </div>
 </body>
 
