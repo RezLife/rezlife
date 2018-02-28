@@ -193,12 +193,19 @@
                     <option value="Select">Select</option>
                     <option value="RA">RA</option>
                     <option value="Admin">Admin</option>
+                    <script>
+                        if(name=="RA")
+                          document.getElementById('RA').innerHTML = 'If RA:';
+                          <input class="input100" type="text" name="floor" placeholder="Floor"/>
+                          <span class="focus-input100"></span>
+                          <br/><br/>
+                      </script>
                   </select>
                   <br><br>
-                  
+            
             </div>
             <br/>
-            <p>If RA:</p>
+            <p id = "RA">If RA:</p>
               <input class="input100" type="text" name="floor" placeholder="Floor">
               <span class="focus-input100"></span>
               <br/><br/>
