@@ -14,7 +14,6 @@ app.use(fileUpload());
 var publicPath = path.join(__dirname,'public');
 
 //connect to mysql database
-var mysql = require('mysql');
 var con = mysql.createConnection({
   host: "localhost",
   port: "3306",
