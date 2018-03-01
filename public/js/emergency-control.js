@@ -1,18 +1,6 @@
 var speed = "500";
 //Document.Ready
 $(document).ready(function () {
-
-
-});//End Ready
-$(document).ready(function () {
-    $('#tornado-button').click(function () {
-        $('#emergency-content').load("/views/emergencies/tornado.html");
-    });
-
-    $('#emergency-home-button').click(function () {
-        $('#emergency-content').load("/views/emergencies/emergency-home.html");
-    });
-
     //Question handler
     $('li.q').on('click', function () {
         var answer = $(this).next()//next element: answer of the question
