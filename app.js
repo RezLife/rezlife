@@ -44,13 +44,13 @@ app.post('/login', function (req, res) {
         var password = req.body.password;
         con.query('SELECT * FROM user WHERE email = ?', [email], function (error, results, fields) {
             if (error) {
-                console.log("error ocurred", error);
+                console.log("Error occurred:", error);
                 res.send({
                     "code": 400,
                     "failed": "error ocurred"
                 })
             } else {
-                console.log('The solution is: ', results);
+                console.log('Results: ', results);
                 if (results.length > 0) {
                     if (results[0].password == password) {
                         res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
@@ -88,22 +88,21 @@ app.get('/accounts', function (req, res) {
 
 app.post('/accounts', function (req, res) {
     if (req.body && req.body.email && req.body.role) {
-        con.connect(function (err) {
+        var email = req.body.email;
+        var password = "temppass";
+        var role = req.body.role;
+        var sql = `INSERT INTO user (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
+        con.query(sql, function (err, result) {
             if (err) throw err;
-            console.log("Connected!");
-            var email = req.body.email;
-            var password = "temppass";
-            var role = req.body.role;
-            var sql = `INSERT INTO user (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
-            con.query(sql, function (err, result) {
-                if (err) throw err;
-                console.log("1 record inserted");
-            });
+            console.log("1 record inserted:", result);
         });
         res.send("Account added!");
     } else {
         if (req.body) res.send(req.body);
-        else res.send("Error: no parameters received.");
+        else res.send({
+            "code": "400",
+            "failed": "Error: no parameters received."
+        });
     }
 });
 
