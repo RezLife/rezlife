@@ -38,40 +38,37 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(publicPath, 'views/login', 'login.html'));
 });
 
-app.post('/login2', function (req, res) {
+app.post('/login', function (req, res) {
     if (req.body && req.body.email && req.body.password) {
         var email = req.body.email;
         var password = req.body.password;
-        con.connect(function (err) {
-            if (err) throw err;
-            con.query('SELECT * FROM user WHERE email = ?', [email], function (error, results, fields) {
-                if (error) {
-                    console.log("error ocurred",error);
-                    res.send({
-                        "code": 400,
-                        "failed": "error ocurred"
-                    })
-                } else {
-                    console.log('The solution is: ', results);
-                    if (results.length > 0) {
-                        if ([0].password == password) {
-                            res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
-                        }
-                        else {
-                            res.send({
-                                "code": 204,
-                                "success": "Email and password do not match"
-                            });
-                        }
+        con.query('SELECT * FROM user WHERE email = ?', [email], function (error, results, fields) {
+            if (error) {
+                console.log("error ocurred", error);
+                res.send({
+                    "code": 400,
+                    "failed": "error ocurred"
+                })
+            } else {
+                console.log('The solution is: ', results);
+                if (results.length > 0) {
+                    if ([0].password == password) {
+                        res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
                     }
                     else {
                         res.send({
                             "code": 204,
-                            "success": "Email does not exist"
+                            "success": "Email and password do not match"
                         });
                     }
                 }
-            });
+                else {
+                    res.send({
+                        "code": 204,
+                        "success": "Email does not exist"
+                    });
+                }
+            }
         });
     } else {
         res.send({
