@@ -106,6 +106,10 @@ app.post('/accounts', function (req, res) {
     }
 });
 
+app.get('/settings', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'settings.html'));
+});
+
 app.get('/roster', function (req, res) {
     res.sendFile(path.join(publicPath, 'views/webapp', 'roster.html'));
 });
