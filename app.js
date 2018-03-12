@@ -109,12 +109,12 @@ app.post('/upload', function(req, res) {
 
         // after uploading, send you back to the roster page.
         res.redirect("/roster");
-        var con = mysql.createConnection ( {
-            host: "localhost",
-            user: "root",
-            password: "",
-            database: "housing"
-        });
+        // var con = mysql.createConnection ( {
+        //     host: "localhost",
+        //     user: "root",
+        //     password: "",
+        //     database: "housing"
+        // });
 
         chartParser.parseIntoDatabase(con, "./chart", chartid, function () {
             // After dealing with the file, delete it.
