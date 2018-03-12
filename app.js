@@ -52,7 +52,7 @@ app.post('/login', function (req, res) {
             } else {
                 console.log('The solution is: ', results);
                 if (results.length > 0) {
-                    if ([0].password == password) {
+                    if (results[0].password == password) {
                         res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
                     }
                     else {
