@@ -16,6 +16,7 @@
     "method-override": "~2.3.6",
     "mocha": "^5.0.1",
     "mysql": "^2.15.0",
+    "nodemod": "^1.5.19",
     "nodemon": "^1.15.1",
     "passport": "~0.3.2",
     "passport-local": "~1.0.0"
