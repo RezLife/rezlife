@@ -155,8 +155,8 @@ body {font-family: Arial;}
 </div>
 
 <div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'Fischer')">Fischer</button>
-  <button class="tablinks" onclick="openCity(event, 'Smith-Traber')">Smith-Traber</button>
+  <button class="tablinks" onclick="openTab(event, 'Fischer')">Fischer</button>
+  <button class="tablinks" onclick="openTab(event, 'Smith-Traber')">Smith-Traber</button>
 </div>
 
 <div id="Fischer" class="tabcontent">
@@ -170,7 +170,7 @@ body {font-family: Arial;}
 </div>
 
 <script>
-function openCity(evt, cityName) {
+function openTab(evt, dorm) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -180,7 +180,7 @@ function openCity(evt, cityName) {
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-    document.getElementById(cityName).style.display = "block";
+    document.getElementById(dorm).style.display = "block";
     evt.currentTarget.className += " active";
 }
 </script>
