@@ -13,6 +13,7 @@
     "express-fileupload": "^0.4.0",
     "express-session": "~1.14.1",
     "fs": "0.0.1-security",
+    "generate-password": "^1.4.0",
     "method-override": "~2.3.6",
     "mocha": "^5.0.1",
     "mysql": "^2.15.0",
