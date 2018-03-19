@@ -1,5 +1,5 @@
 
-function myFunction(id) {
+function toggle(id) {
     var stat = "p".concat(id);
     var popup = document.getElementById(stat);
     popup.classList.toggle("show");
@@ -9,15 +9,12 @@ function myFunction(id) {
       var status= "In";
     if(val==2)status = "Open";
     else if(val==3) status = "----"
-    /*document.getElementById(id).innerHTML= status;*/
     schedule[id].innerHTML = createButton(status,id);
-    //DEAR GOD WHY?
-    myFunction(id);
-    /*popup.classList.toggle("hidden");    */ 
+    toggle(id);
   }
   function createButton(val, i){
     var part1 = "<div id=".concat(i);
-        part1 = part1.concat(' class="popup" onclick="myFunction(');
+        part1 = part1.concat(' class="popup" onclick="toggle(');
         part1 = part1.concat(i);
         part1 = part1.concat(')">').concat(val).concat('<span class="popuptext" id="p');
         part1 = part1.concat(i);
