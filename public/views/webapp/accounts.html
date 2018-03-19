@@ -242,6 +242,25 @@
           
         </div>
       </div>
+      <br/>
+      <!-- Start of Delete Account -->
+      <div class="row">
+        <div class="col-12">
+          <h1>Delete Account</h1>
+          <p>Enter email of account to delete:</p>
+          <form action="/deleteAccount" method="post" target="_blank">
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Account email is required">
+              <input class="input100" type="text" name="email" placeholder="Account email">
+              <span class="focus-input100"></span>
+            </div>
+            <br/>
+            <input type="submit" value="Delete" onclick="return confirm('Are you sure you would like to delete this account?\n This action cannot be undone.')" />
+            </form>
+            <br/>
+
+        </div>
+      </div>
+      <!-- End of Delete Account -->
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
