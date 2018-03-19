@@ -177,7 +177,21 @@ app.get('/settings', function (req, res) {
 app.post('/settings', function (req, res) {
     if (req.body && req.body.password && req.body.passcheck) {
         if (req.body.password == req.body.passcheck) {
-            //update password in database
+            var email = req.session.user.email;
+            //need to encrypt this password
+            var password = req.body.password;
+            var sql = `UPDATE user SET password = '${password}' WHERE email = '${email}'`;
+            con.query(sql, function (err, result) {
+                if (err) {
+                    res.send({
+                        "code": "400",
+                        "failed": err
+                    });
+                    throw err;
+                } else {
+                    console.log("1 record updated:", result);
+                }
+            });
         } else {
             res.send({
                 "code": "400",
