@@ -11,8 +11,7 @@ function myFunction(id) {
     else if(val==3) status = "----"
     /*document.getElementById(id).innerHTML= status;*/
     schedule[id].innerHTML = createButton(status,id);
-    var stat = "p".concat(id);
-    var popup = document.getElementById(stat);
+    //DEAR GOD WHY?
     myFunction(id);
     /*popup.classList.toggle("hidden");    */ 
   }
