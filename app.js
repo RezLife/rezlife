@@ -7,6 +7,7 @@ var fs = require('fs');
 var mysql = require('mysql');
 var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
+var generator = require('generate-password');
 
 //the function returns an express "object", which we can do all sorts of things with
 var app = express();
@@ -88,20 +89,48 @@ app.get('/accounts', function (req, res) {
 
 app.post('/accounts', function (req, res) {
     if (req.body && req.body.email && req.body.role) {
+        if (req.body.role == "Select") {
+            res.send({
+                "code": "400",
+                "failed": "Error: must select a role."
+            });
+        } else {
+            var email = req.body.email;
+            var password = generator.generate();
+            var role = req.body.role;
+            var sql = `INSERT INTO user (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
+            con.query(sql, function (err, result) {
+                if (err) throw err;
+                console.log("1 record inserted:", result);
+            });
+            res.send("Account added!");
+        }
+    } else {
+        if (req.body) res.send({
+            "code": "400",
+            "failed": "Error: must enter email and select role."
+        });
+        else res.send({
+            "code": "400",
+            "failed": "Error: no parameters received."
+        });
+    }
+});
+
+app.post('/deleteAccount', function (req, res) {
+    if (req.body && req.body.email) {
         var email = req.body.email;
-        var password = "temppass";
-        var role = req.body.role;
-        var sql = `INSERT INTO user (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
+        var sql = `DELETE FROM customers WHERE email = '${email}'`;
         con.query(sql, function (err, result) {
             if (err) throw err;
-            console.log("1 record inserted:", result);
+            console.log("1 record deleted:", result);
         });
-        res.send("Account added!");
+        res.send("Account deleted");
     } else {
         if (req.body) res.send(req.body);
         else res.send({
             "code": "400",
-            "failed": "Error: no parameters received."
+            "failed": "Error: must enter email to delete account."
         });
     }
 });
