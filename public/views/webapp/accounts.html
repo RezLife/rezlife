@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+  <script src="js/accounts.js">
+  </script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -196,20 +198,38 @@
             <p>Select type of account:</p>
             <div class="wrap-input100 validate-input m-b-16" data-validate = "Role is required">
                 <form action="/action_page.php">
+                  <select name="role" onchange="if (this.selectedIndex) doSomething();">
+                    <option value="Select">--</option>
+                    <option value="Admin">Admin</option>
+                    <option onclick="doSomethingElse();" value="RA">RA</option>
+
+                  </select>
+                  <br><br>
+            </div>
+            <br/>
+            <div class="wrap-input100 validate-input m-b-16" data-validate = "Dorm is required">
+              
+              <form action="/action_page.php">
+                <select name="dorm">
+                  <option value="Select">Select</option>
+                  <option value="Fischer">Fischer</option>
+                  <option value="Smith-Traber">Smith-Traber</option>
+                </select>
+                <br><br>
+          
+            </div>
+            <div class="wrap-input100 validate-input m-b-16" data-validate = "Floor is required">
+                <form action="/action_page.php">
                   <select name="role">
                     <option value="Select">Select</option>
                     <option value="RA">RA</option>
                     <option value="Admin">Admin</option>
-                    <script>
-                        if(0==1){
-                          
-                        }
-                      </script>
                   </select>
                   <br><br>
             
             </div>
             <br/>
+            
             <p id = "RA">If RA:</p>
               <input class="input100" type="text" name="floor" placeholder="Floor">
               <span class="focus-input100"></span>
@@ -234,7 +254,7 @@
               <span class="focus-input100"></span>
             </div>
             <br/>
-            <input type="submit" value="Delete">
+            <input type="submit" value="Delete" onclick="return confirm('Are you sure you would like to delete this account?\n This action cannot be undone.')" />
             </form>
             <br/>
 
