@@ -8,11 +8,20 @@ var mysql = require('mysql');
 var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
 var generator = require('generate-password');
+var session = require('client-sessions');
 
 //the function returns an express "object", which we can do all sorts of things with
 var app = express();
 app.use(fileUpload());
 var publicPath = path.join(__dirname, 'public');
+
+//sessions allows for persistent logins with authentication
+app.use(session({
+    cookieName: 'session',
+    secret: 'randomsecretstringssshhh123',
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+}));
 
 //connect to mysql database
 var con = mysql.createConnection({
@@ -30,16 +39,19 @@ app.use('/', express.static(publicPath));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//handles get requests
+//handles requests
 app.get('/', function (req, res) {
+    req.session.user = null;
     res.sendFile(path.join(publicPath, 'views/home', 'homepage.html'));
 });
 
 app.get('/login', function (req, res) {
+    req.session.user = null;
     res.sendFile(path.join(publicPath, 'views/login', 'login.html'));
 });
 
 app.post('/login', function (req, res) {
+    req.session.user = null;
     if (req.body && req.body.email && req.body.password) {
         var email = req.body.email;
         var password = req.body.password;
@@ -54,6 +66,9 @@ app.post('/login', function (req, res) {
                 console.log('Results: ', results);
                 if (results.length > 0) {
                     if (results[0].password == password) {
+                        req.user = results[0];
+                        delete req.user.password; // delete the password from the session
+                        req.session.user = req.user;  //refresh the session value
                         res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
                     }
                     else {
@@ -80,25 +95,60 @@ app.post('/login', function (req, res) {
 });
 
 app.get('/resapp', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
+        res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
 });
 
 app.get('/accounts', function (req, res) {
+    //safe version
+    /*if (req.session && req.session.user) {
+        res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
+    } else {
+        res.redirect('/login');
+    }*/
     res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
 });
 
 app.post('/accounts', function (req, res) {
-    if (req.body && req.body.email && req.body.role) {
-        if (req.body.role == "Select") {
-            res.send({
-                "code": "400",
-                "failed": "Error: must select a role."
-            });
+        if (req.body && req.body.email && req.body.role) {
+            if (req.body.role == "Select") {
+                res.send({
+                    "code": "400",
+                    "failed": "Error: must select a role."
+                });
+            } else {
+                var email = req.body.email;
+                var password = generator.generate();
+                var role = req.body.role;
+                var sql = `INSERT INTO user (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
+                con.query(sql, function (err, result) {
+                    if (err) {
+                        res.send({
+                            "code": "400",
+                            "failed": err
+                        });
+                        throw err;
+                    } else {
+                        res.send("Account added!");
+                        console.log("1 record inserted:", result);
+                    }
+                });
+            }
         } else {
+            if (req.body) res.send({
+                "code": "400",
+                "failed": "Error: must enter email and select role."
+            });
+            else res.send({
+                "code": "400",
+                "failed": "Error: no parameters received."
+            });
+        }
+});
+
+app.post('/deleteAccount', function (req, res) {
+        if (req.body && req.body.email) {
             var email = req.body.email;
-            var password = generator.generate();
-            var role = req.body.role;
-            var sql = `INSERT INTO user (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
+            var sql = `DELETE FROM user WHERE email = '${email}'`;
             con.query(sql, function (err, result) {
                 if (err) {
                     res.send({
@@ -107,46 +157,17 @@ app.post('/accounts', function (req, res) {
                     });
                     throw err;
                 } else {
-                    res.send("Account added!");
-                    console.log("1 record inserted:", result);
+                    console.log("1 record deleted:", result);
+                    res.send("Account deleted");
                 }
             });
+        } else {
+            if (req.body) res.send(req.body);
+            else res.send({
+                "code": "400",
+                "failed": "Error: must enter email to delete account."
+            });
         }
-    } else {
-        if (req.body) res.send({
-            "code": "400",
-            "failed": "Error: must enter email and select role."
-        });
-        else res.send({
-            "code": "400",
-            "failed": "Error: no parameters received."
-        });
-    }
-});
-
-app.post('/deleteAccount', function (req, res) {
-    if (req.body && req.body.email) {
-        var email = req.body.email;
-        var sql = `DELETE FROM user WHERE email = '${email}'`;
-        con.query(sql, function (err, result) {
-            if (err) {
-                res.send({
-                    "code": "400",
-                    "failed": err
-                });
-                throw err;
-            } else {
-                console.log("1 record deleted:", result);
-                res.send("Account deleted");
-            }
-        });
-    } else {
-        if (req.body) res.send(req.body);
-        else res.send({
-            "code": "400",
-            "failed": "Error: must enter email to delete account."
-        });
-    }
 });
 
 app.get('/settings', function (req, res) {
@@ -156,7 +177,21 @@ app.get('/settings', function (req, res) {
 app.post('/settings', function (req, res) {
     if (req.body && req.body.password && req.body.passcheck) {
         if (req.body.password == req.body.passcheck) {
-            //update password in database
+            var email = req.session.user.email;
+            //need to encrypt this password
+            var password = req.body.password;
+            var sql = `UPDATE user SET password = '${password}' WHERE email = '${email}'`;
+            con.query(sql, function (err, result) {
+                if (err) {
+                    res.send({
+                        "code": "400",
+                        "failed": err
+                    });
+                    throw err;
+                } else {
+                    console.log("1 record updated:", result);
+                }
+            });
         } else {
             res.send({
                 "code": "400",
