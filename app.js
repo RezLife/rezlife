@@ -1,6 +1,6 @@
-//////////////////
-// Load modules //
-//////////////////
+/**
+ * Load modules
+ */
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
@@ -39,9 +39,9 @@ var con = mysql.createConnection({
     database: "testdb"
 });
 
-///////////////////////
-// API Data Requests //
-///////////////////////
+/**
+ * API data requests
+ */
 
 //get all data from designated table
 //SELECT * FROM 'table'
@@ -61,9 +61,9 @@ app.get('/api/:table/:column/:row', (req,res) => {
     api.getRowFromTableEqual(req,res,req.params.table,req.params.column,req.params.row);
 });
 
-///////////////////////
-// HTML Get Requests //
-///////////////////////
+/**
+ * HTML get requests
+ */
 
 app.get('/', function (req, res) {
     req.session.user = null;
@@ -279,6 +279,11 @@ app.post('/upload', function (req, res) {
         });
     });
 });
+
+//handles 404 errors
+app.get('*', function(req, res){
+    res.send('Page is not found.', 404);
+  });
 
 //the server is listening on port 3000. access in browser with localhost:3000
 app.listen(3000, function (req, res) {
