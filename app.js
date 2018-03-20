@@ -1,5 +1,6 @@
-
-//"import" express javascript library
+/**
+ * Load modules
+ */
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
@@ -9,8 +10,7 @@ var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
 var generator = require('generate-password');
 var session = require('client-sessions');
-
-//the function returns an express "object", which we can do all sorts of things with
+let api = require('./model/api.js');
 var app = express();
 app.use(fileUpload());
 var publicPath = path.join(__dirname, 'public');
@@ -23,6 +23,13 @@ app.use(session({
     activeDuration: 5 * 60 * 1000,
 }));
 
+//middleware, serves static files
+app.use('/', express.static(publicPath));
+
+//read urls and receive json from post requests
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 //connect to mysql database
 var con = mysql.createConnection({
     host: "localhost",
@@ -32,14 +39,32 @@ var con = mysql.createConnection({
     database: "testdb"
 });
 
-//middleware, serves static files
-app.use('/', express.static(publicPath));
+/**
+ * API data requests
+ */
 
-//read urls and receive json from post requests
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+//get all data from designated table
+//SELECT * FROM 'table'
+app.get('/api/:table', (req,res) => {
+    api.getAllFromTable(req,res,req.params.table);
+});
 
-//handles requests
+//get all data from a specific column 
+//SELECT  + column +  FROM  + table
+app.get('/api/:table/:column', (req,res) => {
+    api.getColumnFromTable(req,res,req.params.table,req.params.column);
+});
+
+//get the row of data conditional to data of a specific column
+//SELECT * FROM + table + WHERE + column + row
+app.get('/api/:table/:column/:row', (req,res) => {
+    api.getRowFromTableEqual(req,res,req.params.table,req.params.column,req.params.row);
+});
+
+/**
+ * HTML get requests
+ */
+
 app.get('/', function (req, res) {
     req.session.user = null;
     res.sendFile(path.join(publicPath, 'views/home', 'homepage.html'));
@@ -50,6 +75,38 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(publicPath, 'views/login', 'login.html'));
 });
 
+app.get('/resapp', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
+});
+
+app.get('/accounts', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
+    //safe version
+/*if (req.session && req.session.user) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
+} else {
+    res.redirect('/login');
+}*/
+});
+
+app.get('/settings', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'settings.html'));
+});
+
+app.get('/roster', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'roster.html'));
+});
+app.get('/calendar', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'calendar.html'));
+});
+app.get('/inopen', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'inopen.html'));
+});
+app.get('/emergency', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'emergency.html'));
+});
+
+//handles get requests for account
 app.post('/login', function (req, res) {
     req.session.user = null;
     if (req.body && req.body.email && req.body.password) {
@@ -92,20 +149,6 @@ app.post('/login', function (req, res) {
             "failed": "Must enter email and password."
         });
     }
-});
-
-app.get('/resapp', function (req, res) {
-        res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
-});
-
-app.get('/accounts', function (req, res) {
-    //safe version
-    /*if (req.session && req.session.user) {
-        res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
-    } else {
-        res.redirect('/login');
-    }*/
-    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
 });
 
 app.post('/accounts', function (req, res) {
@@ -170,10 +213,6 @@ app.post('/deleteAccount', function (req, res) {
         }
 });
 
-app.get('/settings', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'settings.html'));
-});
-
 app.post('/settings', function (req, res) {
     if (req.body && req.body.password && req.body.passcheck) {
         if (req.body.password == req.body.passcheck) {
@@ -204,23 +243,6 @@ app.post('/settings', function (req, res) {
             "failed": "Error: must enter new password to update."
         });
     }
-});
-
-app.get('/roster', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'roster.html'));
-});
-app.get('/calendar', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'calendar.html'));
-});
-app.get('/inopen', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'inopen.html'));
-});
-app.get('/emergency', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'emergency.html'));
-});
-
-app.get('/blank', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'blank.html'));
 });
 
 // This handles the uploading done in the roster tab.
@@ -258,8 +280,10 @@ app.post('/upload', function (req, res) {
     });
 });
 
-
-
+//handles 404 errors
+app.get('*', function(req, res){
+    res.send('Page is not found.', 404);
+  });
 
 //the server is listening on port 3000. access in browser with localhost:3000
 app.listen(3000, function (req, res) {
