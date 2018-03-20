@@ -11,8 +11,6 @@ var chartParser = require('./chartParser.js');
 var generator = require('generate-password');
 var session = require('client-sessions');
 let api = require('./model/api.js');
-
-//the function returns an express "object", which we can do all sorts of things with
 var app = express();
 app.use(fileUpload());
 var publicPath = path.join(__dirname, 'public');
@@ -24,6 +22,13 @@ app.use(session({
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
 }));
+
+//middleware, serves static files
+app.use('/', express.static(publicPath));
+
+//read urls and receive json from post requests
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //connect to mysql database
 var con = mysql.createConnection({
@@ -56,14 +61,9 @@ app.get('/api/:table/:column/:row', (req,res) => {
     api.getRowFromTableEqual(req,res,req.params.table,req.params.column,req.params.row);
 });
 
-//middleware, serves static files
-app.use('/', express.static(publicPath));
-
-//read urls and receive json from post requests
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-//handles html get requests
+///////////////////////
+// HTML Get Requests //
+///////////////////////
 
 app.get('/', function (req, res) {
     req.session.user = null;
@@ -81,6 +81,29 @@ app.get('/resapp', function (req, res) {
 
 app.get('/accounts', function (req, res) {
     res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
+    //safe version
+/*if (req.session && req.session.user) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
+} else {
+    res.redirect('/login');
+}*/
+});
+
+app.get('/settings', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'settings.html'));
+});
+
+app.get('/roster', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'roster.html'));
+});
+app.get('/calendar', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'calendar.html'));
+});
+app.get('/inopen', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'inopen.html'));
+});
+app.get('/emergency', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'emergency.html'));
 });
 
 //handles get requests for account
@@ -126,20 +149,6 @@ app.post('/login', function (req, res) {
             "failed": "Must enter email and password."
         });
     }
-});
-
-app.get('/resapp', function (req, res) {
-        res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
-});
-
-app.get('/accounts', function (req, res) {
-    //safe version
-    /*if (req.session && req.session.user) {
-        res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
-    } else {
-        res.redirect('/login');
-    }*/
-    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
 });
 
 app.post('/accounts', function (req, res) {
@@ -204,10 +213,6 @@ app.post('/deleteAccount', function (req, res) {
         }
 });
 
-app.get('/settings', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'settings.html'));
-});
-
 app.post('/settings', function (req, res) {
     if (req.body && req.body.password && req.body.passcheck) {
         if (req.body.password == req.body.passcheck) {
@@ -238,23 +243,6 @@ app.post('/settings', function (req, res) {
             "failed": "Error: must enter new password to update."
         });
     }
-});
-
-app.get('/roster', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'roster.html'));
-});
-app.get('/calendar', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'calendar.html'));
-});
-app.get('/inopen', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'inopen.html'));
-});
-app.get('/emergency', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'emergency.html'));
-});
-
-app.get('/blank', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'blank.html'));
 });
 
 // This handles the uploading done in the roster tab.
@@ -291,9 +279,6 @@ app.post('/upload', function (req, res) {
         });
     });
 });
-
-
-
 
 //the server is listening on port 3000. access in browser with localhost:3000
 app.listen(3000, function (req, res) {
