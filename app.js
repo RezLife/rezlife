@@ -1,5 +1,6 @@
-
-//"import" express javascript library
+//////////////////
+// Load modules //
+//////////////////
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
@@ -33,9 +34,28 @@ var con = mysql.createConnection({
     database: "testdb"
 });
 
-app.get('/api/students',function(req,res){
-    api.getAll(res);
-})
+///////////////////////
+// API Data Requests //
+///////////////////////
+
+//get all data from designated table
+//SELECT * FROM 'table'
+app.get('/api/:table', (req,res) => {
+    api.getAllFromTable(req,res,req.params.table);
+});
+
+//get all data from a specific column 
+//SELECT  + column +  FROM  + table
+app.get('/api/:table/:column', (req,res) => {
+    api.getColumnFromTable(req,res,req.params.table,req.params.column);
+});
+
+//get the row of data conditional to data of a specific column
+//SELECT * FROM + table + WHERE + column + row
+app.get('/api/:table/:column/:row', (req,res) => {
+    api.getRowFromTableEqual(req,res,req.params.table,req.params.column,req.params.row);
+});
+
 //middleware, serves static files
 app.use('/', express.static(publicPath));
 

@@ -11,12 +11,26 @@ let con = mysql.createPool({
     database: 'reslife'
 });
 
-let tableName = 'testAPI';
-// let tableName = ''
-exports.getAll = function(res) {
-    con.query('SELECT * FROM testAPI', function (error, results, fields) {
-        if (error) throw error;
-        return res.send({ error: false, data: results, message: 'Todos list.' });
+//get all data from stated table
+exports.getAllFromTable = (req,res,table) => {
+    con.query('SELECT * FROM ' + table, (error, results, fields) => {
+        if (error) res.status(500).send('Something broke!'); //need work
+        return res.status(200).json({ results });
     });
 }
 
+//get data from stated table and column
+exports.getColumnFromTable = (req,res,table,column) => {
+    con.query('SELECT ' + column + ' FROM ' + table, (error, results, fields) => {
+        if (error) res.status(500).send('Something broke!'); //need work
+        return res.status(200).json({ results });
+    });
+}
+
+//get data by condition
+exports.getRowFromTableEqual = (req,res,table,column,row) => {
+    con.query('SELECT * FROM ' + table + ' WHERE ' + column + '=\'' + row + '\'', (error, results, fields) => {
+        if (error) res.status(500).send('Something broke!'); //need work
+        return res.status(200).json({ results });
+    });
+}
