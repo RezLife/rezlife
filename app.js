@@ -116,7 +116,7 @@ app.post('/upload', function(req, res) {
             database: "housing"
         });
 
-        chartParser.parseIntoDatabase(con, "./chart", chartid, function () {
+        chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function () {
             // After dealing with the file, delete it.
             fs.unlink(path.join(__dirname, 'chart'), function (err) {});
         });
