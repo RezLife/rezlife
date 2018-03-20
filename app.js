@@ -29,7 +29,7 @@ app.use('/', express.static(publicPath));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//handles get requests
+//handles html get requests
 app.get('/', function (req, res) {
     res.sendFile(path.join(publicPath, 'views/home', 'homepage.html'));
 });
@@ -38,6 +38,15 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(publicPath, 'views/login', 'login.html'));
 });
 
+app.get('/resapp', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
+});
+
+app.get('/accounts', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
+});
+
+//handles get requests for account
 app.post('/login', function (req, res) {
     if (req.body && req.body.email && req.body.password) {
         var email = req.body.email;
@@ -78,13 +87,7 @@ app.post('/login', function (req, res) {
     }
 });
 
-app.get('/resapp', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
-});
 
-app.get('/accounts', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
-});
 
 app.post('/accounts', function (req, res) {
     if (req.body && req.body.email && req.body.role) {
