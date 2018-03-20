@@ -1,5 +1,6 @@
-
-//"import" express javascript library
+/**
+ * Load modules
+ */
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
@@ -7,89 +8,245 @@ var fs = require('fs');
 var mysql = require('mysql');
 var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
-
-//the function returns an express "object", which we can do all sorts of things with
+var generator = require('generate-password');
+var session = require('client-sessions');
+let api = require('./model/api.js');
 var app = express();
 app.use(fileUpload());
-var publicPath = path.join(__dirname,'public');
+var publicPath = path.join(__dirname, 'public');
 
-//connect to mysql database
-var con = mysql.createConnection({
-  host: "localhost",
-  port: "3306",
-  user: "guest",
-  password: "guestpass",
-  database: "testdb"
-});
+//sessions allows for persistent logins with authentication
+app.use(session({
+    cookieName: 'session',
+    secret: 'randomsecretstringssshhh123',
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+}));
 
 //middleware, serves static files
-app.use('/',express.static(publicPath));
+app.use('/', express.static(publicPath));
 
 //read urls and receive json from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//handles get requests
-app.get('/',function(req,res){
-	res.sendFile(path.join(publicPath,'views/home','homepage.html'));
+//connect to mysql database
+var con = mysql.createConnection({
+    host: "localhost",
+    port: "3306",
+    user: "guest",
+    password: "guestpass",
+    database: "testdb"
 });
 
-app.get('/login', function(req, res) {
-    res.sendFile(path.join(publicPath,'views/login','login.html'));
+/**
+ * API data requests
+ */
+
+//get all data from designated table
+//SELECT * FROM 'table'
+app.get('/api/:table', (req,res) => {
+    api.getAllFromTable(req,res,req.params.table);
 });
 
-app.post('/login', function(req, res) {
-    res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
+//get all data from a specific column 
+//SELECT  + column +  FROM  + table
+app.get('/api/:table/:column', (req,res) => {
+    api.getColumnFromTable(req,res,req.params.table,req.params.column);
 });
 
-app.get('/resapp',function(req,res){
-	res.sendFile(path.join(publicPath,'views/webapp','resapp.html'));
+//get the row of data conditional to data of a specific column
+//SELECT * FROM + table + WHERE + column + row
+app.get('/api/:table/:column/:row', (req,res) => {
+    api.getRowFromTableEqual(req,res,req.params.table,req.params.column,req.params.row);
 });
 
-app.get('/accounts',function(req,res){
-	res.sendFile(path.join(publicPath,'views/webapp','accounts.html'));
-}); 
+/**
+ * HTML get requests
+ */
 
-app.post('/accounts',function(req,res){
-    if (req.body && req.body.email && req.body.role) {
-      con.connect(function(err) {
-        if (err) throw err;
-        console.log("Connected!");
+app.get('/', function (req, res) {
+    req.session.user = null;
+    res.sendFile(path.join(publicPath, 'views/home', 'homepage.html'));
+});
+
+app.get('/login', function (req, res) {
+    req.session.user = null;
+    res.sendFile(path.join(publicPath, 'views/login', 'login.html'));
+});
+
+app.get('/resapp', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
+});
+
+app.get('/accounts', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
+    //safe version
+/*if (req.session && req.session.user) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
+} else {
+    res.redirect('/login');
+}*/
+});
+
+app.get('/settings', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'settings.html'));
+});
+
+app.get('/roster', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'roster.html'));
+});
+app.get('/calendar', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'calendar.html'));
+});
+app.get('/inopen', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'inopen.html'));
+});
+app.get('/emergency', function (req, res) {
+    res.sendFile(path.join(publicPath, 'views/webapp', 'emergency.html'));
+});
+
+//handles get requests for account
+app.post('/login', function (req, res) {
+    req.session.user = null;
+    if (req.body && req.body.email && req.body.password) {
         var email = req.body.email;
-        var password = "temppass";
-        var role = req.body.role;
-        var sql = `INSERT INTO user (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
-        con.query(sql, function (err, result) {
-          if (err) throw err;
-          console.log("1 record inserted");
+        var password = req.body.password;
+        con.query('SELECT * FROM user WHERE email = ?', [email], function (error, results, fields) {
+            if (error) {
+                console.log("Error occurred:", error);
+                res.send({
+                    "code": 400,
+                    "failed": "error ocurred"
+                })
+            } else {
+                console.log('Results: ', results);
+                if (results.length > 0) {
+                    if (results[0].password == password) {
+                        req.user = results[0];
+                        delete req.user.password; // delete the password from the session
+                        req.session.user = req.user;  //refresh the session value
+                        res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
+                    }
+                    else {
+                        res.send({
+                            "code": 204,
+                            "success": "Email and password do not match"
+                        });
+                    }
+                }
+                else {
+                    res.send({
+                        "code": 204,
+                        "success": "Email does not exist"
+                    });
+                }
+            }
         });
-      });
-      res.send("Account added!");
     } else {
-        if (req.body) res.send(req.body);
-        else res.send("Error: no parameters received.");
+        res.send({
+            "code": 400,
+            "failed": "Must enter email and password."
+        });
     }
 });
 
-app.get('/roster',function(req,res){
-	res.sendFile(path.join(publicPath,'views/webapp','roster.html'));
-});
-app.get('/calendar',function(req,res){
-	res.sendFile(path.join(publicPath,'views/webapp','calendar.html'));
-});
-app.get('/inopen',function(req,res){
-	res.sendFile(path.join(publicPath,'views/webapp','inopen.html'));
-});
-app.get('/emergency',function(req,res){
-	res.sendFile(path.join(publicPath,'views/webapp','emergency.html'));
+app.post('/accounts', function (req, res) {
+        if (req.body && req.body.email && req.body.role) {
+            if (req.body.role == "Select") {
+                res.send({
+                    "code": "400",
+                    "failed": "Error: must select a role."
+                });
+            } else {
+                var email = req.body.email;
+                var password = generator.generate();
+                var role = req.body.role;
+                var sql = `INSERT INTO user (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
+                con.query(sql, function (err, result) {
+                    if (err) {
+                        res.send({
+                            "code": "400",
+                            "failed": err
+                        });
+                        throw err;
+                    } else {
+                        res.send("Account added!");
+                        console.log("1 record inserted:", result);
+                    }
+                });
+            }
+        } else {
+            if (req.body) res.send({
+                "code": "400",
+                "failed": "Error: must enter email and select role."
+            });
+            else res.send({
+                "code": "400",
+                "failed": "Error: no parameters received."
+            });
+        }
 });
 
-app.get('/blank',function(req,res){
-	res.sendFile(path.join(publicPath,'views/webapp','blank.html'));
+app.post('/deleteAccount', function (req, res) {
+        if (req.body && req.body.email) {
+            var email = req.body.email;
+            var sql = `DELETE FROM user WHERE email = '${email}'`;
+            con.query(sql, function (err, result) {
+                if (err) {
+                    res.send({
+                        "code": "400",
+                        "failed": err
+                    });
+                    throw err;
+                } else {
+                    console.log("1 record deleted:", result);
+                    res.send("Account deleted");
+                }
+            });
+        } else {
+            if (req.body) res.send(req.body);
+            else res.send({
+                "code": "400",
+                "failed": "Error: must enter email to delete account."
+            });
+        }
+});
+
+app.post('/settings', function (req, res) {
+    if (req.body && req.body.password && req.body.passcheck) {
+        if (req.body.password == req.body.passcheck) {
+            var email = req.session.user.email;
+            //need to encrypt this password
+            var password = req.body.password;
+            var sql = `UPDATE user SET password = '${password}' WHERE email = '${email}'`;
+            con.query(sql, function (err, result) {
+                if (err) {
+                    res.send({
+                        "code": "400",
+                        "failed": err
+                    });
+                    throw err;
+                } else {
+                    console.log("1 record updated:", result);
+                }
+            });
+        } else {
+            res.send({
+                "code": "400",
+                "failed": "Error: passwords do not match."
+            });
+        }
+    } else {
+        res.send({
+            "code": "400",
+            "failed": "Error: must enter new password to update."
+        });
+    }
 });
 
 // This handles the uploading done in the roster tab.
-app.post('/upload', function(req, res) {
+app.post('/upload', function (req, res) {
     if (!req.files)
         return res.status(400).send('No files were uploaded.');
 
@@ -102,14 +259,14 @@ app.post('/upload', function(req, res) {
     var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
 
     // Use the mv() method to place the file somewhere on your server
-    chart.mv(path.join(__dirname, 'chart'), function(err) {
+    chart.mv(path.join(__dirname, 'chart'), function (err) {
         if (err) {
             return res.status(500).send(err);
         }
 
         // after uploading, send you back to the roster page.
         res.redirect("/roster");
-        var con = mysql.createConnection ( {
+        var con = mysql.createConnection({
             host: "localhost",
             user: "root",
             password: "",
@@ -118,15 +275,17 @@ app.post('/upload', function(req, res) {
 
         chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function () {
             // After dealing with the file, delete it.
-            fs.unlink(path.join(__dirname, 'chart'), function (err) {});
+            fs.unlink(path.join(__dirname, 'chart'), function (err) { });
         });
     });
 });
 
-
-
+//handles 404 errors
+app.get('*', function(req, res){
+    res.send('Page is not found.', 404);
+  });
 
 //the server is listening on port 3000. access in browser with localhost:3000
-app.listen(3000, function(req,res){
-	console.log('Listening on port 3000...');
+app.listen(3000, function (req, res) {
+    console.log('Listening on port 3000...');
 });
