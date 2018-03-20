@@ -5,6 +5,7 @@ function toggle(id) {
     popup.classList.toggle("show");
   }
   var schedule = new Array(8);
+
   function func(val, id){
       var status= "In";
     if(val==2)status = "Open";
@@ -12,6 +13,16 @@ function toggle(id) {
     schedule[id].innerHTML = createButton(status,id);
     toggle(id);
   }
+
+  function changeTable(bui){
+    var building=document.getElementById("building").value;
+    var cWeek=document.getElementById("theWeek").value;
+    var bChange=document.getElementById("buildLable");
+    bChange.innerHTML = building;
+    var wChange=document.getElementById("weekLable");
+    wChange.innerHTML = cWeek;
+  }
+
   function createButton(val, i){
     var part1 = "<div id=".concat(i);
         part1 = part1.concat(' class="popup" onclick="toggle(');
