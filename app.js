@@ -9,6 +9,7 @@ var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
 var generator = require('generate-password');
 var session = require('client-sessions');
+let api = require('./model/api.js');
 
 //the function returns an express "object", which we can do all sorts of things with
 var app = express();
@@ -32,6 +33,9 @@ var con = mysql.createConnection({
     database: "testdb"
 });
 
+app.get('/api/students',function(req,res){
+    api.getAll(res);
+})
 //middleware, serves static files
 app.use('/', express.static(publicPath));
 
