@@ -110,22 +110,17 @@
                     <h1>Change Settings</h1>
 
 
-                    <form action="/accounts" method="post" target="_blank">
-                        <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                            <input class="input100" type="text" name="email" placeholder="User email">
-                            <span class="focus-input100"></span>
-                        </div>
-                        <br/>
-                        <p id="RA">If RA:</p>
-                        <input class="input100" type="text" name="floor" placeholder="Floor">
+                    <form action="/settings" method="post" target="_blank">
+                        <p id="RA">Change Password:</p>
+                        <input class="input100" type="text" name="password" placeholder="New password">
                         <span class="focus-input100"></span>
                         <br/>
                         <br/>
-                        <input class="input100" type="text" name="building" placeholder="Building">
+                        <input class="input100" type="text" name="passcheck" placeholder="Confirm password">
                         <span class="focus-input100"></span>
                         <br/>
                         <br/>
-                        <input type="submit" value="Create">
+                        <input type="submit" value="Update">
                     </form>
 
                 </div>
