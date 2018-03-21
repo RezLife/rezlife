@@ -201,29 +201,37 @@
                   <select name="role" onchange="if (this.selectedIndex) doSomething();">
                     <option value="Select">--</option>
                     <option value="Admin">Admin</option>
-                    <option onclick="doSomethingElse();" value="RA">RA</option>
+                    <option onclick="showDorms(dorm);" value="RA">RA</option>
 
                   </select>
                   <br><br>
             </div>
             <br/>
             <div class="wrap-input100 validate-input m-b-16" data-validate = "Dorm is required">
-              
               <form action="/action_page.php">
-                <select name="dorm">
+                <select name="dorm" id = "dorms" visibility: hidden>
                   <option value="Select">Select</option>
                   <option value="Fischer">Fischer</option>
                   <option value="Smith-Traber">Smith-Traber</option>
                 </select>
                 <br><br>
-          
             </div>
             <div class="wrap-input100 validate-input m-b-16" data-validate = "Floor is required">
                 <form action="/action_page.php">
-                  <select name="role">
-                    <option value="Select">Select</option>
-                    <option value="RA">RA</option>
-                    <option value="Admin">Admin</option>
+                  <select name="floor">
+                    <option value="Select">--</option>
+                    <option value="1 West">1 West</option>
+                    <option value="2 West">2 West</option>
+                    <option value="3 West">3 West</option>
+                    <option value="4 West">4 West</option>
+                    <option value="5 West">5 West</option>
+                    <option value="3 South">3 South</option>
+                    <option value="4 South">4 South</option>
+                    <option value="5 South">5 South</option>
+                    <option value="2 East">2 East</option>
+                    <option value="3 East">3 East</option>
+                    <option value="4 East">4 East</option>
+                    <option value="5 East">5 East</option>
                   </select>
                   <br><br>
             
