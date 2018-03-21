@@ -114,6 +114,11 @@ app.get('/resapp/home', function (req, res) {
     res.render('resapp');
 });
 
+app.get('/resapp/phonebook', function (req, res) {
+    res.render('phonebook');
+});
+
+
 app.get('/resapp/roster', function (req, res) {
     res.render('roster');
 });
