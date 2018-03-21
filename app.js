@@ -10,6 +10,8 @@ var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
 var createAccount = require('./createAccount.js');
 var session = require('client-sessions');
+var bcrypt = require('bcrypt');
+const saltRounds = 11; //number of salt rounds for encryption
 let api = require('./model/api.js');
 let app_routes = require('./routes/app_routes');
 
@@ -118,20 +120,20 @@ app.post('/login', function (req, res) {
                 //check if the user email exists
                 if (results.length > 0) {
                     //verify the password entered
-                    if (results[0].password == password) {
-                        req.user = results[0];
-                        delete req.user.password; // delete the password from the session
-                        req.session.user = req.user;  //refresh the session value
-                        res.redirect('/resapp');
-                    }
-                    //error handling
-                    else {
-                        res.send({
-                            "code": 204,
-                            "success": "Email and password do not match"
-                        });
-                    }
-                }
+                    bcrypt.compare(password, results[0].password, function (err, check) {
+                        if (check == false) {
+                            res.send({
+                                "code": 204,
+                                "success": "Email and password do not match"
+                            });
+                        } else {
+                            req.user = results[0];
+                            delete req.user.password; // delete the password from the session
+                            req.session.user = req.user;  //refresh the session value
+                            res.redirect('/resapp');
+                        }
+                    });
+                } //error handling
                 else {
                     res.send({
                         "code": 204,
@@ -220,19 +222,28 @@ app.post('/settings', function (req, res) {
             //verify that passwords match
             if (req.body.password == req.body.passcheck) {
                 var email = req.session.user.email;
-                //need to encrypt this password
-                var password = req.body.password;
-                //update the user's password
-                var sql = `UPDATE t_users SET password = '${password}' WHERE email = '${email}'`;
-                con.query(sql, function (err, result) {
+                //encrypt the password
+                bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
                     if (err) {
                         res.send({
                             "code": "400",
-                            "failed": err
+                            "error": err
                         });
+                        console.log("Error hashing password: " + err);
                     } else {
-                        res.send("Password updated!");
-                        console.log("1 record updated:", result);
+                        //update the user's password
+                        var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                res.send({
+                                    "code": "400",
+                                    "failed": err
+                                });
+                            } else {
+                                res.send("Password updated!");
+                                console.log("1 record updated:", result);
+                            }
+                        });
                     }
                 });
             } //error handling

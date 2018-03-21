@@ -3,7 +3,7 @@
   "main": "server.js",
   "dependencies": {
     "axios": "^0.18.0",
-    "bcrypt-nodejs": "latest",
+    "bcrypt": "latest",
     "body-parser": "^1.15.2",
     "client-sessions": "^0.8.0",
     "connect-flash": "~0.1.1",
