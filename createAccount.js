@@ -22,7 +22,12 @@ exports.addAccount = function (con, email, role, res) {
         from: 'noreplyrezlife@gmail.com',
         to: email,
         subject: 'Resident Life Account Creation',
-        text: 'This is your temporary password: ' + password + '. Go to the Settings tab to update your password after logging in.'
+        text: 'This is your temporary password: ' + password + 
+        '. Go to the Settings tab to update your password after logging in.' + 
+        '\n\nRez life team: this is your account so you can log in. ' +
+        'I will be adding authentication to the rest of the app within the next couple days,' +
+        'so you will need an account to access everything.' +
+        '\n\nThank you, \nMalaika'
     };
 
     //send the email with temporary password
@@ -35,7 +40,7 @@ exports.addAccount = function (con, email, role, res) {
     });
 
     //encrypt the password
-    bcrypt.hash(myPlaintextPassword, saltRounds, function (err, hash) {
+    bcrypt.hash(password, saltRounds, function (err, hash) {
         if (err) {
             res.send ({
                 "code": "400",
