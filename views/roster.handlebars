@@ -1,0 +1,107 @@
+﻿{{#section 'head'}}
+<!-- stuff/css stylesheets that goes in head: -->
+<style>
+  #myDIV {
+    width: 100%;
+    padding: 50px 0;
+    text-align: center;
+    background-color: lightgreen;
+    margin-top: 20px;
+  }
+</style>
+{{/section}} 
+
+{{#section 'script'}}
+<!-- javascript files that go in the bottom html: -->
+
+<!-- Script for successful upload message for upload roster-->
+<script>
+  function myFunction() {
+    var x = document.getElementById("myDIV");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+</script>
+<script src="js/accounts.js"></script> 
+{{/section}} 
+
+{{!-- Actual Content --}}
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="resapp">Home</a>
+      </li>
+      <li class="breadcrumb-item active">Roster</li>
+    </ol>
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fa fa-upload">
+
+            </i> Upload new student chart
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-xl-3 col-sm-6 mb-3">
+                <!--the upload form-->
+                <form action="upload" method="post" enctype="multipart/form-data">
+                  Dorm:
+                  <select name="dorm">
+                    <option value="smithtraber">Smith-Traber</option>
+                    <option value="fischer">Fischer</option>
+                    <option value="macevans">MacEvans</option>
+                    <option value="williston">Williston</option>
+                    <option value="apartments">Apartments</option>
+                    <option value="houses">Houses</option>
+                  </select>
+                  <br> Semester:
+                  <select name="semester">
+                    <option value="fall">Fall</option>
+                    <option value="spring">Spring</option>
+                  </select>
+                  <!--The number field has a min, max, and a pattern that only allows integers.-->
+                  <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*">
+                  <br> Floor chart:
+                  <input type="file" name="chartupload">
+                  <br>
+                  <input type="submit" value="Upload" onclick="myFunction()">
+
+
+                </form>
+              </div>
+              <div class="col-xl-3 col-sm-6 mb-3">
+                <div id="myDIV" style="display: none;">
+                  File uploaded successfully!
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-header">
+            <i class="fa fa-print">
+
+            </i> Print Chart
+          </div>
+          <div class="card-body">
+
+          </div>
+          <div class="card-header">
+            <i class="fa fa-edit">
+
+            </i> Edit
+          </div>
+          <div class="card-body">
+
+          </div>
+          <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
+        </div>
+        <!--<h1>Blank</h1>-->
+        <!--<p>This is an example of a Roster that you can use as a starting point for creating new ones.</p>-->
+      </div>
+    </div>
+  </div>

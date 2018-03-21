@@ -13,11 +13,23 @@ var session = require('client-sessions');
 let api = require('./model/api.js');
 var app = express();
 let handlebars = require('express-handlebars');
+
 app.use(fileUpload());
-var publicPath = path.join(__dirname, 'public');
 
 //set template engine
-app.engine('handlebars', handlebars({defaultLayout: 'main'}));
+app.engine('handlebars', handlebars({
+    //main layout in views/layout/main.handlebars
+    defaultLayout: 'main',
+    //helper to inject head/script files in template
+    helpers: {
+        section: function(name, options){
+            if(!this._sections) this._sections = {};
+            this._sections[name] = options.fn(this);
+            return null;
+        }
+    }
+}));
+
 app.set('view engine', 'handlebars');
 
 //sessions allows for persistent logins with authentication
@@ -29,7 +41,7 @@ app.use(session({
 }));
 
 //middleware, serves static files
-app.use('/', express.static(publicPath));
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 //read urls and receive json from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -67,9 +79,8 @@ app.get('/api/:table/:column/:row', (req,res) => {
 });
 
 /**
- * HTML get requests
+ * HTML get requests, render handlebar files
  */
-
 app.get('/', function (req, res) {
     req.session.user = null;
     res.sendFile(path.join(publicPath, 'views/home', 'homepage.html'));
@@ -81,11 +92,11 @@ app.get('/login', function (req, res) {
 });
 
 app.get('/resapp', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
+    res.render('resapp');
 });
 
 app.get('/accounts', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
+    res.render('accounts');
     //safe version
 /*if (req.session && req.session.user) {
     res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
@@ -95,20 +106,20 @@ app.get('/accounts', function (req, res) {
 });
 
 app.get('/settings', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'settings.html'));
+    res.render('settings');
 });
 
 app.get('/roster', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'roster.html'));
+    res.render('roster');
 });
 app.get('/calendar', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'calendar.html'));
+    res.render('calendar');
 });
 app.get('/inopen', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'inopen.html'));
+    res.render('inopen');
 });
 app.get('/emergency', function (req, res) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'emergency.html'));
+    res.render('emergency');
 });
 
 //handles get requests for account
