@@ -16,7 +16,9 @@ let handlebars = require('express-handlebars');
 
 app.use(fileUpload());
 
-//set template engine
+/**
+ * Set Handlebars as Template Engine
+ */
 app.engine('handlebars', handlebars({
     //main layout in views/layout/main.handlebars
     defaultLayout: 'main',
@@ -41,8 +43,8 @@ app.use(session({
 }));
 
 //middleware, serves static files
+app.use('/resapp', express.static(path.join(__dirname, 'public')));
 app.use('/', express.static(path.join(__dirname, 'public')));
-
 //read urls and receive json from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -83,42 +85,45 @@ app.get('/api/:table/:column/:row', (req,res) => {
  */
 app.get('/', function (req, res) {
     req.session.user = null;
-    res.sendFile(path.join(publicPath, 'views/home', 'homepage.html'));
+    res.sendFile(path.join(__dirname, 'views/homepage.html'));
 });
 
 app.get('/login', function (req, res) {
     req.session.user = null;
-    res.sendFile(path.join(publicPath, 'views/login', 'login.html'));
+    res.sendFile(path.join(__dirname, 'views/login.html'));
 });
 
 app.get('/resapp', function (req, res) {
     res.render('resapp');
 });
-
-app.get('/accounts', function (req, res) {
-    res.render('accounts');
-    //safe version
-/*if (req.session && req.session.user) {
-    res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
-} else {
-    res.redirect('/login');
-}*/
-});
-
-app.get('/settings', function (req, res) {
+app.get('/resapp/settings', function (req, res) {
     res.render('settings');
 });
 
-app.get('/roster', function (req, res) {
+app.get('/resapp/accounts', function (req, res) {
+    res.render('accounts');
+//     //safe version
+// /*if (req.session && req.session.user) {
+//     res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
+// } else {
+//     res.redirect('/login');
+// }*/
+});
+
+app.get('/resapp/home', function (req, res) {
+    res.render('resapp');
+});
+
+app.get('/resapp/roster', function (req, res) {
     res.render('roster');
 });
-app.get('/calendar', function (req, res) {
+app.get('/resapp/calendar', function (req, res) {
     res.render('calendar');
 });
-app.get('/inopen', function (req, res) {
+app.get('/resapp/inopen', function (req, res) {
     res.render('inopen');
 });
-app.get('/emergency', function (req, res) {
+app.get('/resapp/emergency', function (req, res) {
     res.render('emergency');
 });
 
@@ -142,7 +147,7 @@ app.post('/login', function (req, res) {
                         req.user = results[0];
                         delete req.user.password; // delete the password from the session
                         req.session.user = req.user;  //refresh the session value
-                        res.sendFile(path.join(publicPath, 'views/webapp', 'resapp.html'));
+                        res.redirect('/resapp');
                     }
                     else {
                         res.send({
