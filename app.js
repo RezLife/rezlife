@@ -11,11 +11,10 @@ var chartParser = require('./chartParser.js');
 var generator = require('generate-password');
 var session = require('client-sessions');
 let api = require('./model/api.js');
+let app_routes = require('./routes/app_routes');
+
 var app = express();
 let handlebars = require('express-handlebars');
-
-app.use(fileUpload());
-
 /**
  * Set Handlebars as Template Engine
  */
@@ -34,6 +33,9 @@ app.engine('handlebars', handlebars({
 
 app.set('view engine', 'handlebars');
 
+//middleware for roster csv upload
+app.use(fileUpload());
+
 //sessions allows for persistent logins with authentication
 app.use(session({
     cookieName: 'session',
@@ -43,8 +45,8 @@ app.use(session({
 }));
 
 //middleware, serves static files
-app.use('/resapp', express.static(path.join(__dirname, 'public')));
 app.use('/', express.static(path.join(__dirname, 'public')));
+
 //read urls and receive json from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -93,44 +95,7 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/login.html'));
 });
 
-app.get('/resapp', function (req, res) {
-    res.render('resapp');
-});
-app.get('/resapp/settings', function (req, res) {
-    res.render('settings');
-});
-
-app.get('/resapp/accounts', function (req, res) {
-    res.render('accounts');
-//     //safe version
-// /*if (req.session && req.session.user) {
-//     res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
-// } else {
-//     res.redirect('/login');
-// }*/
-});
-
-app.get('/resapp/home', function (req, res) {
-    res.render('resapp');
-});
-
-app.get('/resapp/phonebook', function (req, res) {
-    res.render('phonebook');
-});
-
-
-app.get('/resapp/roster', function (req, res) {
-    res.render('roster');
-});
-app.get('/resapp/calendar', function (req, res) {
-    res.render('calendar');
-});
-app.get('/resapp/inopen', function (req, res) {
-    res.render('inopen');
-});
-app.get('/resapp/emergency', function (req, res) {
-    res.render('emergency');
-});
+app.use('/resapp',app_routes);
 
 //handles get requests for account
 app.post('/login', function (req, res) {
@@ -272,7 +237,7 @@ app.post('/settings', function (req, res) {
 });
 
 // This handles the uploading done in the roster tab.
-app.post('/upload', function (req, res) {
+app.post('/resapp/upload', function (req, res) {
     if (!req.files)
         return res.status(400).send('No files were uploaded.');
 
@@ -288,7 +253,7 @@ app.post('/upload', function (req, res) {
         }
 
         // after uploading, send you back to the roster page.
-        res.redirect("/roster");
+        res.redirect("/resapp/roster");
         var con = mysql.createConnection({
             host: "csdb.wheaton.edu",
             user: "reslifeadmin",
