@@ -38,6 +38,7 @@ function toggle(id) {
         part1 = part1.concat(')">Off</button></span>');
         return part1;
   }
+
   function addRow(){
     var table = document.getElementsByTagName('table')[0];
     if( typeof addRow.counter == 'undefined' ) {
@@ -51,10 +52,11 @@ function toggle(id) {
 
       schedule[0].innerHTML = "Steve";
       var testVal = "Open";
+      var isAccount = true;
       for(var i = 1; i < 8; i++){
         
-
-        schedule[i].innerHTML = createButton(testVal,i);
+        if(isAccount == true) schedule[i].innerHTML = createButton(testVal,i);
+        else schedule[i].innerHTML = testVal;
         /*schedule[i].innerHTML = createButton("testVal",i);*/
       }
       
