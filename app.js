@@ -12,8 +12,13 @@ var generator = require('generate-password');
 var session = require('client-sessions');
 let api = require('./model/api.js');
 var app = express();
+let handlebars = require('express-handlebars');
 app.use(fileUpload());
 var publicPath = path.join(__dirname, 'public');
+
+//set template engine
+app.engine('handlebars', handlebars({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 //sessions allows for persistent logins with authentication
 app.use(session({
@@ -280,10 +285,17 @@ app.post('/upload', function (req, res) {
     });
 });
 
-//handles 404 errors
-app.get('*', function(req, res){
-    res.send('Page is not found.', 404);
-  });
+// // 404 catch-all handler (middleware)
+// app.use(function(req, res, next){
+//     res.status(404);
+//     res.render('404');
+// });
+// // 500 error handler (middleware)
+// app.use(function(err, req, res, next){
+//     console.error(err.stack);
+//     res.status(500);
+//     res.render('500');
+// });
 
 //the server is listening on port 3000. access in browser with localhost:3000
 app.listen(3000, function (req, res) {
