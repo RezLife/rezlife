@@ -1,23 +1,31 @@
 
-function myFunction(id) {
+function toggle(id) {
     var stat = "p".concat(id);
     var popup = document.getElementById(stat);
     popup.classList.toggle("show");
   }
   var schedule = new Array(8);
+
   function func(val, id){
       var status= "In";
     if(val==2)status = "Open";
     else if(val==3) status = "----"
-    /*document.getElementById(id).innerHTML= status;*/
     schedule[id].innerHTML = createButton(status,id);
-    //DEAR GOD WHY?
-    myFunction(id);
-    /*popup.classList.toggle("hidden");    */ 
+    toggle(id);
   }
+
+  function changeTable(bui){
+    var building=document.getElementById("building").value;
+    var cWeek=document.getElementById("theWeek").value;
+    var bChange=document.getElementById("buildLable");
+    bChange.innerHTML = building;
+    var wChange=document.getElementById("weekLable");
+    wChange.innerHTML = cWeek;
+  }
+
   function createButton(val, i){
     var part1 = "<div id=".concat(i);
-        part1 = part1.concat(' class="popup" onclick="myFunction(');
+        part1 = part1.concat(' class="popup" onclick="toggle(');
         part1 = part1.concat(i);
         part1 = part1.concat(')">').concat(val).concat('<span class="popuptext" id="p');
         part1 = part1.concat(i);
@@ -30,6 +38,7 @@ function myFunction(id) {
         part1 = part1.concat(')">Off</button></span>');
         return part1;
   }
+
   function addRow(){
     var table = document.getElementsByTagName('table')[0];
     if( typeof addRow.counter == 'undefined' ) {
@@ -43,10 +52,11 @@ function myFunction(id) {
 
       schedule[0].innerHTML = "Steve";
       var testVal = "Open";
+      var isAccount = true;
       for(var i = 1; i < 8; i++){
         
-
-        schedule[i].innerHTML = createButton(testVal,i);
+        if(isAccount == true) schedule[i].innerHTML = createButton(testVal,i);
+        else schedule[i].innerHTML = testVal;
         /*schedule[i].innerHTML = createButton("testVal",i);*/
       }
       
