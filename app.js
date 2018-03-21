@@ -37,11 +37,11 @@ app.use(bodyParser.json());
 
 //connect to mysql database
 var con = mysql.createConnection({
-    host: "localhost",
+    host: "csdb.wheaton.edu",
     port: "3306",
-    user: "guest",
-    password: "guestpass",
-    database: "testdb"
+    user: "reslife_user",
+    password: "rez4Life!)GrTZ",
+    database: "reslife"
 });
 
 /**
@@ -117,7 +117,7 @@ app.post('/login', function (req, res) {
     if (req.body && req.body.email && req.body.password) {
         var email = req.body.email;
         var password = req.body.password;
-        con.query('SELECT * FROM user WHERE email = ?', [email], function (error, results, fields) {
+        con.query('SELECT * FROM t_users WHERE email = ?', [email], function (error, results, fields) {
             if (error) {
                 console.log("Error occurred:", error);
                 res.send({
@@ -167,7 +167,7 @@ app.post('/accounts', function (req, res) {
                 var email = req.body.email;
                 var password = generator.generate();
                 var role = req.body.role;
-                var sql = `INSERT INTO user (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
+                var sql = `INSERT INTO t_users (email, password, role) VALUES ('${email}', '${password}', '${role}')`;
                 con.query(sql, function (err, result) {
                     if (err) {
                         res.send({
@@ -196,7 +196,7 @@ app.post('/accounts', function (req, res) {
 app.post('/deleteAccount', function (req, res) {
         if (req.body && req.body.email) {
             var email = req.body.email;
-            var sql = `DELETE FROM user WHERE email = '${email}'`;
+            var sql = `DELETE FROM t_users WHERE email = '${email}'`;
             con.query(sql, function (err, result) {
                 if (err) {
                     res.send({
@@ -224,7 +224,7 @@ app.post('/settings', function (req, res) {
             var email = req.session.user.email;
             //need to encrypt this password
             var password = req.body.password;
-            var sql = `UPDATE user SET password = '${password}' WHERE email = '${email}'`;
+            var sql = `UPDATE t_users SET password = '${password}' WHERE email = '${email}'`;
             con.query(sql, function (err, result) {
                 if (err) {
                     res.send({
@@ -258,9 +258,6 @@ app.post('/upload', function (req, res) {
     // The name of the input field is used to retrieve the uploaded file
     var chart = req.files.chartupload;
 
-    console.log("Dorm: " + req.body["dorm"] + "\nSemester: " + req.body["semester"] + " of "
-        + req.body["year"]);
-
     var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
 
     // Use the mv() method to place the file somewhere on your server
@@ -272,16 +269,18 @@ app.post('/upload', function (req, res) {
         // after uploading, send you back to the roster page.
         res.redirect("/roster");
         var con = mysql.createConnection({
-            host: "localhost",
-            user: "root",
-            password: "",
-            database: "housing"
+            host: "csdb.wheaton.edu",
+            user: "reslifeadmin",
+            password: "eoekK8bRe4wa",
+            database: "reslife"
         });
 
-        chartParser.parseIntoDatabase(con, "./chart", chartid, function () {
+        chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function () {
             // After dealing with the file, delete it.
             fs.unlink(path.join(__dirname, 'chart'), function (err) { });
         });
+
+        con.end;
     });
 });
 
