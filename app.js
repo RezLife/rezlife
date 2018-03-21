@@ -253,9 +253,6 @@ app.post('/upload', function (req, res) {
     // The name of the input field is used to retrieve the uploaded file
     var chart = req.files.chartupload;
 
-    console.log("Dorm: " + req.body["dorm"] + "\nSemester: " + req.body["semester"] + " of "
-        + req.body["year"]);
-
     var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
 
     // Use the mv() method to place the file somewhere on your server
@@ -267,16 +264,18 @@ app.post('/upload', function (req, res) {
         // after uploading, send you back to the roster page.
         res.redirect("/roster");
         var con = mysql.createConnection({
-            host: "localhost",
-            user: "root",
-            password: "",
-            database: "housing"
+            host: "csdb.wheaton.edu",
+            user: "reslifeadmin",
+            password: "eoekK8bRe4wa",
+            database: "reslife"
         });
 
         chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function () {
             // After dealing with the file, delete it.
             fs.unlink(path.join(__dirname, 'chart'), function (err) { });
         });
+
+        con.end;
     });
 });
 

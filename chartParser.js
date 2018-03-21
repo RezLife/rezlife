@@ -10,9 +10,10 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
 
             con.connect(function (err) {
                 if (err) throw err;
-                var columns = "name_last, name_first, student_id, date_of_birth, " +
+                var columns = "name_last, name_first, studentID, date_of_birth, " +
                             "name_preferred, cohort_year, room_space_description, " +
-                            "email, classification_description_1, city, state_province, year";
+                            //"record_building, record_floor, record_room_number, " +
+                            "email, classification_description_1, city, state_province, record_year";
                 // this variable is meant to keep track of which columns in the csv file
                 // correlate to actual columns in the DB; some csv files might include
                 // columns other than the 12 provided above.
@@ -23,16 +24,29 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
                 }
                 console.log(columns);
                 for (var i = 1; i < csv.length; i++) {
-                    var record = "";
+                    let record = "";
+                    let id;
                     for (var j = 0; j < validColumns.length; j++) {
-                        record += "\"" + csv[i][j] + "\", ";
+                        if (isIntCol(validColumns[j]))
+                            record += csv[i][j] + ", ";
+                        else record += "\"" + csv[i][j] + "\", ";
+                        if (validColumns[j] === "Student ID") {
+                            console.log("yes");
+                            id = csv[i][j];
+                        }
+                        //addBuildingFloorRoom(csv[i][j], record);
                     }
-                    record += "\"" + year + "\""; // this column won't be in any csv files
+                    record += year; // this column won't be in any csv files
                     console.log(record);
-                    con.query("INSERT INTO students (" + columns + ") VALUES (" + record + ")", function(err, result, fields) {
+                    console.log(id);
+                    con.query("DELETE FROM t_students WHERE record_year = " + year + " AND studentID = " + id, function(err, result, fields) {
                         if (err) throw err;
-                        // this continues the function call so things run in order.
-                        callback();
+                        console.log("!!!!!!!!!!!");
+                        con.query("INSERT INTO t_students (" + columns + ") VALUES (" + record + ")", function(err, result, fields) {
+                            if (err) throw err;
+                            // this continues the function call so things run in order.
+                            callback();
+                        });
                     });
                 }
 
@@ -82,3 +96,17 @@ function isColumn(str) {
             str === "City" |
             str === "State Province";
 }
+
+function isIntCol(str) {
+    return  str === "Student ID" |
+            str === "Date of Birth" |
+            str === "Cohort Year";
+}
+
+// function addBuildingFloorRoom(str, record) {
+//     var regRSD = /.{5}\s\d*/; // The pattern consistent with all Room Space Descriptions.
+//     if (regRSD.test(str)) {
+//
+//     }
+//     return
+// }
