@@ -11,6 +11,13 @@ function toggle(id) {
   }
   var schedule = [];
 
+  function getMonday(d) {
+    d = new Date(d);
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+    return new Date(d.setDate(diff));
+  }
+
   function func(val, j, i){
     var id = (j*10)+i;
       var status= "In";
@@ -27,7 +34,8 @@ $(document).ready(function() {
      $('#buildLable').html($('#building').val());
      $('#weekLable').html($('#theWeek').val());
    });
-   $('#week1').html('week1 stuff');
+   $('#testing').text(email);
+   $('#week1').text(getMonday(new Date()));
 });
 
 //Create the button for each cell
