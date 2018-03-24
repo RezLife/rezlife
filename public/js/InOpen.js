@@ -2,8 +2,10 @@
 function toggle(id) {
 
     var stat = "p".concat(id);
-   // var all = document.getElementsByClassName(popup);
-   // all.classList.
+   // $(document).ready(function() {
+    //  $('.popuptext').hide();
+    //  $('#'+stat).show();
+   // });
     var popup = document.getElementById(stat);
     popup.classList.toggle("show");
   }
@@ -25,6 +27,7 @@ $(document).ready(function() {
      $('#buildLable').html($('#building').val());
      $('#weekLable').html($('#theWeek').val());
    });
+   $('#week1').html('week1 stuff');
 });
 
 //Create the button for each cell
@@ -36,12 +39,14 @@ $(document).ready(function() {
   }
   //fill the table 
 function addRow() {
+
   var table = document.getElementsByTagName('table')[0];
   if (typeof addRow.counter == 'undefined') {
     addRow.counter = 0;
   }
 
   var rows = [];
+  var isAccount = true;
   for(var j = 0; j < 4; j++){
       rows[j] = table.insertRow(1);
       addRow.counter += 1;
@@ -53,13 +58,14 @@ function addRow() {
 
       schedule[j][0].innerHTML = "Steve";
       var testVal = "Open";
-      var isAccount = true;
+      
       for(var r = 1; r < 8; r++){
         
         if(isAccount == true) schedule[j][r].innerHTML = createButton(testVal,j ,r);
         else schedule[j][r].innerHTML = testVal;
         
       }
+      if(isAccount == true) isAccount = false;
     }  
 
   }
