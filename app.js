@@ -14,6 +14,7 @@ var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 let api = require('./model/api.js');
 let app_routes = require('./routes/app_routes');
+
 var app = express();
 let handlebars = require('express-handlebars');
 /**
@@ -47,7 +48,6 @@ app.use(session({
 
 //middleware, serves static files
 app.use('/', express.static(path.join(__dirname, 'public')));
-
 
 //read urls and receive json from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -304,7 +304,6 @@ app.post('/resapp/upload', function (req, res) {
 
         con.end;
     });
-    res.status(500).send({"err": "no file"});
 });
 
 // // 404 catch-all handler (middleware)
