@@ -15,6 +15,10 @@ body {
   line-height: 1.6em;
 }
 
+ul.a {
+padding: 0%;
+  }
+
 .no-bullet{
   list-style:none;
 }
@@ -38,7 +42,7 @@ h1 {
   padding-top: 13px;
 }
 
-.faq li { padding: 20px; }
+.faq li {padding: 20px;}
 
 .faq li.q {
   font-weight: bold;
@@ -58,6 +62,7 @@ h1 {
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
+
 @media (max-width:800px) {
 
 #container { width: 90%; }
