@@ -30,7 +30,7 @@ function toggle(id) {
   }
 
 
-
+//change which week is being displayed
 function changeTable(bui) {
   var building = document.getElementById("building").value;
   var cWeek = document.getElementById("theWeek").value;
@@ -40,7 +40,7 @@ function changeTable(bui) {
   wChange.innerHTML = cWeek;
 }
 
-
+//Create the button for each cell
   function createButton(val, j, i){
     var id = (j*10)+i;
     var part1 = "<div id=".concat(id);
@@ -57,7 +57,7 @@ function changeTable(bui) {
         part1 = part1.concat(')">Off</button></span>');
         return part1;
   }
-
+  //fill the table 
 function addRow() {
   var table = document.getElementsByTagName('table')[0];
   if (typeof addRow.counter == 'undefined') {
