@@ -1,5 +1,6 @@
 {{#section 'head'}}
 <!-- stuff/css stylesheets that goes in head: -->
+<link href="css/accounts.css" rel="stylesheet">
 {{/section}} {{#section 'script'}}
 <!-- javascript files that go in the bottom html: -->
 <script src="js/accounts.js"></script> {{/section}} {{!-- Actual Content --}}
@@ -33,29 +34,20 @@
             <p>Select type of account:</p>
             <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required">
               <form action="/action_page.php">
-                <select name="role" onchange="if (this.selectedIndex) doSomething();">
+                <select name="role" id='roles'>
                   <option value="Select">Role</option>
                   <option value="Admin">Admin</option>
-                  <option class='RA' value="RA">RA</option>
+                  <option value="RA">RA</option>
 
                 </select>
                 <br>
                 <br>
             </div>
-            <script>
-              $('.RA').click(function () {
-                $('.dorms').show();
-              }
-
-                $('.Admin').click(function ()){
-                  $('.dorms').hide();
-                }
-
-            </script>
-            <br/>
+            
+            <br>
             <div class="wrap-input100 validate-input m-b-16" data-validate="Dorm is required">
               <form action="/action_page.php">
-                <select name="dorm" class='dorms hidden'>
+                <select name="dorm" id='dorms' class="hidden">
                   <option value="Select">Dorm</option>
                   <option value="Fischer">Fischer</option>
                   <option value="Smith-Traber">Smith-Traber</option>
@@ -65,7 +57,7 @@
             </div>
             <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
               <form action="/action_page.php">
-                <select name="floor">
+                <select name="floor" id='fiscFL' class="hidden">
                   <option value="Select">Floor</option>
                   <option value="1 West">1 West</option>
                   <option value="2 West">2 West</option>
@@ -87,7 +79,7 @@
 
             <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
               <form action="/action_page.php">
-                <select name="floor">
+                <select name="floor" id='stFL' class="hidden">
                   <option value="Select">Floor</option>
                   <option value="Traber 2">Traber 2</option>
                   <option value="Traber 3">Traber 3</option>
@@ -156,7 +148,7 @@
       document.getElementById(cityName).style.display = "block";
       evt.currentTarget.className += " active";
 
-      
+
     }
     document.getElementById("defaultOpen").click();
 </script>

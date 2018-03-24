@@ -43,6 +43,14 @@ h1 {
 
 .faq li {padding: 20px;}
 
+.bloodList li {
+  padding: 0px;
+}
+
+.bloodList ul {
+  list-style-position: inside
+}
+
 .faq li.q {
   font-weight: bold;
   font-size: 120%;
