@@ -32,19 +32,29 @@
           <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required">
             <form action="/action_page.php">
               <select name="role" onchange="if (this.selectedIndex) doSomething();">
-                <option value="Select">--</option>
+                <option value="Select">Role</option>
                 <option value="Admin">Admin</option>
-                <option onclick="showDorms(dorm);" value="RA">RA</option>
+                <option class = 'RA' value="RA">RA</option>
 
               </select>
               <br>
               <br>
           </div>
+          <script>
+                $('.RA').click(function(){
+                  $('.dorms').show();
+                }
+
+                $('.Admin').click(function()){
+                  $('.dorms').hide();
+                }
+  
+            </script>
           <br/>
           <div class="wrap-input100 validate-input m-b-16" data-validate="Dorm is required">
             <form action="/action_page.php">
-              <select name="dorm" id="dorms" visibility: hidden>
-                <option value="Select">Select</option>
+              <select name="dorm" class='dorms' class = 'visibility: hidden'>
+                <option value="Select">Dorm</option>
                 <option value="Fischer">Fischer</option>
                 <option value="Smith-Traber">Smith-Traber</option>
               </select>
@@ -54,7 +64,7 @@
           <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
             <form action="/action_page.php">
               <select name="floor">
-                <option value="Select">--</option>
+                <option value="Select">Floor</option>
                 <option value="1 West">1 West</option>
                 <option value="2 West">2 West</option>
                 <option value="3 West">3 West</option>
@@ -72,17 +82,28 @@
               <br>
 
           </div>
+
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Floor is required">
+              <form action="/action_page.php">
+                <select name="floor">
+                  <option value="Select">Floor</option>
+                  <option value="Traber 2">Traber 2</option>
+                  <option value="Traber 3">Traber 3</option>
+                  <option value="Traber 4">Traber 4</option>
+                  <option value="Traber 5">Traber 5</option>
+                  <option value="Traber 6">Traber 6</option>
+                  <option value="Traber 7">Traber 7</option>
+                  <option value="5 South">5 South</option>
+                  <option value="2 East">2 East</option>
+                  <option value="3 East">3 East</option>
+                  <option value="4 East">4 East</option>
+                  <option value="5 East">5 East</option>
+                </select>
+                <br><br>
+          
+          </div>
           <br/>
 
-          <p id="RA">If RA:</p>
-          <input class="input100" type="text" name="floor" placeholder="Floor">
-          <span class="focus-input100"></span>
-          <br/>
-          <br/>
-          <input class="input100" type="text" name="building" placeholder="Building">
-          <span class="focus-input100"></span>
-          <br/>
-          <br/>
           <input type="submit" value="Create">
           </form>
 
