@@ -23,25 +23,31 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
                         validColumns[i] = csv[0][i];
                 }
                 console.log(columns);
+                // for row in the csv (each student) parse out the data and insert it
                 for (var i = 1; i < csv.length; i++) {
-                    let record = "";
-                    let id;
+                    let record = ""; // the list of elements of the record.
+                    let id;          // temporary store the student's ID number
+                    // for each column of the row (each attribute of the student)
                     for (var j = 0; j < validColumns.length; j++) {
-                        if (isIntCol(validColumns[j]))
+                        if (validColumns[j] === "Date of Birth") {
+                            var date_arr = csv[i][j].split("/")
+                            record += "\""+date_arr[2]+"-"+date_arr[0]+"-"+date_arr[1]+"\", ";
+                        }
+                        else if (isIntCol(validColumns[j]))
                             record += csv[i][j] + ", ";
                         else record += "\"" + csv[i][j] + "\", ";
                         if (validColumns[j] === "Student ID") {
-                            console.log("yes");
                             id = csv[i][j];
                         }
                         //addBuildingFloorRoom(csv[i][j], record);
                     }
                     record += year; // this column won't be in any csv files
-                    console.log(record);
-                    console.log(id);
+                    // console.log(record);
+                    // first delete any instances of this same student in case there are duplicates
+                    // this will replace duplicate records.
                     con.query("DELETE FROM t_students WHERE record_year = " + year + " AND studentID = " + id, function(err, result, fields) {
                         if (err) throw err;
-                        console.log("!!!!!!!!!!!");
+                        // insert the info.
                         con.query("INSERT INTO t_students (" + columns + ") VALUES (" + record + ")", function(err, result, fields) {
                             if (err) throw err;
                             // this continues the function call so things run in order.
@@ -51,12 +57,9 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
                 }
 
 
-// create table students (name_last VARCHAR(255), name_first VARCHAR(255), student_id VARCHAR(255), date_of_birth VARCHAR(255), name_preferred VARCHAR(255), cohort_year VARCHAR(255), room_space_description VARCHAR(255), email VARCHAR(255), classification_description_1 VARCHAR(255), city VARCHAR(255), state_province VARCHAR(255), year VARCHAR(255));
-// INSERT INTO students (name_last, name_first, student_id, date_of_birth, name_preferred, cohort_year, room_space_description, email, classification_description_1, city, state_province, year) VALUES (`Jo`, `Hye Hyun`, `88547`, `8/1/1996`, `Esther`, `2`, `SMITH E234-1`, `esther.jo@my.wheaton.edu`, `Continuing 2nd Year`, `Perry Hall`, `MD`, `2017`);
 
 
-
-
+                // OLD ALGORITHM
                 // // get a string of the columns that will contain the info.
                 // var columns = "";
                 // var columns2 = ""; // doesn't have types
@@ -99,10 +102,11 @@ function isColumn(str) {
 
 function isIntCol(str) {
     return  str === "Student ID" |
-            str === "Date of Birth" |
+            // str === "Date of Birth" |
             str === "Cohort Year";
 }
 
+// Not needed with the implementation that does not have record_building
 // function addBuildingFloorRoom(str, record) {
 //     var regRSD = /.{5}\s\d*/; // The pattern consistent with all Room Space Descriptions.
 //     if (regRSD.test(str)) {

@@ -13,6 +13,7 @@
    });
 });*/
 function toggle(id) {
+
     var stat = "p".concat(id);
     var popup = document.getElementById(stat);
     popup.classList.toggle("show");
@@ -28,14 +29,17 @@ function toggle(id) {
     toggle(id);
   }
 
-  function changeTable(bui){
-    var building=document.getElementById("building").value;
-    var cWeek=document.getElementById("theWeek").value;
-    var bChange=document.getElementById("buildLable");
-    bChange.innerHTML = building;
-    var wChange=document.getElementById("weekLable");
-    wChange.innerHTML = cWeek;
-  }
+
+
+function changeTable(bui) {
+  var building = document.getElementById("building").value;
+  var cWeek = document.getElementById("theWeek").value;
+  var bChange = document.getElementById("buildLable");
+  bChange.innerHTML = building;
+  var wChange = document.getElementById("weekLable");
+  wChange.innerHTML = cWeek;
+}
+
 
   function createButton(val, j, i){
     var id = (j*10)+i;
@@ -54,12 +58,14 @@ function toggle(id) {
         return part1;
   }
 
-  function addRow(){
-    var table = document.getElementsByTagName('table')[0];
-    if( typeof addRow.counter == 'undefined' ) {
-      addRow.counter = 0;
+function addRow() {
+  var table = document.getElementsByTagName('table')[0];
+  if (typeof addRow.counter == 'undefined') {
+    addRow.counter = 0;
   }
-  var rows = new Array(6)
+  
+
+  var rows = new Array(10);
   for(var j = 0; j < 4; j++){
       rows[j] = table.insertRow(1);
       addRow.counter += 1;
@@ -82,3 +88,8 @@ function toggle(id) {
 
   }
   
+
+
+
+
+
