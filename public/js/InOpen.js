@@ -35,7 +35,12 @@ $(document).ready(function() {
      $('#weekLable').html($('#theWeek').val());
    });
    $('#testing').text(email);
-   $('#week1').text(getMonday(new Date()));
+   var date = getMonday(new Date());
+  var firstSt = (date.getMonth() + 1) +'/' + date.getDate();
+   var date2 = (date.getDate() + 6);
+  var secondSt = (date2.getMonth() + 1) +'/' + date2.getDate();
+  var final = firstSt + ' - ' + secondSt;
+   $('#week1').text(secondSt);
 });
 
 //Create the button for each cell
