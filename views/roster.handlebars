@@ -9,7 +9,8 @@
     margin-top: 20px;
   }
 </style>
-{{/section}} 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{{/section}}
 
 {{#section 'script'}}
 <!-- javascript files that go in the bottom html: -->
@@ -25,7 +26,19 @@
     }
   }
 </script>
-<script src="js/accounts.js"></script> 
+<script>
+$(document).ready(function(){
+    $("#upload").submit(function(){
+        $("#success_message").show();
+    });
+    $("#edit").click(function(){
+        $.get("demo_test.asp", function(data, status){
+            alert("Data: " + data + "\nStatus: " + status);
+        });
+    });
+});
+</script>
+<script src="js/accounts.js"></script>
 {{/section}} 
 
 {{!-- Actual Content --}}
@@ -48,7 +61,7 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-xl-3 col-sm-6 mb-3">
+              <div class="col">
                 <!--the upload form-->
                 <form action="upload" method="post" enctype="multipart/form-data">
                   Dorm:
@@ -75,8 +88,8 @@
 
                 </form>
               </div>
-              <div class="col-xl-3 col-sm-6 mb-3">
-                <div id="myDIV" style="display: none;">
+              <div class="col">
+                <div id="success_message" style="display: none;">
                   File uploaded successfully!
                 </div>
               </div>
@@ -88,7 +101,7 @@
             </i> Print Chart
           </div>
           <div class="card-body">
-
+            <button id="print_chart">Print Chart</button>
           </div>
           <div class="card-header">
             <i class="fa fa-edit">
@@ -96,7 +109,9 @@
             </i> Edit
           </div>
           <div class="card-body">
-
+            <button id="edit">Edit</button>
+            <button id="add_student">Add student</button>
+            <button id="search">Search</button>
           </div>
           <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
         </div>
