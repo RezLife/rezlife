@@ -4,8 +4,11 @@
 
 {{#section 'script'}}
 <!-- javascript files that go in the bottom html: -->
-<script src="js/InOpen.js"></script> 
+ 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="js/InOpen.js"></script>
 <script type="text/javascript"> addRow();</script>
+<script>var email = "<%= email %>";</script>
 {{/section}}
 
 <div class="content-wrapper">
@@ -29,16 +32,16 @@
           <option value="Traber">Traber</option>
         </select>
         <select name="week" id="theWeek">
-          <option value="Week 1">week 1</option>
-          <option value="Week 2">Week 2</option>
-          <option value="Week 3">Week 3</option>
-          <option value="Week 4">Week 4</option>
+          <option id = "week1" value="Week 1">week 1</option>
+          <option id = "week2" value="Week 2">Week 2</option>
+          <option id = "week3" value="Week 3">Week 3</option>
         </select>
         <button class="button" type="submit" id="submitButton" onclick='changeTable()'>Find</button>
 
         <br/>
         <line id="buildLable">Fischer</line>
         <line id="weekLable">Week 1</line>
+        <line id="testing">The test</line>
         <div class="container-fluid">
           <div class="row">
                 <div class="col-xl-9 mx-auto">
@@ -52,26 +55,6 @@
             <th>Fri</th>
             <th>Sat</th>
             <th>Sun</th>
-          </tr>
-          <tr>
-            <td>Jill</td>
-            <td>----</th>
-              <td>In</th>
-                <td>----</th>
-                  <td>Open</th>
-                    <td>----</th>
-                      <td>In</th>
-                        <td>----</th>
-          </tr>
-          <tr>
-            <td>Samid</td>
-            <td>Open</th>
-              <td>----</th>
-                <td>In</th>
-                  <td>Open</th>
-                    <td>----</th>
-                      <td>Open</th>
-                        <td>----</th>
           </tr>
         </table>
         </div>

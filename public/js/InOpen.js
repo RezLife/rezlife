@@ -1,24 +1,22 @@
-/*$(document).ready(function() {
-   function changeTable(bui){
-     var building=document.getElementById("building").value;
-     var cWeek=document.getElementById("theWeek").value;
-     var bChange=document.getElementById("buildLable");
-     bChange.innerHTML = building;
-     var wChange=document.getElementById("weekLable");
-     wChange.innerHTML = cWeek;
-   }
-   $('submitButton').on('click', function() {
-     $('buildLable').html($('building').val());
-     $('weekLable').html($('theWeek').val());
-   });
-});*/
+
 function toggle(id) {
 
     var stat = "p".concat(id);
+   // $(document).ready(function() {
+    //  $('.popuptext').hide();
+    //  $('#'+stat).show();
+   // });
     var popup = document.getElementById(stat);
     popup.classList.toggle("show");
   }
-  var schedule = new Array(10);
+  var schedule = [];
+
+  function getMonday(d) {
+    d = new Date(d);
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+    return new Date(d.setDate(diff));
+  }
 
   function func(val, j, i){
     var id = (j*10)+i;
@@ -31,41 +29,32 @@ function toggle(id) {
 
 
 //change which week is being displayed
-function changeTable(bui) {
-  var building = document.getElementById("building").value;
-  var cWeek = document.getElementById("theWeek").value;
-  var bChange = document.getElementById("buildLable");
-  bChange.innerHTML = building;
-  var wChange = document.getElementById("weekLable");
-  wChange.innerHTML = cWeek;
-}
+$(document).ready(function() {
+   $('#submitButton').on('click', function() {
+     $('#buildLable').html($('#building').val());
+     $('#weekLable').html($('#theWeek').val());
+   });
+   $('#testing').text(email);
+   $('#week1').text(getMonday(new Date()));
+});
 
 //Create the button for each cell
   function createButton(val, j, i){
     var id = (j*10)+i;
-    var part1 = "<div id=".concat(id);
-        part1 = part1.concat(' class="popup" onclick="toggle(');
-        part1 = part1.concat(id);
-        part1 = part1.concat(')">').concat(val).concat('<span class="popuptext" id="p');
-        part1 = part1.concat(id);
-        part1 = part1.concat('"><button onclick="func(1, ');
-        part1 = part1.concat(j).concat(',').concat(i);
-        part1 = part1.concat(')">In</button><button onclick="func(2, ');
-        part1 = part1.concat(j).concat(',').concat(i);
-        part1 = part1.concat(')">Open</button><button onclick="func(3, ');
-        part1 = part1.concat(j).concat(',').concat(i);
-        part1 = part1.concat(')">Off</button></span>');
-        return part1;
+   
+      var part1 = "<div id="+id+' class="popup" onclick="toggle('+id+')">'+val+'<span class="popuptext" id="p'+id+'"><button onclick="func(1, ';
+      return part1+j+','+i+')">In</button><button onclick="func(2, '+j+','+i+')">Open</button><button onclick="func(3, '+j+','+i+')">Off</button></span>';
   }
   //fill the table 
 function addRow() {
+
   var table = document.getElementsByTagName('table')[0];
   if (typeof addRow.counter == 'undefined') {
     addRow.counter = 0;
   }
-  
 
-  var rows = new Array(10);
+  var rows = [];
+  var isAccount = true;
   for(var j = 0; j < 4; j++){
       rows[j] = table.insertRow(1);
       addRow.counter += 1;
@@ -77,13 +66,14 @@ function addRow() {
 
       schedule[j][0].innerHTML = "Steve";
       var testVal = "Open";
-      var isAccount = true;
+      
       for(var r = 1; r < 8; r++){
         
         if(isAccount == true) schedule[j][r].innerHTML = createButton(testVal,j ,r);
         else schedule[j][r].innerHTML = testVal;
         
       }
+      if(isAccount == true) isAccount = false;
     }  
 
   }
