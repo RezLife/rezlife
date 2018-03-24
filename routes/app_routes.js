@@ -76,7 +76,7 @@ router.get('/calendar', function (req, res) {
 router.get('/inopen', function (req, res) {
     //authentication
     if (req.session && req.session.user) {
-        res.render('inopen');
+        res.render('inopen', {email: req.session.user.email});
     } else {
         res.redirect('/login');
     }
