@@ -265,6 +265,7 @@ app.post('/settings', function (req, res) {
 });
 
 // This handles the uploading done in the roster tab.
+var upload_error = "";
 app.post('/resapp/upload', function (req, res) {
     if (!req.files)
         return res.status(400).send('No files were uploaded.');
@@ -275,6 +276,8 @@ app.post('/resapp/upload', function (req, res) {
     console.log("thing");
 
     var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
+
+    console.log(chartid);
 
     // Use the mv() method to place the file somewhere on your server
     try {
@@ -302,13 +305,13 @@ app.post('/resapp/upload', function (req, res) {
         });
     }
     catch(err) {
-
+        res.send("no file");
     }
 });
 
-app.get('/demo_test.txt', function(req, res) {
+app.get('/upload_error', function(req, res) {
     console.log(req.query.name);
-    res.sendFile(path.join(__dirname, 'demo_test.txt'));
+    res.send(upload_error);
 });
 
 // // 404 catch-all handler (middleware)
