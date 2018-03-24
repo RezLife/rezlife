@@ -92,12 +92,10 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/homepage.html'));
 });
 
-<<<<<<< HEAD
 app.post('/demo', (req, res) => {
     res.send("you posted! Nice.");
 });
-=======
->>>>>>> 1c8e212d17240b496ab1665f14c07f0cc1159bd6
+
 app.get('/login', function (req, res) {
     req.session.user = null;
     res.sendFile(path.join(__dirname, 'views/login.html'));
