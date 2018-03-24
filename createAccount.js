@@ -15,6 +15,7 @@ var transporter = nodemailer.createTransport({
 //create new user
 exports.addAccount = function (con, email, role, res) {
     var password = generator.generate();
+    //really cheap way to get around needing different floors, need to change eventually
     var num = generator.generate();
 
     //layout for the email

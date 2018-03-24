@@ -92,6 +92,17 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/homepage.html'));
 });
 
+<<<<<<< HEAD
+=======
+app.get('/demo', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/demo.html'));
+});
+
+app.post('/demo', (req, res) => {
+    res.send("you posted! Nice.");
+});
+
+>>>>>>> 53c8d6c6bc2107e7b65824dadaaddb4f5e381d65
 app.get('/login', function (req, res) {
     req.session.user = null;
     res.sendFile(path.join(__dirname, 'views/login.html'));
@@ -189,8 +200,8 @@ app.post('/deleteAccount', function (req, res) {
         if (req.body && req.body.email) {
             var email = req.body.email;
             //delete the user from the database
-            var sql = `DELETE FROM t_users WHERE email = '${email}'`;
-            con.query(sql, function (err, result) {
+            var sql = `DELETE FROM t_users WHERE email = ?`;
+            con.query(sql, email, function (err, result) {
                 if (err) {
                     res.send({
                         "code": "400",
@@ -266,36 +277,41 @@ app.post('/settings', function (req, res) {
 
 // This handles the uploading done in the roster tab.
 app.post('/resapp/upload', function (req, res) {
-    if (!req.files)
-        return res.status(400).send('No files were uploaded.');
+    //authentication, only admin can upload document
+    if (req.session && req.session.user && req.session.user.role == "Admin") {
+        if (!req.files)
+            return res.status(400).send('No files were uploaded.');
 
-    // The name of the input field is used to retrieve the uploaded file
-    var chart = req.files.chartupload;
+        // The name of the input field is used to retrieve the uploaded file
+        var chart = req.files.chartupload;
 
-    var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
+        var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
 
-    // Use the mv() method to place the file somewhere on your server
-    chart.mv(path.join(__dirname, 'chart'), function (err) {
-        if (err) {
-            return res.status(500).send(err);
-        }
+        // Use the mv() method to place the file somewhere on your server
+        chart.mv(path.join(__dirname, 'chart'), function (err) {
+            if (err) {
+                return res.status(500).send(err);
+            }
 
-        // after uploading, send you back to the roster page.
-        res.redirect("/resapp/roster");
-        var con = mysql.createConnection({
-            host: "csdb.wheaton.edu",
-            user: "reslifeadmin",
-            password: "eoekK8bRe4wa",
-            database: "reslife"
+            // after uploading, send you back to the roster page.
+            res.redirect("/resapp/roster");
+            var con = mysql.createConnection({
+                host: "csdb.wheaton.edu",
+                user: "reslifeadmin",
+                password: "eoekK8bRe4wa",
+                database: "reslife"
+            });
+
+            chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function () {
+                // After dealing with the file, delete it.
+                fs.unlink(path.join(__dirname, 'chart'), function (err) { });
+            });
+
+            con.end;
         });
-
-        chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function () {
-            // After dealing with the file, delete it.
-            fs.unlink(path.join(__dirname, 'chart'), function (err) { });
-        });
-
-        con.end;
-    });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 // // 404 catch-all handler (middleware)
