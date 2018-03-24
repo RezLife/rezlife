@@ -14,107 +14,104 @@
     </ol>
 
     <div class="tab">
-      <button class="tablinks" onclick="openCity(event, 'create')">Create Account</button>
+      <button class="tablinks" onclick="openCity(event, 'create')" id="defaultOpen">Create Account</button>
       <button class="tablinks" onclick="openCity(event, 'delete')">Delete Account</button>
     </div>
 
     <div class="row">
       <div class="col-12">
-        <div class="card mb-3">
-          <div class="card-header">
-            <div id="create" class="tabcontent">
-              <h1>Create Account</h1>
+        <div id="create" class="tabcontent">
+          <h1>Create Account</h1>
 
 
-              <form action="/accounts" method="post" target="_blank">
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                  <input class="input100" type="text" name="email" placeholder="User email">
-                  <span class="focus-input100"></span>
-                </div>
-                <br/>
-                <p>Select type of account:</p>
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required">
-                  <form action="/action_page.php">
-                    <select name="role" onchange="if (this.selectedIndex) doSomething();">
-                      <option value="Select">Role</option>
-                      <option value="Admin">Admin</option>
-                      <option class='RA' value="RA">RA</option>
+          <form action="/accounts" method="post" target="_blank">
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+              <input class="input100" type="text" name="email" placeholder="User email">
+              <span class="focus-input100"></span>
+            </div>
+            <br/>
+            <p>Select type of account:</p>
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required">
+              <form action="/action_page.php">
+                <select name="role" onchange="if (this.selectedIndex) doSomething();">
+                  <option value="Select">Role</option>
+                  <option value="Admin">Admin</option>
+                  <option class='RA' value="RA">RA</option>
 
-                    </select>
-                    <br>
-                    <br>
-                </div>
-                <script>
-                  $('.RA').click(function () {
-                    $('.dorms').show();
-                  }
+                </select>
+                <br>
+                <br>
+            </div>
+            <script>
+              $('.RA').click(function () {
+                $('.dorms').show();
+              }
 
                 $('.Admin').click(function ()){
-                      $('.dorms').hide();
-                    }
+                  $('.dorms').hide();
+                }
 
-                </script>
-                <br/>
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Dorm is required">
-                  <form action="/action_page.php">
-                    <select name="dorm" class='dorms hidden'>
-                      <option value="Select">Dorm</option>
-                      <option value="Fischer">Fischer</option>
-                      <option value="Smith-Traber">Smith-Traber</option>
-                    </select>
-                    <br>
-                    <br>
-                </div>
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
-                  <form action="/action_page.php">
-                    <select name="floor">
-                      <option value="Select">Floor</option>
-                      <option value="1 West">1 West</option>
-                      <option value="2 West">2 West</option>
-                      <option value="3 West">3 West</option>
-                      <option value="4 West">4 West</option>
-                      <option value="5 West">5 West</option>
-                      <option value="3 South">3 South</option>
-                      <option value="4 South">4 South</option>
-                      <option value="5 South">5 South</option>
-                      <option value="2 East">2 East</option>
-                      <option value="3 East">3 East</option>
-                      <option value="4 East">4 East</option>
-                      <option value="5 East">5 East</option>
-                    </select>
-                    <br>
-                    <br>
-
-                </div>
-
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
-                  <form action="/action_page.php">
-                    <select name="floor">
-                      <option value="Select">Floor</option>
-                      <option value="Traber 2">Traber 2</option>
-                      <option value="Traber 3">Traber 3</option>
-                      <option value="Traber 4">Traber 4</option>
-                      <option value="Traber 5">Traber 5</option>
-                      <option value="Traber 6">Traber 6</option>
-                      <option value="Traber 7">Traber 7</option>
-                      <option value="5 South">5 South</option>
-                      <option value="2 East">2 East</option>
-                      <option value="3 East">3 East</option>
-                      <option value="4 East">4 East</option>
-                      <option value="5 East">5 East</option>
-                    </select>
-                    <br>
-                    <br>
-
-                </div>
-                <br/>
-
-                <input type="submit" value="Create">
-                </form>
+            </script>
+            <br/>
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Dorm is required">
+              <form action="/action_page.php">
+                <select name="dorm" class='dorms hidden'>
+                  <option value="Select">Dorm</option>
+                  <option value="Fischer">Fischer</option>
+                  <option value="Smith-Traber">Smith-Traber</option>
+                </select>
+                <br>
+                <br>
+            </div>
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
+              <form action="/action_page.php">
+                <select name="floor">
+                  <option value="Select">Floor</option>
+                  <option value="1 West">1 West</option>
+                  <option value="2 West">2 West</option>
+                  <option value="3 West">3 West</option>
+                  <option value="4 West">4 West</option>
+                  <option value="5 West">5 West</option>
+                  <option value="3 South">3 South</option>
+                  <option value="4 South">4 South</option>
+                  <option value="5 South">5 South</option>
+                  <option value="2 East">2 East</option>
+                  <option value="3 East">3 East</option>
+                  <option value="4 East">4 East</option>
+                  <option value="5 East">5 East</option>
+                </select>
+                <br>
+                <br>
 
             </div>
-          </div>
+
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
+              <form action="/action_page.php">
+                <select name="floor">
+                  <option value="Select">Floor</option>
+                  <option value="Traber 2">Traber 2</option>
+                  <option value="Traber 3">Traber 3</option>
+                  <option value="Traber 4">Traber 4</option>
+                  <option value="Traber 5">Traber 5</option>
+                  <option value="Traber 6">Traber 6</option>
+                  <option value="Traber 7">Traber 7</option>
+                  <option value="5 South">5 South</option>
+                  <option value="2 East">2 East</option>
+                  <option value="3 East">3 East</option>
+                  <option value="4 East">4 East</option>
+                  <option value="5 East">5 East</option>
+                </select>
+                <br>
+                <br>
+
+            </div>
+            <br/>
+
+            <input type="submit" value="Create">
+            </form>
+
         </div>
+
 
       </div>
     </div>
@@ -122,23 +119,20 @@
     <!-- Start of Delete Account -->
     <div class="row">
       <div class="col-12">
-        <div class="card mb-3">
-          <div class="card-header">
-            <div id="delete" class="tabcontent">
-              <h1>Delete Account</h1>
-              <p>Enter email of account to delete:</p>
-              <form action="/deleteAccount" method="post" target="_blank">
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Account email is required">
-                  <input class="input100" type="text" name="email" placeholder="Account email">
-                  <span class="focus-input100"></span>
-                </div>
-                <br/>
-                <input type="submit" value="Delete" onclick="return confirm('Are you sure you would like to delete this account?\n This action cannot be undone.')"
-                />
-              </form>
-              <br/>
+
+        <div id="delete" class="tabcontent">
+          <h1>Delete Account</h1>
+          <p>Enter email of account to delete:</p>
+          <form action="/deleteAccount" method="post" target="_blank">
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Account email is required">
+              <input class="input100" type="text" name="email" placeholder="Account email">
+              <span class="focus-input100"></span>
             </div>
-          </div>
+            <br/>
+            <input type="submit" value="Delete" onclick="return confirm('Are you sure you would like to delete this account?\n This action cannot be undone.')"
+            />
+          </form>
+          <br/>
         </div>
 
       </div>
@@ -161,5 +155,8 @@
       }
       document.getElementById(cityName).style.display = "block";
       evt.currentTarget.className += " active";
+
+      
     }
+    document.getElementById("defaultOpen").click();
 </script>
