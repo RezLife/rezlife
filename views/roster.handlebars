@@ -29,10 +29,13 @@
 <script>
 $(document).ready(function(){
     $("#upload").submit(function(){
+        $.post("/upload", $("input"), function(data, status) {
+
+        }
         $("#success_message").show();
     });
     $("#edit").click(function(){
-        $.get("/demo_test.txt", function(data, status){
+        $.get("/demo_test.txt", {name:"ASher"}, function(data, status){
             alert("Data: " + data + "\nStatus: " + status);
         });
     });
@@ -63,7 +66,7 @@ $(document).ready(function(){
             <div class="row">
               <div class="col">
                 <!--the upload form-->
-                <form action="upload" method="post" enctype="multipart/form-data">
+                <form id="upload" action="upload" enctype="multipart/form-data">
                   Dorm:
                   <select name="dorm">
                     <option value="smithtraber">Smith-Traber</option>
@@ -95,6 +98,8 @@ $(document).ready(function(){
               </div>
             </div>
           </div>
+        </div>
+        <div class="card mb-3">
           <div class="card-header">
             <i class="fa fa-print">
 
@@ -103,6 +108,8 @@ $(document).ready(function(){
           <div class="card-body">
             <button id="print_chart">Print Chart</button>
           </div>
+        </div>
+        <div class="card mb-3">
           <div class="card-header">
             <i class="fa fa-edit">
 

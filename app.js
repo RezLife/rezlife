@@ -272,30 +272,43 @@ app.post('/resapp/upload', function (req, res) {
     // The name of the input field is used to retrieve the uploaded file
     var chart = req.files.chartupload;
 
+    console.log("thing");
+
     var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
 
     // Use the mv() method to place the file somewhere on your server
-    chart.mv(path.join(__dirname, 'chart'), function (err) {
-        if (err) {
-            return res.status(500).send(err);
-        }
+    try {
+        chart.mv(path.join(__dirname, 'chart'), function (err) {
+            if (err) {
+                return res.status(500).send(err);
+            }
 
-        // after uploading, send you back to the roster page.
-        res.redirect("/resapp/roster");
-        var con = mysql.createConnection({
-            host: "csdb.wheaton.edu",
-            user: "reslifeadmin",
-            password: "eoekK8bRe4wa",
-            database: "reslife"
+            // after uploading, send you back to the roster page.
+            res.redirect("/resapp/roster");
+            var con = mysql.createConnection({
+                host: "csdb.wheaton.edu",
+                user: "reslifeadmin",
+                password: "eoekK8bRe4wa",
+                database: "reslife"
+            });
+
+            chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function () {
+                // After dealing with the file, delete it.
+                fs.unlink(path.join(__dirname, 'chart'), function (err) {
+                });
+            });
+
+            con.end;
         });
+    }
+    catch(err) {
 
-        chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function () {
-            // After dealing with the file, delete it.
-            fs.unlink(path.join(__dirname, 'chart'), function (err) { });
-        });
+    }
+});
 
-        con.end;
-    });
+app.get('/demo_test.txt', function(req, res) {
+    console.log(req.query.name);
+    res.sendFile(path.join(__dirname, 'demo_test.txt'));
 });
 
 // // 404 catch-all handler (middleware)
