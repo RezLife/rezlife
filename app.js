@@ -306,9 +306,9 @@ app.post('/resapp/upload', function (req, res) {
     }
 });
 
-app.get('demo_test.asp', function(req, res) {
+app.get('/demo_test.txt', function(req, res) {
     console.log("demo");
-    res.sendFile(path.join(__dirname, 'demo_test.asp'));
+    res.sendFile(path.join(__dirname, 'demo_test.txt'));
 });
 
 // // 404 catch-all handler (middleware)

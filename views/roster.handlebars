@@ -32,7 +32,7 @@ $(document).ready(function(){
         $("#success_message").show();
     });
     $("#edit").click(function(){
-        $.get("demo_test.asp", function(data, status){
+        $.get("/demo_test.txt", function(data, status){
             alert("Data: " + data + "\nStatus: " + status);
         });
     });
