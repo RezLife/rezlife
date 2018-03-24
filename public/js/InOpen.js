@@ -17,7 +17,7 @@ function toggle(id) {
     var popup = document.getElementById(stat);
     popup.classList.toggle("show");
   }
-  var schedule = [[],[]]
+  var schedule = new Array(10);
 
   function func(val, j, i){
     var id = (j*10)+i;
@@ -59,21 +59,23 @@ function toggle(id) {
     if( typeof addRow.counter == 'undefined' ) {
       addRow.counter = 0;
   }
-  
-  for(var j = 0; j < 3; j++){
-      var newRow = table.insertRow(1);
+  var rows = new Array(6)
+  for(var j = 0; j < 4; j++){
+      rows[j] = table.insertRow(1);
+      addRow.counter += 1;
+      schedule[j] = new Array(8);
       for(var i = 0; i < 8; i++){
-        schedule[j][i] = newRow.insertCell(i);
+        schedule[j][i] = rows[j].insertCell(i);
       }
       
 
       schedule[j][0].innerHTML = "Steve";
       var testVal = "Open";
       var isAccount = true;
-      for(var i = 1; i < 8; i++){
+      for(var r = 1; r < 8; r++){
         
-        if(isAccount == true) schedule[j][i].innerHTML = createButton(testVal,j ,i);
-        else schedule[j][i].innerHTML = testVal;
+        if(isAccount == true) schedule[j][r].innerHTML = createButton(testVal,j ,r);
+        else schedule[j][r].innerHTML = testVal;
         
       }
     }  
