@@ -1,0 +1,85 @@
+{{#section 'head'}}
+<!-- stuff/css stylesheets that goes in head: -->
+<link href="css/inopen.css" rel="stylesheet"> {{/section}} 
+
+{{#section 'script'}}
+<!-- javascript files that go in the bottom html: -->
+<script src="js/InOpen.js"></script> 
+<script type="text/javascript"> addRow();</script>
+{{/section}}
+
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="home">Home</a>
+      </li>
+      <li class="breadcrumb-item active">In Open</li>
+    </ol>
+    <div class="row">
+      <div class="col-12">
+        <h1>IN/OPEN</h1>
+        <p>This schedule allows you to see when your RAs will be In, Open, Or Off</p>
+        <p>Click on a value to change it</p>
+
+
+        <select name="build" id="building">
+          <option value="Fischer">Fischer</option>
+          <option value="Traber">Traber</option>
+        </select>
+        <select name="week" id="theWeek">
+          <option value="Week 1">week 1</option>
+          <option value="Week 2">Week 2</option>
+          <option value="Week 3">Week 3</option>
+          <option value="Week 4">Week 4</option>
+        </select>
+        <button class="button" type="submit" id="submitButton" onclick='changeTable()'>Find</button>
+
+        <br/>
+        <line id="buildLable">Fischer</line>
+        <line id="weekLable">Week 1</line>
+        <div class="container-fluid">
+          <div class="row">
+                <div class="col-xl-9 mx-auto">
+        <table id = "maintable">
+          <tr>
+            <th>RAs</th>
+            <th>Mon</th>
+            <th>Tues</th>
+            <th>Wed</th>
+            <th>Thur</th>
+            <th>Fri</th>
+            <th>Sat</th>
+            <th>Sun</th>
+          </tr>
+          <tr>
+            <td>Jill</td>
+            <td>----</th>
+              <td>In</th>
+                <td>----</th>
+                  <td>Open</th>
+                    <td>----</th>
+                      <td>In</th>
+                        <td>----</th>
+          </tr>
+          <tr>
+            <td>Samid</td>
+            <td>Open</th>
+              <td>----</th>
+                <td>In</th>
+                  <td>Open</th>
+                    <td>----</th>
+                      <td>Open</th>
+                        <td>----</th>
+          </tr>
+        </table>
+        </div>
+        </div>
+        </div>
+        <br/>
+        
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> ResApp Homepage </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name = "viewport" content = "width=device-width, initial-scale=1"> -->
+    <!-- Latest compiled and minified CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Patua One' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href=/css/home.css rel="stylesheet" type="text/css">
+</head>
+
+<!-- SAMID: In case you're looking, I've put the css in home.css in the public folder. I hope you didn't mind -->
+
+<body>
+
+    <!-- Masthead -->
+    <header class="masthead text-white text-center">
+
+        <nav class="navbar navbar-light bg-light fixed-top">
+            <div class="container-fluid">
+                <a class="patua" href="/">
+                    <img width=40px height=40px src="../images/icons/ra.png"> ResApp.
+                </a>
+
+                <a class="raleway btn btn-primary" href="/login">Staff Sign In</a>
+            </div>
+        </nav>
+
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <h1 class="mast-text">Welcome to ResApp!</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <h1 class="mast-text">Dorm Schedule</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Fischer')">Fischer</button>
+        <button class="tablinks" onclick="openTab(event, 'Smith-Traber')">Smith-Traber</button>
+    </div>
+
+    <div id="Fischer" class="tabcontent">
+        <h3>Fischer</h3>
+        <p>The schedule for Fischer will go here</p>
+    </div>
+
+    <div id="Smith-Traber" class="tabcontent">
+        <h3>Smith-Traber</h3>
+        <p>The schedule for Smith-Traber will go here</p>
+    </div>
+
+    <script>
+        function openTab(evt, dorm) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(dorm).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+
+</body>
+
+</html>

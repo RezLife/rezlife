@@ -1,0 +1,112 @@
+{{#section 'head'}}
+<!-- stuff/css stylesheets that goes in head: -->
+{{/section}} 
+
+{{#section 'script'}}
+<!-- javascript files that go in the bottom html: -->
+<script src="js/accounts.js"></script> 
+{{/section}} 
+
+{{!-- Actual Content --}}
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="home">Home</a>
+      </li>
+      <li class="breadcrumb-item active">Accounts</li>
+    </ol>
+    <div class="row">
+      <div class="col-12">
+        <h1>Create Account</h1>
+
+
+        <form action="/accounts" method="post" target="_blank">
+          <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+            <input class="input100" type="text" name="email" placeholder="User email">
+            <span class="focus-input100"></span>
+          </div>
+          <br/>
+          <p>Select type of account:</p>
+          <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required">
+            <form action="/action_page.php">
+              <select name="role" onchange="if (this.selectedIndex) doSomething();">
+                <option value="Select">--</option>
+                <option value="Admin">Admin</option>
+                <option onclick="showDorms(dorm);" value="RA">RA</option>
+
+              </select>
+              <br>
+              <br>
+          </div>
+          <br/>
+          <div class="wrap-input100 validate-input m-b-16" data-validate="Dorm is required">
+            <form action="/action_page.php">
+              <select name="dorm" id="dorms" visibility: hidden>
+                <option value="Select">Select</option>
+                <option value="Fischer">Fischer</option>
+                <option value="Smith-Traber">Smith-Traber</option>
+              </select>
+              <br>
+              <br>
+          </div>
+          <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
+            <form action="/action_page.php">
+              <select name="floor">
+                <option value="Select">--</option>
+                <option value="1 West">1 West</option>
+                <option value="2 West">2 West</option>
+                <option value="3 West">3 West</option>
+                <option value="4 West">4 West</option>
+                <option value="5 West">5 West</option>
+                <option value="3 South">3 South</option>
+                <option value="4 South">4 South</option>
+                <option value="5 South">5 South</option>
+                <option value="2 East">2 East</option>
+                <option value="3 East">3 East</option>
+                <option value="4 East">4 East</option>
+                <option value="5 East">5 East</option>
+              </select>
+              <br>
+              <br>
+
+          </div>
+          <br/>
+
+          <p id="RA">If RA:</p>
+          <input class="input100" type="text" name="floor" placeholder="Floor">
+          <span class="focus-input100"></span>
+          <br/>
+          <br/>
+          <input class="input100" type="text" name="building" placeholder="Building">
+          <span class="focus-input100"></span>
+          <br/>
+          <br/>
+          <input type="submit" value="Create">
+          </form>
+
+      </div>
+    </div>
+    <br/>
+    <!-- Start of Delete Account -->
+    <div class="row">
+      <div class="col-12">
+        <h1>Delete Account</h1>
+        <p>Enter email of account to delete:</p>
+        <form action="/deleteAccount" method="post" target="_blank">
+          <div class="wrap-input100 validate-input m-b-16" data-validate="Account email is required">
+            <input class="input100" type="text" name="email" placeholder="Account email">
+            <span class="focus-input100"></span>
+          </div>
+          <br/>
+          <input type="submit" value="Delete" onclick="return confirm('Are you sure you would like to delete this account?\n This action cannot be undone.')"
+          />
+        </form>
+        <br/>
+
+      </div>
+    </div>
+    <!-- End of Delete Account -->
+  </div>
+</div>
