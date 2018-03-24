@@ -96,6 +96,10 @@ app.get('/demo', (req,res) => {
     res.sendFile(path.join(__dirname, 'views/demo.html'));
 });
 
+app.post('/demo', (req,res) =>{
+    res.send("you posted! Nice.");
+});
+
 app.get('/login', function (req, res) {
     req.session.user = null;
     res.sendFile(path.join(__dirname, 'views/login.html'));
