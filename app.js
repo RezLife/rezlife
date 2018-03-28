@@ -48,6 +48,7 @@ app.use(session({
 
 //middleware, serves static files
 app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/resapp', express.static(path.join(__dirname, 'public')));
 
 //read urls and receive json from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -92,9 +93,12 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/homepage.html'));
 });
 
+<<<<<<< HEAD
 app.post('/demo', (req, res) => {
     res.send("you posted! Nice.");
 });
+=======
+>>>>>>> 0d43baf5be0a96feaf3d036dc4144ddda467665e
 app.get('/login', function (req, res) {
     req.session.user = null;
     res.sendFile(path.join(__dirname, 'views/login.html'));

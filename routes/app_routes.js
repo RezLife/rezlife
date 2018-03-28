@@ -6,10 +6,14 @@ var router = express.Router();
 let path = require('path');
 
 //middleware for the router
-router.use('/', express.static(path.join(__dirname, '../public')));
 
 router.get('/', function (req, res) {
-    res.render('resapp');
+    //authentication
+    if (req.session && req.session.user) {
+        res.render('resapp');
+    } else {
+        res.redirect('/login');
+    }
 });
 
 router.get('/settings', function (req, res) {
@@ -76,7 +80,7 @@ router.get('/calendar', function (req, res) {
 router.get('/inopen', function (req, res) {
     //authentication
     if (req.session && req.session.user) {
-        res.render('inopen', {email: req.session.user.email});
+        res.render('inopen', { email: req.session.user.email });
     } else {
         res.redirect('/login');
     }
