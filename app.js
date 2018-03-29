@@ -288,8 +288,9 @@ app.post('/resapp/upload', function (req, res) {
             database: "reslife"
         });
         // Parse the uploaded file into the database with the chartParser.js
-        chartParser.parseIntoDatabase(con, "./chart", res, chartid, req.body["year"], function () {
-            console.log("Callback");
+        chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function (errstr) {
+            // if ChartParser sends an error, send it back to the page.
+            if (errstr) return res.status(400).send(errstr);
             // After dealing with the file, delete it.
             fs.unlink(path.join(__dirname, 'chart'), function (err) {
                 // otherwise, everything is good! Send a success message.
