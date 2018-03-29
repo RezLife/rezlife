@@ -1,18 +1,6 @@
 
-function toggle(id) {
-
-    var stat = "p".concat(id);
-    //var popup = document.getElementById(stat);
-   // popup.classList.toggle("show");
-     $(document).ready(function() {
-     $('.popuptext').hide();
-     $('#'+stat).fadeIn();
-
-     });
-
-}
 var schedule = [];
-
+var table = document.getElementsByTagName('table')[0];
 function getMonday(d) {
     d = new Date(d);
     var day = d.getDay(),
@@ -37,12 +25,20 @@ function func(val, j, i) {
 //change which week is being displayed
 $(document).ready(function () {
     $('.clicker').on('click', function(){
+    var hid = $('#p' + this.id).is(':visible');
         $('.popuptext').hide();
-        $('#p' + this.id).fadeIn();
+       if(hid != true) $('#p' + this.id).fadeIn();
+
     });
     $('#submitButton').on('click', function () {
         $('#buildLable').html($('#building').val());
         $('#weekLable').html($('#theWeek').val());
+        for(var i = 0; i < 4; i++){
+            table.deleteRow(1);
+        }
+
+        addRow();
+        
     });
     $('#testing').text(email);
 
@@ -81,7 +77,7 @@ $(document).ready(function () {
     function createButton(val, j, i) {
         var id = (j * 10) + i;
 
-        var part1 = "<line id="+id+" class=clicker>"+val+"</line><div " + ' class="popup"><span class="popuptext" id="p' + id + '"><button onclick="func(1, ';
+        var part1 = "<line id="+id+" class=clicker>"+val+'</line><div class="popup"><span class="popuptext" id="p' + id + '"><button onclick="func(1, ';
         return part1 + j + ',' + i + ')">In</button><button onclick="func(2, ' + j + ',' + i + ')">Open</button><button onclick="func(3, ' + j + ',' + i + ')">Off</button></span>';
         //$(document).ready(function () {    
            // $("#p" + id).hide();
@@ -91,7 +87,8 @@ $(document).ready(function () {
 //fill the table 
 function addRow() {
 
-    var table = document.getElementsByTagName('table')[0];
+    schedule.length = 0;
+    
     if (typeof addRow.counter == 'undefined') {
         addRow.counter = 0;
     }
@@ -100,7 +97,6 @@ function addRow() {
     var isAccount = true;
     for (var j = 0; j < 4; j++) {
         rows[j] = table.insertRow(1);
-        addRow.counter += 1;
         schedule[j] = new Array(8);
         for (var i = 0; i < 8; i++) {
             schedule[j][i] = rows[j].insertCell(i);
@@ -122,9 +118,8 @@ function addRow() {
         if (isAccount == true) isAccount = false;
     }
     $(document).ready(function() {
-                    $(".popuptext").hide();
-                });
-
+        $(".popuptext").hide();
+    });
 }
 
 
