@@ -17,6 +17,8 @@ th {
 }
 .popup {
 position: relative;
+bottom: 20px;
+right: 15px;
 display: inline-block;
 cursor: pointer;
 -webkit-user-select: none;
@@ -27,7 +29,7 @@ user-select: none;
 
 /* The actual popup */
 .popup .popuptext {
-visibility: hidden;
+/*visibility: hidden;*/
 width: 160px;
 background-color: #555;
 color: #fff;
@@ -51,22 +53,4 @@ margin-left: -5px;
 border-width: 5px;
 border-style: solid;
 border-color: #555 transparent transparent transparent;
-}
-
-/* Toggle this class - hide and show the popup */
-.popup .show {
-visibility: visible;
--webkit-animation: fadeIn 1s;
-animation: fadeIn 1s;
-}
-
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-from {opacity: 0;} 
-to {opacity: 1;}
-}
-
-@keyframes fadeIn {
-from {opacity: 0;}
-to {opacity:1 ;}
 }

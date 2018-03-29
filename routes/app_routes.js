@@ -6,45 +6,92 @@ var router = express.Router();
 let path = require('path');
 
 //middleware for the router
-router.use('/', express.static(path.join(__dirname, '../public')));
 
 router.get('/', function (req, res) {
-    res.render('resapp');
+    //authentication
+    if (req.session && req.session.user) {
+        res.render('resapp');
+    } else {
+        res.redirect('/login');
+    }
 });
 
 router.get('/settings', function (req, res) {
-    res.render('settings');
+    //authentication
+    if (req.session && req.session.user) {
+        res.render('settings');
+    } else {
+        res.redirect('/login');
+    }
 });
 
 router.get('/accounts', function (req, res) {
-    res.render('accounts');
-//     //safe version
-// /*if (req.session && req.session.user) {
-//     res.sendFile(path.join(publicPath, 'views/webapp', 'accounts.html'));
-// } else {
-//     res.redirect('/login');
-// }*/
+    //authentication
+    if (req.session && req.session.user) {
+        //must be admin to add/delete accounts
+        if (req.session.user.role == "Admin") {
+            res.render('accounts');
+        } else {
+            res.redirect('/resapp/home');
+        }
+    } else {
+        res.redirect('/login');
+    }
+
 });
 
 router.get('/home', function (req, res) {
-    res.render('resapp');
+    //authentication
+    if (req.session && req.session.user) {
+        res.render('resapp');
+    }
 });
 
 router.get('/phonebook', function (req, res) {
-    res.render('phonebook');
+    //authentication
+    if (req.session && req.session.user) {
+        res.render('phonebook');
+    } else {
+        res.redirect('/login');
+    }
 });
 
 router.get('/roster', function (req, res) {
-    res.render('roster');
+    //authentication
+    if (req.session && req.session.user) {
+        //must be admin to change roster
+        if (req.session.user.role == "Admin") {
+            res.render('roster');
+        } else {
+            res.redirect('/resapp/home');
+        }
+    } else {
+        res.redirect('/login');
+    }
 });
 router.get('/calendar', function (req, res) {
-    res.render('calendar');
+    //authentication
+    if (req.session && req.session.user) {
+        res.render('calendar');
+    } else {
+        res.redirect('/login');
+    }
 });
 router.get('/inopen', function (req, res) {
-    res.render('inopen');
+    //authentication
+    if (req.session && req.session.user) {
+        res.render('inopen', { email: req.session.user.email });
+    } else {
+        res.redirect('/login');
+    }
 });
 router.get('/emergency', function (req, res) {
-    res.render('emergency');
+    //authentication
+    if (req.session && req.session.user) {
+        res.render('emergency');
+    } else {
+        res.redirect('/login');
+    }
 });
 
 module.exports = router;

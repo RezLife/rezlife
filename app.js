@@ -48,6 +48,7 @@ app.use(session({
 
 //middleware, serves static files
 app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/resapp', express.static(path.join(__dirname, 'public')));
 
 //read urls and receive json from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -92,6 +93,9 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/homepage.html'));
 });
 
+app.post('/demo', (req, res) => {
+    res.send("you posted! Nice.");
+});
 app.get('/login', function (req, res) {
     req.session.user = null;
     res.sendFile(path.join(__dirname, 'views/login.html'));
@@ -189,8 +193,8 @@ app.post('/deleteAccount', function (req, res) {
         if (req.body && req.body.email) {
             var email = req.body.email;
             //delete the user from the database
-            var sql = `DELETE FROM t_users WHERE email = '${email}'`;
-            con.query(sql, function (err, result) {
+            var sql = `DELETE FROM t_users WHERE email = ?`;
+            con.query(sql, email, function (err, result) {
                 if (err) {
                     res.send({
                         "code": "400",
@@ -266,40 +270,45 @@ app.post('/settings', function (req, res) {
 
 // This handles the uploading done in the roster tab.
 app.post('/resapp/upload', function (req, res) {
-    // send error when no file is uploaded.
-    if (!req.files.chartupload) {
-        return res.status(400).send('No files were uploaded.');
-    }
+    //authentication, only admin can upload document
+    if (req.session && req.session.user && req.session.user.role == "Admin") {
+        // send error when no file is uploaded.
+        if (!req.files.chartupload) {
+            return res.status(400).send('No files were uploaded.');
+        }
 
-    // The name of the input field is used to retrieve the uploaded file
-    var chart = req.files.chartupload;
+        // The name of the input field is used to retrieve the uploaded file
+        var chart = req.files.chartupload;
 
-    var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
+        var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
 
-    // Use the mv() method to place the file somewhere on your server
-    chart.mv(path.join(__dirname, 'chart'), function (err) {
-        if (err) return res.status(500).send(err);
+        // Use the mv() method to place the file somewhere on your server
+        chart.mv(path.join(__dirname, 'chart'), function (err) {
+            if (err) return res.status(500).send(err);
 
-        // connect to the database as the reslifeadmin
-        var con = mysql.createConnection({
-            host: "csdb.wheaton.edu",
-            user: "reslifeadmin",
-            password: "eoekK8bRe4wa",
-            database: "reslife"
-        });
-        // Parse the uploaded file into the database with the chartParser.js
-        chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function (errstr) {
-            // if ChartParser sends an error, send it back to the page.
-            if (errstr) return res.status(400).send(errstr);
-            // After dealing with the file, delete it.
-            fs.unlink(path.join(__dirname, 'chart'), function (err) {
-                // otherwise, everything is good! Send a success message.
-                res.status(200).send("File successfully uploaded and parsed!");
+            // connect to the database as the reslifeadmin
+            var con = mysql.createConnection({
+                host: "csdb.wheaton.edu",
+                user: "reslifeadmin",
+                password: "eoekK8bRe4wa",
+                database: "reslife"
             });
-        });
+            // Parse the uploaded file into the database with the chartParser.js
+            chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function (errstr) {
+                // if ChartParser sends an error, send it back to the page.
+                if (errstr) return res.status(400).send(errstr);
+                // After dealing with the file, delete it.
+                fs.unlink(path.join(__dirname, 'chart'), function (err) {
+                    // otherwise, everything is good! Send a success message.
+                    res.status(200).send("File successfully uploaded and parsed!");
+                });
+            });
 
-        con.end;
-    });
+            con.end;
+        });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 // // 404 catch-all handler (middleware)

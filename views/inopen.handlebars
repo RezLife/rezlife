@@ -1,12 +1,12 @@
 {{#section 'head'}}
 <!-- stuff/css stylesheets that goes in head: -->
-<link href="css/inopen.css" rel="stylesheet"> {{/section}} 
-
-{{#section 'script'}}
+<link href="css/inopen.css" rel="stylesheet"> {{/section}} {{#section 'script'}}
 <!-- javascript files that go in the bottom html: -->
-<script src="js/InOpen.js"></script> 
-<script type="text/javascript"> addRow();</script>
-{{/section}}
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="js/InOpen.js"></script>
+<script type="text/javascript"> addRow(4);</script>
+<script>var email = "<%= email %>";</script> {{/section}}
 
 <div class="content-wrapper">
   <div class="container-fluid">
@@ -29,63 +29,36 @@
           <option value="Traber">Traber</option>
         </select>
         <select name="week" id="theWeek">
-          <option value="Week 1">week 1</option>
-          <option value="Week 2">Week 2</option>
-          <option value="Week 3">Week 3</option>
-          <option value="Week 4">Week 4</option>
+          <option class ="op" id="week1" value="Current Week">week 1</option>
+          <option class ="op" id="week2" value="Next Week">Week 2</option>
+          <option class ="op"id="week3" value="Two Weeks">Week 3</option>
         </select>
         <button class="button" type="submit" id="submitButton" onclick='changeTable()'>Find</button>
 
         <br/>
         <line id="buildLable">Fischer</line>
-        <line id="weekLable">Week 1</line>
-        <table>
-          <tr>
-            <th>RAs</th>
-            <th>Mon</th>
-            <th>Tues</th>
-            <th>Wed</th>
-            <th>Thur</th>
-            <th>Fri</th>
-            <th>Sat</th>
-            <th>Sun</th>
-          </tr>
-          <script>
-
-          </script>
-          <tr>
-            <td>Jill</td>
-            <td>----</th>
-              <td>In</th>
-                <td>----</th>
-                  <td>Open</th>
-                    <td>----</th>
-                      <td>In</th>
-                        <td>----</th>
-          </tr>
-          <tr>
-            <td>Samid</td>
-            <td>Open</th>
-              <td>----</th>
-                <td>In</th>
-                  <td>Open</th>
-                    <td>----</th>
-                      <td>Open</th>
-                        <td>----</th>
-          </tr>
-          <tr>
-            <td>Caleb</td>
-            <td>----</th>
-              <td>In</th>
-                <td>In</th>
-                  <td>----</th>
-                    <td>----</th>
-                      <td>Open</th>
-                        <td>----</th>
-          </tr>
-        </table>
+        <line id="weekLable">Current Week</line>
+        <line id="testing">The test</line>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xl-9 mx-auto">
+              <table id="maintable">
+                <tr>
+                  <th>RAs</th>
+                  <th>Mon</th>
+                  <th>Tues</th>
+                  <th>Wed</th>
+                  <th>Thur</th>
+                  <th>Fri</th>
+                  <th>Sat</th>
+                  <th>Sun</th>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
         <br/>
-        
+
       </div>
     </div>
   </div>
