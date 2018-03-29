@@ -37,7 +37,7 @@ $(document).ready(function () {
             table.deleteRow(1);
         }
 
-        addRow();
+        addRow(6);
         
     });
     $('#testing').text(email);
@@ -85,17 +85,17 @@ $(document).ready(function () {
     }
 
 //fill the table 
-function addRow() {
+function addRow(d) {
 
     schedule.length = 0;
-    
+    schedule.splice(0,schedule.length)
     if (typeof addRow.counter == 'undefined') {
         addRow.counter = 0;
     }
 
     var rows = [];
     var isAccount = true;
-    for (var j = 0; j < 4; j++) {
+    for (var j = 0; j < d; j++) {
         rows[j] = table.insertRow(1);
         schedule[j] = new Array(8);
         for (var i = 0; i < 8; i++) {
@@ -109,7 +109,7 @@ function addRow() {
         for (var r = 1; r < 8; r++) {
 
             if (isAccount == true){
-                 schedule[j][r].innerHTML = createButton(testVal, j, r);
+                 schedule[j][r].innerHTML = createButton((j*10)+r, j, r);
                  
             }
             else schedule[j][r].innerHTML = testVal;
