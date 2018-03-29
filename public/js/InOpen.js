@@ -2,12 +2,14 @@
 function toggle(id) {
 
     var stat = "p".concat(id);
-    // $(document).ready(function() {
-    //  $('.popuptext').hide();
-    //  $('#'+stat).show();
-    // });
-    var popup = document.getElementById(stat);
-    popup.classList.toggle("show");
+    //var popup = document.getElementById(stat);
+   // popup.classList.toggle("show");
+     $(document).ready(function() {
+     $('.popuptext').hide();
+     $('#'+stat).fadeIn();
+
+     });
+
 }
 var schedule = [];
 
@@ -23,13 +25,21 @@ function func(val, j, i) {
     var status = "In";
     if (val == 2) status = "Open";
     else if (val == 3) status = id;
-    schedule[j][i].innerHTML = createButton(status, j, i);
-    toggle(id);
+    //schedule[j][i].innerHTML = createButton(status, j, i);
+    $(document).ready(function() {
+        $('#'+id).text(status);
+        $('#p'+id).hide();
+   
+    });
 }
 
 
 //change which week is being displayed
 $(document).ready(function () {
+    $('.clicker').on('click', function(){
+        $('.popuptext').hide();
+        $('#p' + this.id).fadeIn();
+    });
     $('#submitButton').on('click', function () {
         $('#buildLable').html($('#building').val());
         $('#weekLable').html($('#theWeek').val());
@@ -45,7 +55,7 @@ $(document).ready(function () {
     //Format to MM/dd
     var secondSt = (date.getMonth() + 1) + '/' + date.getDate();
     //startdate - enddate
-    var final1 = firstSt + ' - ' + secondSt;
+    var final1 = "Current week (" + firstSt + ' - ' + secondSt + ')';
     $('#week1').text(final1);
 
     //increment one day to next Monday, then repeat for next two weeks
@@ -54,7 +64,7 @@ $(document).ready(function () {
     var thirdSt = (date.getMonth() + 1) + '/' + date.getDate();
     date.setDate(date.getDate() + 6);
     var fourthSt = (date.getMonth() + 1) + '/' + date.getDate();
-    var final2 = thirdSt + ' - ' + fourthSt;
+    var final2 = "Next week (" + thirdSt + ' - ' + fourthSt + ')';
     $('#week2').text(final2);
 
     //increment 1 day
@@ -63,17 +73,21 @@ $(document).ready(function () {
     var fifthSt = (date.getMonth() + 1) + '/' + date.getDate();
     date.setDate(date.getDate() + 6);
     var sixthSt = (date.getMonth() + 1) + '/' + date.getDate();
-    var final3 = fifthSt + ' - ' + sixthSt;
+    var final3 = "2 weeks (" + fifthSt + ' - ' + sixthSt+')';
     $('#week3').text(final3);
 });
 
-//Create the button for each cell
-function createButton(val, j, i) {
-    var id = (j * 10) + i;
+    //Create the button for each cell
+    function createButton(val, j, i) {
+        var id = (j * 10) + i;
 
-    var part1 = "<div id=" + id + ' class="popup" onclick="toggle(' + id + ')">' + val + '<span class="popuptext" id="p' + id + '"><button onclick="func(1, ';
-    return part1 + j + ',' + i + ')">In</button><button onclick="func(2, ' + j + ',' + i + ')">Open</button><button onclick="func(3, ' + j + ',' + i + ')">Off</button></span>';
-}
+        var part1 = "<line id="+id+" class=clicker>"+val+"</line><div " + ' class="popup"><span class="popuptext" id="p' + id + '"><button onclick="func(1, ';
+        return part1 + j + ',' + i + ')">In</button><button onclick="func(2, ' + j + ',' + i + ')">Open</button><button onclick="func(3, ' + j + ',' + i + ')">Off</button></span>';
+        //$(document).ready(function () {    
+           // $("#p" + id).hide();
+        //});
+    }
+
 //fill the table 
 function addRow() {
 
@@ -98,12 +112,18 @@ function addRow() {
 
         for (var r = 1; r < 8; r++) {
 
-            if (isAccount == true) schedule[j][r].innerHTML = createButton(testVal, j, r);
+            if (isAccount == true){
+                 schedule[j][r].innerHTML = createButton(testVal, j, r);
+                 
+            }
             else schedule[j][r].innerHTML = testVal;
 
         }
         if (isAccount == true) isAccount = false;
     }
+    $(document).ready(function() {
+                    $(".popuptext").hide();
+                });
 
 }
 
