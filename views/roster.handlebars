@@ -25,9 +25,6 @@ $(document).ready(function(){
 		// Create an FormData object
         var data = new FormData(form);
 
-		// If you want to add an extra field for the FormData
-        data.append("CustomField", "This is some extra data, testing");
-
 		// disabled the submit button
         $("#chart_upload").prop("disabled", true);
 
@@ -40,25 +37,15 @@ $(document).ready(function(){
             contentType: false,
             cache: false,
             timeout: 600000,
-            success: function (data) {
-
-                alert("SUCCESS : ", data);
+            success: function (data, status, xhr) {
+                alert("SUCCESS : " + xhr.responseText);
                 $("#chart_upload").prop("disabled", false);
-
             },
-            error: function (e) {
-
-                alert("ERROR : ", e);
+            error: function (xhr) {
+                alert("ERROR : " + xhr.responseText);
                 $("#chart_upload").prop("disabled", false);
-
             }
         });
-    });
-    $("#upload").submit(function(){
-        $.post("/resapp/upload", function(data, status) {
-
-        });
-        $("#success_message").show();
     });
 });
 </script>

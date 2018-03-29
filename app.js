@@ -265,53 +265,40 @@ app.post('/settings', function (req, res) {
 });
 
 // This handles the uploading done in the roster tab.
-var upload_error = "";
 app.post('/resapp/upload', function (req, res) {
-    if (!req.files)
+    // send error when no file is uploaded.
+    if (!req.files.chartupload) {
         return res.status(400).send('No files were uploaded.');
+    }
 
     // The name of the input field is used to retrieve the uploaded file
     var chart = req.files.chartupload;
 
-    console.log("thing");
-
     var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
 
-    console.log(chartid);
-
     // Use the mv() method to place the file somewhere on your server
-    try {
-        chart.mv(path.join(__dirname, 'chart'), function (err) {
-            if (err) {
-                return res.status(500).send(err);
-            }
+    chart.mv(path.join(__dirname, 'chart'), function (err) {
+        if (err) return res.status(500).send(err);
 
-            // after uploading, send you back to the roster page.
-            res.redirect("/resapp/roster");
-            var con = mysql.createConnection({
-                host: "csdb.wheaton.edu",
-                user: "reslifeadmin",
-                password: "eoekK8bRe4wa",
-                database: "reslife"
-            });
-
-            chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function () {
-                // After dealing with the file, delete it.
-                fs.unlink(path.join(__dirname, 'chart'), function (err) {
-                });
-            });
-
-            con.end;
+        // connect to the database as the reslifeadmin
+        var con = mysql.createConnection({
+            host: "csdb.wheaton.edu",
+            user: "reslifeadmin",
+            password: "eoekK8bRe4wa",
+            database: "reslife"
         });
-    }
-    catch(err) {
-        res.send("no file");
-    }
-});
+        // Parse the uploaded file into the database with the chartParser.js
+        chartParser.parseIntoDatabase(con, "./chart", res, chartid, req.body["year"], function () {
+            console.log("Callback");
+            // After dealing with the file, delete it.
+            fs.unlink(path.join(__dirname, 'chart'), function (err) {
+                // otherwise, everything is good! Send a success message.
+                res.status(200).send("File successfully uploaded and parsed!");
+            });
+        });
 
-app.get('/upload_error', function(req, res) {
-    console.log(req.query.name);
-    res.send(upload_error);
+        con.end;
+    });
 });
 
 // // 404 catch-all handler (middleware)

@@ -1,15 +1,15 @@
 var parse = require('csv-parse');
 var fs = require('fs');
 
-exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) {
+exports.parseIntoDatabase = function (con, fileName, res, tableName, year, callback) {
     fs.readFile(fileName, function(err, data) {
-        if (err) throw err;
-        parse(data, function(err, output){
-            if (err) throw err;
+        if (err) return res.status(400).send(err.message);
+        parse(data, function(err, output) {
+            if (err) return res.status(400).send(err.message);
             var csv = output;
 
             con.connect(function (err) {
-                if (err) throw err;
+                if (err) return res.status(400).send(err.message);
                 var columns = "name_last, name_first, studentID, date_of_birth, " +
                             "name_preferred, cohort_year, room_space_description, " +
                             //"record_building, record_floor, record_room_number, " +
@@ -22,16 +22,15 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
                     if (isColumn(csv[0][i]))
                         validColumns[i] = csv[0][i];
                 }
-                console.log(columns);
                 // for row in the csv (each student) parse out the data and insert it
-                for (var i = 1; i < csv.length; i++) {
+                for (let i = 1; i < csv.length; i++) {
                     let record = ""; // the list of elements of the record.
                     let id;          // temporary store the student's ID number
                     // for each column of the row (each attribute of the student)
                     for (var j = 0; j < validColumns.length; j++) {
                         if (validColumns[j] === "Date of Birth") {
                             var date_arr = csv[i][j].split("/")
-                            record += "\""+date_arr[2]+"-"+date_arr[0]+"-"+date_arr[1]+"\", ";
+                            record += "\"" + date_arr[2] + "-" + date_arr[0] + "-" + date_arr[1] + "\", ";
                         }
                         else if (isIntCol(validColumns[j]))
                             record += csv[i][j] + ", ";
@@ -42,22 +41,19 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
                         //addBuildingFloorRoom(csv[i][j], record);
                     }
                     record += year; // this column won't be in any csv files
-                    // console.log(record);
                     // first delete any instances of this same student in case there are duplicates
                     // this will replace duplicate records.
-                    con.query("DELETE FROM t_students WHERE record_year = " + year + " AND studentID = " + id, function(err, result, fields) {
-                        if (err) throw err;
+                    con.query("DELETE FROM t_students WHERE record_year = " + year + " AND studentID = " + id, function (err, result, fields) {
+                        if (err) return res.status(400).send(err.message);
                         // insert the info.
-                        con.query("INSERT INTO t_students (" + columns + ") VALUES (" + record + ")", function(err, result, fields) {
-                            if (err) throw err;
+                        con.query("INSERT INTO t_students (" + columns + ") VALUES (" + record + ")", function (err, result, fields) {
+                            if (err) return res.status(400).send(err.message);
                             // this continues the function call so things run in order.
-                            callback();
+                            // Make sure to only callback when the for loop has ended.
+                            if (i == (csv.length - 1)) callback();
                         });
                     });
                 }
-
-
-
 
                 // OLD ALGORITHM
                 // // get a string of the columns that will contain the info.
@@ -85,6 +81,13 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
         });
     });
 };
+
+function parseSynchronously() {
+    // return new Promise to enforce synchrony
+    return new Promise(function (resolve, reject) {
+
+    });
+}
 
 function isColumn(str) {
     return  str === "Name Last" |
