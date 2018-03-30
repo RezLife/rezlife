@@ -47,6 +47,46 @@ $(document).ready(function(){
             }
         });
     });
+    $("#print_chart").submit(function (event) {
+
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
+
+        // Get form
+        var form = $('#print_chart')[0];
+
+        // Create a FormData object
+        var data = new FormData(form);
+
+        // disabled the submit button until server confirmation
+        $("#print_chart").prop("disabled", true);
+
+        $.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url: "/resapp/printlist",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function (data, status, xhr) {
+                window.open('floorlist');
+                $("#print_chart").prop("disabled", false);
+            },
+            error: function (xhr) {
+                alert("ERROR : " + xhr.responseText);
+                $("#print_chart").prop("disabled", false);
+            }
+        });
+    });
+    // $("#print_chart").click(function () {
+    //     $.get('floorlist', function (data, status) {
+    //         var list = window.open('floorlist');
+    //         list.document.(data);
+    //     })
+    //     window.open('floorlist');
+    // });
 });
 </script>
 <script src="js/accounts.js"></script>
@@ -99,7 +139,41 @@ $(document).ready(function(){
             <i class="fa fa-print"></i> Print Chart
           </div>
           <div class="card-body">
-            <button id="print_chart">Print Chart</button>
+              <form id="print_chart">
+                  Dorm:
+                  <select name="dorm">
+                      <option value="TRABE 2">Traber 2</option>
+                      <option value="TRABE 3">Traber 3</option>
+                      <option value="TRABE 4">Traber 4</option>
+                      <option value="TRABE 5">Traber 5</option>
+                      <option value="TRABE 6">Traber 6</option>
+                      <option value="TRABE 7">Traber 7</option>
+                      <option value="FISCH E2">Fischer 2E</option>
+                      <option value="FISCH E3">Fischer 3E</option>
+                      <option value="FISCH E4">Fischer 4E</option>
+                      <option value="FISCH E5">Fischer 5E</option>
+                      <option value="FISCH S3">Fischer 3S</option>
+                      <option value="FISCH S4">Fischer 4S</option>
+                      <option value="FISCH S5">Fischer 5S</option>
+                      <option value="FISCH W1">Fischer 1W</option>
+                      <option value="FISCH W2">Fischer 2W</option>
+                      <option value="FISCH W3">Fischer 3W</option>
+                      <option value="FISCH W4">Fischer 4W</option>
+                      <option value="FISCH W5">Fischer 5W</option>
+                  </select>
+                  <br> Semester:
+                  <select name="semester">
+                      <option value="fall">Fall</option>
+                      <option value="spring">Spring</option>
+                  </select>
+                  <br> Year:
+                  <!--The number field has a min, max, and a pattern that only allows integers.-->
+                  <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*">
+                  <br>
+                  <input type="radio" name="form" value="list" checked> List<br>
+                  <input type="radio" name="form" value="chart"> Chart<br>
+                  <input type="submit" value="Print">
+              </form>
           </div>
         </div>
         <div class="card mb-3">

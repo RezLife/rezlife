@@ -69,19 +69,19 @@ var con = mysql.createConnection({
 
 //get all data from designated table
 //SELECT * FROM 'table'
-app.get('/api/:table', (req, res) => {
+app.get('/resapp/api/:table', (req, res) => {
     api.getAllFromTable(req, res, req.params.table);
 });
 
 //get all data from a specific column 
 //SELECT  + column +  FROM  + table
-app.get('/api/:table/:column', (req, res) => {
+app.get('/resapp/api/:table/:column', (req, res) => {
     api.getColumnFromTable(req, res, req.params.table, req.params.column);
 });
 
 //get the row of data conditional to data of a specific column
 //SELECT * FROM + table + WHERE + column + row
-app.get('/api/:table/:column/:row', (req, res) => {
+app.get('/resapp/api/:table/:column/:row', (req, res) => {
     api.getRowFromTableEqual(req, res, req.params.table, req.params.column, req.params.row);
 });
 
@@ -305,6 +305,51 @@ app.post('/resapp/upload', function (req, res) {
             });
 
             con.end;
+        });
+    } else {
+        res.redirect('/login');
+    }
+});
+
+var printlistParams = [];
+
+// This sends a floor chart with the necessary information
+app.post('/resapp/printlist', function (req, res) {
+    //authentication, only admin print floor charts
+    if (req.session && req.session.user && req.session.user.role == "Admin") {
+        printlistParams = [req.body["dorm"].split(" ")[0], req.body["dorm"].split(" ")[1] + '%', parseInt(req.body["year"], 10)];
+        res.send();
+    } else {
+        res.redirect('/login');
+    }
+});
+
+app.get('/resapp/floorlist', function (req, res) {
+    //authentication, only admin print floor charts
+    if (req.session && req.session.user && req.session.user.role == "Admin") {
+        res.sendFile(path.join(__dirname, 'views/floorlist.html'));
+    } else {
+        res.redirect('/login');
+    }
+})
+
+// This sends a floor chart with the necessary information
+app.get('/resapp/traber2', function (req, res) {
+    //authentication, only admin print floor charts
+    if (req.session && req.session.user && req.session.user.role == "Admin") {
+        // connect to the database as the reslifeadmin
+        var con = mysql.createConnection({
+            host: "csdb.wheaton.edu",
+            user: "reslifeadmin",
+            password: "eoekK8bRe4wa",
+            database: "reslife"
+        });
+        console.log("traber");
+        console.log(printlistParams);
+        con.query('SELECT * FROM t_students where building=? and floor_and_room like ? and record_year=?', printlistParams, (error, results, fields) => {
+            if (error) return console.log(error); //need work
+            console.log(results);
+            return res.json({ results });
         });
     } else {
         res.redirect('/login');
