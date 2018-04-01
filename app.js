@@ -272,8 +272,10 @@ app.post('/settings', function (req, res) {
 app.post('/resapp/upload', function (req, res) {
     //authentication, only admin can upload document
     if (req.session && req.session.user && req.session.user.role == "Admin") {
-        if (!req.files)
+        // send error when no file is uploaded.
+        if (!req.files.chartupload) {
             return res.status(400).send('No files were uploaded.');
+        }
 
         // The name of the input field is used to retrieve the uploaded file
         var chart = req.files.chartupload;
@@ -282,22 +284,24 @@ app.post('/resapp/upload', function (req, res) {
 
         // Use the mv() method to place the file somewhere on your server
         chart.mv(path.join(__dirname, 'chart'), function (err) {
-            if (err) {
-                return res.status(500).send(err);
-            }
+            if (err) return res.status(500).send(err);
 
-            // after uploading, send you back to the roster page.
-            res.redirect("/resapp/roster");
+            // connect to the database as the reslifeadmin
             var con = mysql.createConnection({
                 host: "csdb.wheaton.edu",
                 user: "reslifeadmin",
                 password: "eoekK8bRe4wa",
                 database: "reslife"
             });
-
-            chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function () {
+            // Parse the uploaded file into the database with the chartParser.js
+            chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function (errstr) {
+                // if ChartParser sends an error, send it back to the page.
+                if (errstr) return res.status(400).send(errstr);
                 // After dealing with the file, delete it.
-                fs.unlink(path.join(__dirname, 'chart'), function (err) { });
+                fs.unlink(path.join(__dirname, 'chart'), function (err) {
+                    // otherwise, everything is good! Send a success message.
+                    res.status(200).send("File successfully uploaded and parsed!");
+                });
             });
 
             con.end;
