@@ -34,17 +34,47 @@ $(document).ready(function () {
 
     });
     //change which week is being displayed
-   // $('#submitButton').on('click', function () {
-      //  $('#buildLable').html($('#building').val());
-       // $('#weekLable').html($('#theWeek').val());
-        //for(var i = 0; i < 4; i++){
-       //     table.deleteRow(1);
-       // }
-      // table.clear();
+    $('#submitButton').on('click', function () {
+        $('#buildLable').html($('#building').val());
+        $('#weekLable').html($('#theWeek').val());
+        for(var i = 0; i < 4; i++){
+            table.deleteRow(1);
+        }
+        if (typeof addRow.counter == 'undefined') {
+            addRow.counter = 0;
+        }
+    
+        
+        var isAccount = true;
+        for (var j = totalRows; j < totalRows + 8; j++) {
+            rows[j] = table.insertRow(1);
+            schedule[j] = new Array(8);
+            for (var i = 0; i < 8; i++) {
+                schedule[j][i] = rows[j].insertCell(i);
+            }
+    
+    
+            schedule[j][0].innerHTML = "Steve";
+            var testVal = "Open";
+    
+            for (var r = 1; r < 8; r++) {
+    
+                if (isAccount == true){
+                     schedule[j][r].innerHTML = createButton((j*10)+r, j, r);
+                     
+                }
+                else schedule[j][r].innerHTML = testVal;
+    
+            }
+            if (isAccount == true) isAccount = false;
+        }
+        totalRows = j;
+        $(document).ready(function() {
+            $(".popuptext").hide();
+        });
         //schedule.length = 0;
         
-        
-   // });
+    });
     $('#testing').text(email);
 
     //Monday of current week
