@@ -12,9 +12,9 @@ let con = mysql.createPool({
 });
 
 //get all data from stated table
-exports.getAllFromTable = (req,res,table) => {
-    con.query('SELECT * FROM ' + table, (error, results, fields) => {
-        if (error) res.status(500).send('Something broke!'); //need work
+exports.getAllStudents = (req,res) => {
+    con.query('SELECT * FROM t_students', (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
 }
@@ -22,15 +22,51 @@ exports.getAllFromTable = (req,res,table) => {
 //get data from stated table and column
 exports.getColumnFromTable = (req,res,table,column) => {
     con.query('SELECT ' + column + ' FROM ' + table, (error, results, fields) => {
-        if (error) res.status(500).send('Something broke!'); //need work
+        if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
-}
+};
 
 //get data by condition
 exports.getRowFromTableEqual = (req,res,table,column,row) => {
     con.query('SELECT * FROM ' + table + ' WHERE ' + column + '=\'' + row + '\'', (error, results, fields) => {
-        if (error) res.status(500).send('Something broke!'); //need work
+        if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
-}
+};
+
+//get data from building
+exports.getAllFromBuilding = (req,res,building) => {
+    con.query('SELECT * FROM t_students WHERE building=?', building, (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
+
+//get data from building
+exports.getAllFromFloor = (req,res,building,floor) => {
+    var regex = floor + '%';
+    con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ?', [building, regex], (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
+
+//get data from room
+exports.getAllFromRoom = (req,res,building,floor,room) => {
+    var regex = room + '%';
+    con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ?', [building, regex], (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
+
+//search for students
+exports.searchAllStudents = (req,res,query) => {
+    var searchString = '\'%' + query + '%\'';
+    con.query('SELECT * FROM t_students WHERE building LIKE ? AND floor_and_room LIKE ? AND name_first LIKE ?'+
+        'AND name_last LIKE ? AND student_id LIKE ? AND name_preferred LIKE ?', searchString, (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
