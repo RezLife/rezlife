@@ -314,10 +314,11 @@ app.post('/resapp/upload', function (req, res) {
 var printlistParams = [];
 
 // This sends a floor chart with the necessary information
-app.post('/resapp/printlist', function (req, res) {
+app.get('/resapp/printlist', function (req, res) {
     //authentication, only admin print floor charts
     if (req.session && req.session.user && req.session.user.role == "Admin") {
-        printlistParams = [req.body["dorm"].split(" ")[0], req.body["dorm"].split(" ")[1] + '%', parseInt(req.body["year"], 10)];
+        console.log(req.query);
+        printlistParams = [req.query["dorm"].split(" ")[0], req.query["dorm"].split(" ")[1] + '%', parseInt(req.query["year"], 10)];
         res.send();
     } else {
         res.redirect('/login');
@@ -346,7 +347,7 @@ app.get('/resapp/traber2', function (req, res) {
         });
         console.log("traber");
         console.log(printlistParams);
-        con.query('SELECT * FROM t_students where building=? and floor_and_room like ? and record_year=?', printlistParams, (error, results, fields) => {
+        con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ? AND record_year=? ORDER BY name_first', printlistParams, (error, results, fields) => {
             if (error) return console.log(error); //need work
             console.log(results);
             return res.json({ results });

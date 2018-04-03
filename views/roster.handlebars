@@ -58,16 +58,16 @@ $(document).ready(function(){
         // Create a FormData object
         var data = new FormData(form);
 
-        // disabled the submit button until server confirmation
+        // disable the submit button until server confirmation
         $("#print_chart").prop("disabled", true);
 
         $.ajax({
-            type: "POST",
-            enctype: 'multipart/form-data',
+            type: "GET",
+            //enctype: 'multipart/form-data',
             url: "/resapp/printlist",
             data: data,
-            processData: false,
-            contentType: false,
+            // processData: false,
+            // contentType: false,
             cache: false,
             timeout: 600000,
             success: function (data, status, xhr) {

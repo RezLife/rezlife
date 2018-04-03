@@ -38,7 +38,7 @@
 <script>
     $(document).ready(function() {
         $.getJSON("traber2", function (data, status, xhr) {
-            if (status == 400 || status == 500) return alert("ERROR : " + xhr.responseText);
+            if (status >= 400) return alert("ERROR : " + xhr.responseText);
             $.each(data.results, function (key, val) {
                 $("#first").append(val.name_first + "<br />");
                 $("#last").append(val.name_last + "<br />");
