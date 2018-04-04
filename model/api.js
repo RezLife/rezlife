@@ -78,15 +78,15 @@ exports.searchAllStudents = (req,res,query) => {
 function buildingNameToQuery(str) {
     switch (str.toLowerCase()) {
         case "traber":
-            return "TRABE";
+            return "Traber";
         case "smith":
-            return "SMITH";
+            return "Smith";
         case "fischer":
-            return "FISCH";
+            return "Fischer";
         case "macManis":
-            return "MACMAN";
+            return "MacManis";
         case "evans":
-            return "EVANS";
+            return "Evans";
         default:
             return str;
     }
