@@ -8,7 +8,6 @@
 
 <!-- Script for successful upload message for upload roster-->
 <script>
-$(document).ready(function(){
     $("#edit").click(function(){
         $.get("/demo_test.txt", {name:"ASher"}, function(data, status){
             alert("Data: " + data + "\nStatus: " + status);
@@ -89,7 +88,7 @@ $(document).ready(function(){
     //     })
     //     window.open('floorlist');
     // });
-});
+
 </script>
 <script src="js/accounts.js"></script>
 {{/section}} 
