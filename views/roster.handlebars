@@ -61,6 +61,8 @@ $(document).ready(function(){
         // disable the submit button until server confirmation
         $("#print_chart").prop("disabled", true);
 
+        window.open('floorlist');
+
         $.ajax({
             type: "GET",
             //enctype: 'multipart/form-data',
