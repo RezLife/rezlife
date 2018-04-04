@@ -109,9 +109,9 @@ app.get('/resapp/api/students/:building/:floor/:room', (req, res) => {
 });
 
 // Search for students who's attributes match the query string.
-app.get('/resapp/api/search/:thing', (req, res) => {
-    console.log(req.params.thing);
-    api.searchAllStudents(req, res, req.params.thing);
+app.get('/resapp/api/search/:query', (req, res) => {
+    console.log(req.params.query);
+    api.searchAllStudents(req, res, req.params.query);
 });
 
 /**
