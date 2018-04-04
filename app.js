@@ -135,6 +135,7 @@ app.use('/resapp', app_routes);
 app.post('/login', function (req, res) {
     //make sure there is no current user logged in, this also takes care of logout
     req.session.user = null;
+    
     //if email and password were entered
     if (req.body && req.body.email && req.body.password) {
         var email = req.body.email;
@@ -143,10 +144,11 @@ app.post('/login', function (req, res) {
         con.query('SELECT * FROM t_users WHERE email = ?', [email], function (error, results, fields) {
             if (error) {
                 console.log("Error occurred:", error);
-                res.send({
-                    "code": 400,
-                    "failed": "error ocurred"
-                })
+                return res.status(400).send('Error occured.');
+                // res.send({
+                //     "code": 400,
+                //     "failed": "error ocurred"
+                // })
             } else {
                 console.log('Results: ', results);
                 //check if the user email exists
@@ -154,23 +156,26 @@ app.post('/login', function (req, res) {
                     //verify the password entered
                     bcrypt.compare(password, results[0].password, function (err, check) {
                         if (check == false) {
-                            res.send({
-                                "code": 204,
-                                "success": "Email and password do not match"
-                            });
+                            // res.send({
+                            //     "code": 204,
+                            //     "success": "Email and password do not match"
+                            // });
+                            return res.status(400).send('Email and password do not match.');
                         } else {
                             req.user = results[0];
                             delete req.user.password; // delete the password from the session
                             req.session.user = req.user;  //refresh the session value
-                            res.redirect('/resapp');
+                            
+                            res.send({redirect: '/resapp'}); //send redirect to AJAX
                         }
                     });
                 } //error handling
                 else {
-                    res.send({
-                        "code": 204,
-                        "success": "Email does not exist"
-                    });
+                    // res.send({
+                    //     "code": 204,
+                    //     "success": "Email does not exist"
+                    // });
+                    return res.status(400).send('Email does not exist.');
                 }
             }
         });

@@ -30,10 +30,17 @@
 	<!--===============================================================================================-->
 </head>
 
+<script>
+// $(document).ready(function(){
+	
+	
+// })
+</script>
+
 <body>
 	    <nav class="navbar navbar-light bg-light fixed-top">
 				<div class="container-fluid"> 
-				<a class="raleway btn btn-primary" onclick = "window.location.href='/'">Back</a>
+				<a class="raleway btn btn-primary" onclick = "window.location.href='/'" style = "color:white">Back</a>
 				</div>
 		  </nav>
 		  
@@ -46,8 +53,8 @@
 				<span class="login100-form-title p-b-51">
 					Login
 				</span>
-
-				<form action="/login" class="validate-form" method="post">
+				<!-- action="/login" -->
+				<form id="login-form" action = "/login" class="validate-form" method="post">
 					<div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
 						<input class="input100" type="text" name="email" placeholder="User email">
 						<span class="focus-input100"></span>
@@ -65,7 +72,7 @@
 						</div>
 					</div>
 					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn" type="submit">
+						<button id="login-btn" class="login100-form-btn" type="submit">
 							Login
 						</button>
 					</div>
