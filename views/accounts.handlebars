@@ -1,7 +1,9 @@
 {{#section 'head'}}
 <!-- stuff/css stylesheets that goes in head: -->
 <link href="css/accounts.css" rel="stylesheet">
-{{/section}} {{#section 'script'}}
+{{/section}}
+
+{{#section 'script'}}
 <!-- javascript files that go in the bottom html: -->
 <script src="js/accounts.js"></script> {{/section}} {{!-- Actual Content --}}
 <div class="content-wrapper">
@@ -32,7 +34,7 @@
             </div>
             <br/>
             <p>Select type of account:</p>
-            <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required">
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required" class="text-center">
               <form action="/action_page.php">
                 <select name="role" id='roles'>
                   <option value="Select">Role</option>
@@ -49,15 +51,15 @@
               <form action="/action_page.php">
                 <select name="dorm" id='dorms' class="hidden">
                   <option value="Select">Dorm</option>
-                  <option value="Fischer">Fischer</option>
-                  <option value="Smith-Traber">Smith-Traber</option>
+                  <option value="Fischer" id = "Fischer">Fischer</option>
+                  <option value="Smith-Traber" id = "Smaber">Smith-Traber</option>
                 </select>
                 <br>
                 <br>
             </div>
             <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
               <form action="/action_page.php">
-                <select name="floor" id='fiscFL' class="hidden">
+                <select name="floor" id='fiscFL' class = "hidden">
                   <option value="Select">Floor</option>
                   <option value="1 West">1 West</option>
                   <option value="2 West">2 West</option>
@@ -81,17 +83,17 @@
               <form action="/action_page.php">
                 <select name="floor" id='stFL' class="hidden">
                   <option value="Select">Floor</option>
+                  <option value="1 South">1 South</option>
+                  <option value="2 South">2 South</option>
+                  <option value="3 South">3 South</option>
+                  <option value="2 East">2 East</option>
+                  <option value="3 East">3 East</option>
                   <option value="Traber 2">Traber 2</option>
                   <option value="Traber 3">Traber 3</option>
                   <option value="Traber 4">Traber 4</option>
                   <option value="Traber 5">Traber 5</option>
                   <option value="Traber 6">Traber 6</option>
                   <option value="Traber 7">Traber 7</option>
-                  <option value="5 South">5 South</option>
-                  <option value="2 East">2 East</option>
-                  <option value="3 East">3 East</option>
-                  <option value="4 East">4 East</option>
-                  <option value="5 East">5 East</option>
                 </select>
                 <br>
                 <br>
