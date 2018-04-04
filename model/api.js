@@ -63,9 +63,10 @@ exports.getAllFromRoom = (req,res,building,floor,room) => {
 
 //search for students
 exports.searchAllStudents = (req,res,query) => {
-    var searchString = '\'%' + query + '%\'';
+    var searchString = '%' + query + '%';
+    console.log(searchString);
     con.query('SELECT * FROM t_students WHERE building LIKE ? AND floor_and_room LIKE ? AND name_first LIKE ?'+
-        'AND name_last LIKE ? AND student_id LIKE ? AND name_preferred LIKE ?', searchString, (error, results, fields) => {
+        'AND name_last LIKE ? AND studentID LIKE ? AND name_preferred LIKE ?', [searchString,searchString,searchString,searchString,searchString,searchString], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
