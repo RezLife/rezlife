@@ -46,41 +46,46 @@
             }
         });
     });
-    $("#print_chart").submit(function (event) {
-
-        //stop submit the form, we will post it manually.
-        event.preventDefault();
-
-        // Get form
-        var form = $('#print_chart')[0];
-
-        // Create a FormData object
-        var data = new FormData(form);
-
-        // disable the submit button until server confirmation
-        $("#print_chart").prop("disabled", true);
-
-        window.open('floorlist');
-
-        $.ajax({
-            type: "GET",
-            //enctype: 'multipart/form-data',
-            url: "/resapp/printlist",
-            data: data,
-            // processData: false,
-            // contentType: false,
-            cache: false,
-            timeout: 600000,
-            success: function (data, status, xhr) {
-                window.open('floorlist');
-                $("#print_chart").prop("disabled", false);
-            },
-            error: function (xhr) {
-                alert("ERROR : " + xhr.responseText);
-                $("#print_chart").prop("disabled", false);
-            }
-        });
-    });
+    // $("#print_chart").submit(function (event) {
+    //
+    //     //stop submit the form, we will post it manually.
+    //     event.preventDefault();
+    //
+    //     // Get form
+    //     var form = $('#print_chart')[0];
+    //
+    //     // Create a FormData object
+    //     var data = new FormData(form);
+    //
+    //     // disable the submit button until server confirmation
+    //     $("#print_chart").prop("disabled", true);
+    //
+    //     var url = "floorlist";
+    //     $.each(form, function (key, val) {
+    //         alert(key + val);
+    //     });
+    //
+    //     window.open('floorlist');
+    //
+    //     // $.ajax({
+    //     //     type: "GET",
+    //     //     //enctype: 'multipart/form-data',
+    //     //     url: "/resapp/printlist",
+    //     //     data: data,
+    //     //     // processData: false,
+    //     //     // contentType: false,
+    //     //     cache: false,
+    //     //     timeout: 600000,
+    //     //     success: function (data, status, xhr) {
+    //     //         window.open('floorlist');
+    //     //         $("#print_chart").prop("disabled", false);
+    //     //     },
+    //     //     error: function (xhr) {
+    //     //         alert("ERROR : " + xhr.responseText);
+    //     //         $("#print_chart").prop("disabled", false);
+    //     //     }
+    //     // });
+    // });
     // $("#print_chart").click(function () {
     //     $.get('floorlist', function (data, status) {
     //         var list = window.open('floorlist');
@@ -140,7 +145,7 @@
             <i class="fa fa-print"></i> Print Chart
           </div>
           <div class="card-body">
-              <form id="print_chart">
+              <form id="print_chart" action="floorlist" target="_blank">
                   Dorm:
                   <select name="dorm">
                       <option value="TRABE 2">Traber 2</option>
