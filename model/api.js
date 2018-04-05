@@ -37,7 +37,7 @@ exports.getRowFromTableEqual = (req,res,table,column,row) => {
 
 //get data from building
 exports.getAllFromBuilding = (req,res,building) => {
-    con.query('SELECT * FROM t_students WHERE building=?', buildingNameToQuery(building), (error, results, fields) => {
+    con.query('SELECT * FROM t_students WHERE building=?', building, (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
@@ -46,7 +46,7 @@ exports.getAllFromBuilding = (req,res,building) => {
 exports.getAllFromFloor = (req,res,building,floor) => {
     var regex = floorNameToQuery(floor) + '%';
     con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ?',
-            [buildingNameToQuery(building), regex], (error, results, fields) => {
+            [building, regex], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
@@ -56,7 +56,7 @@ exports.getAllFromFloor = (req,res,building,floor) => {
 exports.getAllFromRoom = (req,res,building,floor,room) => {
     var regex = room + '%';
     con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ?',
-            [buildingNameToQuery(building), regex], (error, results, fields) => {
+            [building, regex], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
@@ -77,16 +77,16 @@ exports.searchAllStudents = (req,res,query) => {
 // this function turns the building query into the correct format
 function buildingNameToQuery(str) {
     switch (str.toLowerCase()) {
-        case "traber":
-            return "TRABE";
-        case "smith":
-            return "SMITH";
-        case "fischer":
-            return "FISCH";
-        case "macManis":
-            return "MACMAN";
-        case "evans":
-            return "EVANS";
+        // case "traber":
+        //     return "TRABE";
+        // case "smith":
+        //     return "SMITH";
+        // case "fischer":
+        //     return "FISCH";
+        // case "macManis":
+        //     return "MACMAN";
+        // case "evans":
+        //     return "EVANS";
         default:
             return str;
     }
@@ -94,8 +94,9 @@ function buildingNameToQuery(str) {
 
 // this function turns the floor query into the correct format
 function floorNameToQuery(str) {
-    if (isNaN(str)) {
-        return str.substring(str.length - 1, str.length) + str.substring(0,str.length - 1);
-    }
-    else return str;
+    // if (isNaN(str)) {
+    //     return str.substring(str.length - 1, str.length) + str.substring(0,str.length - 1);
+    // }
+    // else 
+    return str;
 }

@@ -20,7 +20,10 @@
             padding: 15px;
         }
         h2 {
-            text-align:center;
+            text-align: center;
+        }
+        @page {
+            size: portrait;
         }
     </style>
 </head>
@@ -32,11 +35,11 @@
             <th>Last Name</th>
             <th>Room Number</th>
         </tr>
-        <tr>
+        <!-- <tr>
             <td id="first"></td>
             <td id="last"></td>
             <td id="room"></td>
-        </tr>
+        </tr> -->
     </table>
 <script>
     $(document).ready(function() {
@@ -65,6 +68,7 @@
                     // $("#last").append(val.name_last + "<br />");
                     // $("#room").append(val.floor_and_room + "<br />");
                 });
+                window.print();
             });
         }
     });

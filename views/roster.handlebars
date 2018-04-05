@@ -21,10 +21,10 @@
         // Get form
         var form = $('#upload')[0];
 
-		// Create an FormData object
+		    // Create an FormData object
         var data = new FormData(form);
 
-		// disabled the submit button
+		    // disabled the submit button
         $("#chart_upload").prop("disabled", true);
 
         $.ajax({
@@ -134,9 +134,9 @@
               <!--The number field has a min, max, and a pattern that only allows integers.-->
               <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*">
               <br> Floor chart:
-              <input type="file" name="chartupload">
+              <input type="file" class="btn" name="chartupload">
               <br>
-              <input type="submit" value="Upload" id="chart_upload">
+              <input type="submit" class="btn" value="Upload" id="chart_upload">
             </form>
           </div>
         </div>
@@ -183,7 +183,7 @@
                   <br>
                   <input type="radio" name="form" value="list" checked> List<br>
                   <input type="radio" name="form" value="chart"> Chart<br>
-                  <input type="submit" value="Print">
+                  <input type="submit" value="Print" class="btn">
               </form>
           </div>
         </div>
@@ -192,9 +192,9 @@
             <i class="fa fa-edit"></i> Edit
           </div>
           <div class="card-body">
-            <button id="edit">Edit</button>
-            <button id="add_student">Add student</button>
-            <button id="search">Search</button>
+            <button id="edit" class="btn">Edit</button>
+            <button id="add_student" data-toggle="modal" data-target="#addModal" class="btn">Add student</button>
+            <button id="search" class="btn">Search</button>
           </div>
           <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
         </div>
@@ -203,4 +203,61 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- Edit Student Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Add a student to the roster</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                First Name:
+                <input type="text"><br>
+                Last Name:
+                <input type="text"><br>
+                Preferred Name:
+                <input type="text"><br>
+                Email:
+                <input type="email"><br>
+                Student ID number:
+                <input type="number"><br>
+                Date of Birth:
+                <input type="date"><br>
+                Year:
+                <select>
+                  <option value="1">Freshman</option>
+                  <option value="2">Sophomore</option>
+                  <option value="3">Junior</option>
+                  <option value="4">Senior</option>
+                </select><br>
+                Classification:
+                <select>
+                  <option value="1">New Freshman</option>
+                  <option value="2">Continuing 2nd Year</option>
+                  <option value="3">Returning 2nd Year</option>
+                  <option value="3">Transfer 2nd Year</option>
+                  <option value="1">Continuing 3-5</option>
+                  <option value="2">Returning 3-5</option>
+                  <option value="3">Transfer 3-5</option>
+                </select><br>
+                State (two letters):
+                <input type="text"><br>
+                City:
+                <input type="text"><br>
+                Room Space Description:
+                <input type="text"><br>
+              </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </div>
 </div>
