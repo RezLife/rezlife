@@ -19,10 +19,13 @@
         th {
             padding: 15px;
         }
+        h2 {
+            text-align:center;
+        }
     </style>
 </head>
 <body>
-    <h2><center>Floor</center></h2>
+    <h2></h2>
     <table>
         <tr>
             <th>First Name</th>
@@ -37,14 +40,33 @@
     </table>
 <script>
     $(document).ready(function() {
-        $.getJSON("traber2", function (data, status, xhr) {
-            if (status >= 400) return alert("ERROR : " + xhr.responseText);
-            $.each(data.results, function (key, val) {
-                $("#first").append(val.name_first + "<br />");
-                $("#last").append(val.name_last + "<br />");
-                $("#room").append(val.floor_and_room + "<br />");
+        var params = [];
+        var objects = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < objects.length; i++)
+        {
+            elements = objects[i].split('=');
+            params.push(elements[1]);
+        }
+        var building = params[0].split("+")[0];
+        var floor = params[0].split("+")[1];
+        $("h2").append(building + " " + floor);
+        if (params[3] === 'list') {
+            $.getJSON("api/students/"+building+"/"+floor+"/", function (data, status, xhr) {
+                if (status >= 400) return alert("ERROR : " + xhr.responseText);
+                $.each(data.results, function (key, val) {
+                    $("table").append(
+                        "<tr>" +
+                            "<td>"+val.name_first+"</td>"+
+                            "<td>"+val.name_last+"</td>"+
+                            "<td>"+val.floor_and_room+"</td>"+
+                        "</tr>"
+                    );
+                    // $("#first").append(val.name_first + "<br />");
+                    // $("#last").append(val.name_last + "<br />");
+                    // $("#room").append(val.floor_and_room + "<br />");
+                });
             });
-        });
+        }
     });
 </script>
 

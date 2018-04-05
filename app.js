@@ -86,30 +86,31 @@ var con = mysql.createConnection({
 // });
 
 // Get all data relating to students
-app.get('/api/students', (req, res) => {
+app.get('/resapp/api/students', (req, res) => {
     api.getAllStudents(req, res);
 });
 
 // Get all data about students in a specific building
 // TRABE SMITH FISCH MCMAN EVANS ...
-app.get('/api/students/:building', (req, res) => {
+app.get('/resapp/api/students/:building', (req, res) => {
     api.getAllFromBuilding(req, res, req.params.building);
 });
 
 // Get all data about students on a specific floor
 // TRABE: 2 3 4 5 6 7 SMITH: S1 E2 S2 E3 S3 FISCH: E2-5 S3-5 W1-5
-app.get('/api/students/:building/:floor', (req, res) => {
+app.get('/resapp/api/students/:building/:floor', (req, res) => {
     api.getAllFromFloor(req, res, req.params.building, req.params.floor);
 });
 
 // Get all data about students in a specific room
 // examples: 211 E408 S100 613 ...
-app.get('/api/students/:building/:floor/:room', (req, res) => {
+app.get('/resapp/api/students/:building/:floor/:room', (req, res) => {
     api.getAllFromRoom(req, res, req.params.building, req.params.floor, req.params.room);
 });
 
 // Search for students who's attributes match the query string.
-app.get('/api/students/building/:query', (req, res) => {
+app.get('/resapp/api/search/:query', (req, res) => {
+    console.log(req.params.query);
     api.searchAllStudents(req, res, req.params.query);
 });
 

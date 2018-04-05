@@ -25,10 +25,7 @@ exports.addAccount = function (con, email, role, res) {
         subject: 'Resident Life Account Creation',
         text: 'This is your temporary password: ' + password + 
         '. Go to the Settings tab to update your password after logging in.' + 
-        '\n\nRez life team: this is your account so you can log in. ' +
-        'I will be adding authentication to the rest of the app within the next couple days,' +
-        'so you will need an account to access everything.' +
-        '\n\nThank you, \nMalaika'
+        '- Rezlife App Team'
     };
 
     //send the email with temporary password
