@@ -1,7 +1,9 @@
-var temp;
-exports.setUser = function (email) {
-    temp = email;
+var userEmail = "testingEmail";
+exports.setUser = function (email, callback) {
+    userEmail = email;
+    console.log(userEmail);
+    callback();
 };
-exports.getUser = function () {
-    return temp;
+function getUser() {
+    return "test:" + userEmail;
 };

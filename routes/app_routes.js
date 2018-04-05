@@ -71,10 +71,10 @@ router.get('/calendar', function (req, res) {
 router.get('/inopen', function (req, res) {
     //authentication
     if (req.session && req.session.user) {
-        //var src=/public/js/InOpen.js;
-        //var InOpen = path.join(__dirname, '..', 'public', 'js', 'InOpen.js');
-        //InOpen.setUser(req.session.user.email);
-        res.render('inopen', { email: req.session.user.email });
+        var temp = req.session.user.email;
+        setUser.setUser(temp, function() {
+            res.render('inopen'); 
+        });
     } else {
         res.redirect('/login');
     }

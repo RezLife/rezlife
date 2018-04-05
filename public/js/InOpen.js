@@ -1,9 +1,8 @@
-//var setUser = require('./getUser');
 var schedule = [];
 var table = document.getElementById('maintable').getElementsByTagName('tbody')[0];
 var totalRows = 0;
 var rows = [];
-//var user;
+var user;
 
 function getMonday(d) {
     d = new Date(d); document.get
@@ -77,7 +76,7 @@ $(document).ready(function () {
         //schedule.length = 0;
         
     });
-    //$('#testing').text(user);
+    $('#testing').text(user);
 
     //Monday of current week
     var date = getMonday(new Date());
@@ -120,7 +119,7 @@ $(document).ready(function () {
 
 //fill the table 
 function addRow() {
-    //user = getUser.getUser();
+    user = getUser();
 
     //schedule.length = 0;
    // schedule.splice(0,schedule.length)
