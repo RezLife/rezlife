@@ -1,5 +1,9 @@
 
-
+// $(document).ready(function(){
+//     $("#Fischer").select(function(){
+      
+//     });
+//     });
 
 
 function showDorms(id) {
@@ -12,6 +16,8 @@ function showDorms(id) {
 $('#roles').change(function () {
     if ($(this).val() == "Admin") {
         $('#dorms').hide();
+        $('#stFL').hide();
+        $('#fiscFL').hide();
     }
     if ($(this).val() == "RA") {
         $('#dorms').show();
@@ -21,11 +27,11 @@ $('#roles').change(function () {
 //Show floors for RA Account creation
 $('#dorms').change(function () {
     if ($(this).val() == "Fischer") {
-        $('#fiscFL').show();
         $('#stFL').hide();
+        $('#fiscFL').show();
     }
     if ($(this).val() == "Smith-Traber") {
-        $('#stFL').show();
         $('#fiscFL').hide();
+        $('#stFL').show();
     }
 });

@@ -4,6 +4,7 @@
 var express = require('express');
 var router = express.Router();
 let path = require('path');
+var setUser = require('../public/js/getUser');
 
 //middleware for the router
 
@@ -28,12 +29,7 @@ router.get('/settings', function (req, res) {
 router.get('/accounts', function (req, res) {
     //authentication
     if (req.session && req.session.user) {
-        //must be admin to add/delete accounts
-        if (req.session.user.role == "Admin") {
-            res.render('accounts');
-        } else {
-            res.redirect('/resapp/home');
-        }
+        res.render('accounts');
     } else {
         res.redirect('/login');
     }
@@ -59,12 +55,7 @@ router.get('/phonebook', function (req, res) {
 router.get('/roster', function (req, res) {
     //authentication
     if (req.session && req.session.user) {
-        //must be admin to change roster
-        if (req.session.user.role == "Admin") {
-            res.render('roster');
-        } else {
-            res.redirect('/resapp/home');
-        }
+        res.render('roster');
     } else {
         res.redirect('/login');
     }
@@ -80,7 +71,10 @@ router.get('/calendar', function (req, res) {
 router.get('/inopen', function (req, res) {
     //authentication
     if (req.session && req.session.user) {
-        res.render('inopen', { email: req.session.user.email });
+        var temp = req.session.user.email;
+        setUser.setUser(temp, function() {
+            res.render('inopen'); 
+        });
     } else {
         res.redirect('/login');
     }
