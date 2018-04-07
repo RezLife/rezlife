@@ -110,8 +110,13 @@ app.get('/resapp/api/students/:building/:floor/:room', (req, res) => {
 
 // Search for students who's attributes match the query string.
 app.get('/resapp/api/search/:query', (req, res) => {
-    console.log(req.params.query);
     api.searchAllStudents(req, res, req.params.query);
+});
+
+// Add a student to the roster
+app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/:class/:state/:city/:rsd', (req, res) => {
+    api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id, 
+        req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.rsd]);
 });
 
 /**
@@ -368,24 +373,17 @@ app.get('/resapp/floorlist', function (req, res) {
     }
 })
 
-// This sends a floor chart with the necessary information
-app.get('/resapp/traber2', function (req, res) {
-    //authentication, only admin print floor charts
+// This handles the add student case.
+app.post('/resapp/add/student', function (req, res) {
+    //authentication, only admin can upload document
     if (req.session && req.session.user && req.session.user.role == "Admin") {
-        // connect to the database as the reslifeadmin
-        var con = mysql.createConnection({
-            host: "csdb.wheaton.edu",
-            user: "reslifeadmin",
-            password: "eoekK8bRe4wa",
-            database: "reslife"
-        });
-        console.log("traber");
-        console.log(printlistParams);
-        con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ? AND record_year=? ORDER BY name_first', printlistParams, (error, results, fields) => {
-            if (error) return console.log(error); //need work
-            console.log(results);
-            return res.json({ results });
-        });
+        // send error when no file is uploaded.
+        console.log(req.body['name_first']);
+        if (!req.body['name_first']) {
+            return res.status(400).send('No name provided.');
+        }
+        var fields = [req.body['name_first'], req.body['name_last'], req.body['name_preferred'], req.body['email'], req.body['studentID'], req.body['date_of_birth'], req.body['cohort_year'], req.body['classification_description'], req.body['state_province'], req.body['city'], req.body['room_space_description']];
+        api.addStudent(req,res,fields);
     } else {
         res.redirect('/login');
     }

@@ -65,10 +65,19 @@ exports.getAllFromRoom = (req,res,building,floor,room) => {
 //search for students
 exports.searchAllStudents = (req,res,query) => {
     var searchString = '%' + query + '%';
-    console.log(searchString);
     con.query('SELECT * FROM t_students WHERE building LIKE ? OR floor_and_room LIKE ? OR name_first LIKE ?'+
             'OR name_last LIKE ? OR studentID LIKE ? OR name_preferred LIKE ?',
             [searchString,searchString,searchString,searchString,searchString,searchString], (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
+
+//add a students
+exports.addStudent = (req,res,fields) => {
+    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, room_space_description) ' +
+            'VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+            fields, (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
