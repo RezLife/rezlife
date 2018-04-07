@@ -260,7 +260,7 @@
             <i class="fa fa-edit"></i> Edit
           </div>
           <div class="card-body">
-            <button id="edit" class="btn">Edit</button>
+            <button id="edit" class="btn">Delete Student</button>
             <button id="add_student" data-toggle="modal" data-target="#addModal" class="btn">Add student</button>
             <button id="search" class="btn">Search</button>
           </div>
@@ -288,37 +288,37 @@
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">First Name:</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="name_first" placeholder="Enter first name">
+                    <input type="text" class="form-control" name="name_first" placeholder="Enter first name" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Last Name:</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="name_last" placeholder="Enter last name">
+                    <input type="text" class="form-control" name="name_last" placeholder="Enter last name" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Preferred Name:</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="name_preferred" placeholder="Enter preferred name">
+                    <input type="text" class="form-control" name="name_preferred" placeholder="Enter preferred name" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="email">Email:</label>
                   <div class="col-sm-9">
-                    <input type="email" class="form-control" name="email" placeholder="Enter email">
+                    <input type="email" class="form-control" name="email" placeholder="Enter email" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Student ID number:</label>
                   <div class="col-sm-9">
-                    <input type="number" class="form-control" name="studentID" placeholder="Enter ID">
+                    <input type="number" class="form-control" name="studentID" placeholder="Enter ID" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Date of Birth:</label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control" name="date_of_birth">
+                    <input type="date" class="form-control" name="date_of_birth" required>
                   </div>
                 </div>
                 <div class="form-row">
@@ -329,6 +329,8 @@
                       <option value="2">Sophomore</option>
                       <option value="3">Junior</option>
                       <option value="4">Senior</option>
+                      <option value="5">5th year</option>
+                      <option value="6">6th year</option>
                     </select>
                   </div>
                 </div>
@@ -336,32 +338,32 @@
                   <label class="control-label col-sm-3" for="">Classification:</label>
                   <div class="col-sm-9">
                     <select class="form-control" name='classification_description'>
-                      <option value="1">New Freshman</option>
-                      <option value="2">Continuing 2nd Year</option>
-                      <option value="3">Returning 2nd Year</option>
-                      <option value="4">Transfer 2nd Year</option>
-                      <option value="5">Continuing 3-5</option>
-                      <option value="6">Returning 3-5</option>
-                      <option value="7">Transfer 3-5</option>
+                      <option value="New Freshman">New Freshman</option>
+                      <option value="Continuing 2nd Year">Continuing 2nd Year</option>
+                      <option value="Returning 2nd Year">Returning 2nd Year</option>
+                      <option value="Transfer 2nd Year">Transfer 2nd Year</option>
+                      <option value="Continuing 3-5">Continuing 3-5</option>
+                      <option value="Returning 3-5">Returning 3-5</option>
+                      <option value="Transfer 3-5">Transfer 3-5</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">State<br>(two letters):</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="state" name="state_province" pattern="[A-Z]{2}" placeholder="Enter State of origin">
+                    <input type="text" class="form-control" id="state" name="state_province" pattern="[A-Z]{2}" placeholder="Enter State of origin" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">City:</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="city" name="city" placeholder="Enter city of origin">
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Enter city of origin" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Room Space Description:</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="room_space_description" pattern="[A-Z]{5} .*" placeholder="Enter roon space description">
+                    <input type="text" class="form-control" name="room_space_description" pattern="[A-Z]{5} .*" placeholder="Enter roon space description" required>
                   </div>
                 </div>
             </div>
