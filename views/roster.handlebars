@@ -56,33 +56,30 @@
 
         // Create a FormData object
         var data = new FormData(form);
-        console.log(data.get('name_first'));
+
         // disable the submit button until server confirmation
         $("#add-student").prop("disabled", true);
 
         var url = 'api/students/add';
 
-        url += '/' + data.get('name_first');
-        url += '/' + data.get('name_last');
-        url += '/' + data.get('name_preferred');
-        url += '/' + data.get('email');
-        url += '/' + data.get('studentID');
-        url += '/' + data.get('date_of_birth');
-        url += '/' + data.get('year');
-        url += '/' + data.get('classification_description');
-        url += '/' + data.get('state_province');
-        url += '/' + data.get('city');
-        url += '/' + data.get('room_space_description');
+        url += '/' + data.get('fn');
+        url += '/' + data.get('ln');
+        url += '/' + data.get('pn');
+        url += '/' + data.get('e');
+        url += '/' + data.get('id');
+        url += '/' + data.get('dob');
+        url += '/' + data.get('y');
+        url += '/' + data.get('cd');
+        url += '/' + data.get('s');
+        url += '/' + data.get('c');
+        url += '/' + data.get('rsd');
 
         console.log(url);
 
         $.ajax({
             type: "GET",
-            //enctype: 'multipart/form-data',
             url: url,
             data: null,
-            //processData: false,
-            //contentType: false,
             cache: false,
             timeout: 600000,
             success: function (data, status, xhr) {
@@ -94,73 +91,7 @@
                 $("#add-student").prop("disabled", false);
             }
         });
-  
-        //$.ajax({
-        //    type: "POST",
-        //    enctype: 'multipart/form-data',
-        //    url: 'add/student',
-        //    data: data,
-        //    processData: false,
-        //    contentType: false,
-        //    cache: false,
-        //    timeout: 600000,
-        //    success: function (data, status, xhr) {
-        //        alert("SUCCESS : " + xhr.responseText);
-        //        $("#add-student").prop("disabled", false);
-        //    },
-        //    error: function (xhr) {
-        //        alert("ERROR : " + xhr.responseText);
-        //        $("#add-student").prop("disabled", false);
-        //    }
-        //});
     });
-    // $("#print_chart").submit(function (event) {
-    //
-    //     //stop submit the form, we will post it manually.
-    //     event.preventDefault();
-    //
-    //     // Get form
-    //     var form = $('#print_chart')[0];
-    //
-    //     // Create a FormData object
-    //     var data = new FormData(form);
-    //
-    //     // disable the submit button until server confirmation
-    //     $("#print_chart").prop("disabled", true);
-    //
-    //     var url = "floorlist";
-    //     $.each(form, function (key, val) {
-    //         alert(key + val);
-    //     });
-    //
-    //     window.open('floorlist');
-    //
-    //     // $.ajax({
-    //     //     type: "GET",
-    //     //     //enctype: 'multipart/form-data',
-    //     //     url: "/resapp/printlist",
-    //     //     data: data,
-    //     //     // processData: false,
-    //     //     // contentType: false,
-    //     //     cache: false,
-    //     //     timeout: 600000,
-    //     //     success: function (data, status, xhr) {
-    //     //         window.open('floorlist');
-    //     //         $("#print_chart").prop("disabled", false);
-    //     //     },
-    //     //     error: function (xhr) {
-    //     //         alert("ERROR : " + xhr.responseText);
-    //     //         $("#print_chart").prop("disabled", false);
-    //     //     }
-    //     // });
-    // });
-    // $("#print_chart").click(function () {
-    //     $.get('floorlist', function (data, status) {
-    //         var list = window.open('floorlist');
-    //         list.document.(data);
-    //     })
-    //     window.open('floorlist');
-    // });
 
 </script>
 <script src="js/accounts.js"></script>
@@ -260,7 +191,7 @@
             <i class="fa fa-edit"></i> Edit
           </div>
           <div class="card-body">
-            <button id="edit" class="btn">Delete Student</button>
+            <button id="delete" data-toggle="modal" data-target="#deleteModal" class="btn">Delete Student</button>
             <button id="add_student" data-toggle="modal" data-target="#addModal" class="btn">Add student</button>
             <button id="search" class="btn">Search</button>
           </div>
@@ -288,43 +219,43 @@
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">First Name:</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="name_first" placeholder="Enter first name" required>
+                    <input type="text" class="form-control" name="fn" placeholder="Enter first name" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Last Name:</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="name_last" placeholder="Enter last name" required>
+                    <input type="text" class="form-control" name="ln" placeholder="Enter last name" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Preferred Name:</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="name_preferred" placeholder="Enter preferred name" required>
+                    <input type="text" class="form-control" name="pn" placeholder="Enter preferred name" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="email">Email:</label>
                   <div class="col-sm-9">
-                    <input type="email" class="form-control" name="email" placeholder="Enter email" required>
+                    <input type="email" class="form-control" name="e" placeholder="Enter email" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Student ID number:</label>
                   <div class="col-sm-9">
-                    <input type="number" class="form-control" name="studentID" placeholder="Enter ID" required>
+                    <input type="number" class="form-control" name="id" placeholder="Enter ID" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Date of Birth:</label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control" name="date_of_birth" required>
+                    <input type="date" class="form-control" name="dob" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Year:</label>
                   <div class="col-sm-9">
-                    <select class="form-control" name="year">
+                    <select class="form-control" name="y">
                       <option value="1">Freshman</option>
                       <option value="2">Sophomore</option>
                       <option value="3">Junior</option>
@@ -337,7 +268,7 @@
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Classification:</label>
                   <div class="col-sm-9">
-                    <select class="form-control" name='classification_description'>
+                    <select class="form-control" name='cd'>
                       <option value="New Freshman">New Freshman</option>
                       <option value="Continuing 2nd Year">Continuing 2nd Year</option>
                       <option value="Returning 2nd Year">Returning 2nd Year</option>
@@ -351,19 +282,19 @@
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">State<br>(two letters):</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="state" name="state_province" pattern="[A-Z]{2}" placeholder="Enter State of origin" required>
+                    <input type="text" class="form-control" id="state" name="s" pattern="[A-Z]{2}" placeholder="Enter State of origin" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">City:</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="city" name="city" placeholder="Enter city of origin" required>
+                    <input type="text" class="form-control" id="city" name="c" placeholder="Enter city of origin" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="control-label col-sm-3" for="">Room Space Description:</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="room_space_description" pattern="[A-Z]{5} .*" placeholder="Enter roon space description" required>
+                    <input type="text" class="form-control" name="rsd" pattern="[A-Z]{5} .*" placeholder="Enter roon space description" required>
                   </div>
                 </div>
             </div>
@@ -371,6 +302,34 @@
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                 <input type="submit" class="btn btn-primary" value="Add" id="add-submit">
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Student Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Add a student to the roster</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal" id="add-student">
+                <div class="form-row">
+                  <label class="control-label col-sm-3" for="">First Name:</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="fn" placeholder="Enter first name" required>
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-primary" value="Add" id="add-submit">
+              </form>
             </div>
         </div>
     </div>

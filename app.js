@@ -119,6 +119,12 @@ app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/
         req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.rsd]);
 });
 
+// Delete a student from the roster by ID
+app.delete('/resapp/api/student/:id', (req, res) => {
+    console.log("thing");
+    api.deleteStudent(req, res, req.params.id);
+});
+
 /**
  * HTML get requests, render handlebar files
  */

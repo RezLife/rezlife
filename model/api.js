@@ -75,9 +75,22 @@ exports.searchAllStudents = (req,res,query) => {
 
 //add a students
 exports.addStudent = (req,res,fields) => {
-    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, room_space_description) ' +
-            'VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+    var today = new Date();
+    fields.push(today.getFullYear());
+    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, room_space_description, record_year) ' +
+            'VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
             fields, (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
+
+//add a students
+exports.deleteStudent = (req,res,id) => {
+    var today = new Date();
+    console.log([id, today.getFullYear()]);
+    con.query('DELETE FROM t_students WHERE studentID=? AND record_year=?',
+            [id,today.getFullYear()], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
