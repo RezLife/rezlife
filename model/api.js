@@ -85,7 +85,7 @@ exports.addStudent = (req,res,fields) => {
     });
 };
 
-//add a students
+//delete a students
 exports.deleteStudent = (req,res,id) => {
     var today = new Date();
     console.log([id, today.getFullYear()]);
