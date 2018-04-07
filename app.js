@@ -97,7 +97,7 @@ app.get('/resapp/api/students/:building', (req, res) => {
 });
 
 // Get all data about students on a specific floor
-// TRABE: 2 3 4 5 6 7 SMITH: S1 E2 S2 E3 S3 FISCH: E2-5 S3-5 W1-5
+// Traber: 2 3 4 5 6 7 Smith: S1 E2 S2 E3 S3 Fischer: E2-5 S3-5 W1-5
 app.get('/resapp/api/students/:building/:floor', (req, res) => {
     api.getAllFromFloor(req, res, req.params.building, req.params.floor);
 });
@@ -117,6 +117,12 @@ app.get('/resapp/api/search/:query', (req, res) => {
 app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/:class/:state/:city/:rsd', (req, res) => {
     api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id, 
         req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.rsd]);
+});
+
+// Delete a student from the roster by ID
+app.delete('/resapp/api/student/:id', (req, res) => {
+    console.log("thing");
+    api.deleteStudent(req, res, req.params.id);
 });
 
 /**
@@ -364,6 +370,9 @@ app.get('/resapp/printlist', function (req, res) {
     }
 });
 
+var today = new Date();
+console.log(today.getFullYear());
+
 app.get('/resapp/floorlist', function (req, res) {
     //authentication, only admin print floor charts
     if (req.session && req.session.user && req.session.user.role == "Admin") {
@@ -372,22 +381,6 @@ app.get('/resapp/floorlist', function (req, res) {
         res.redirect('/login');
     }
 })
-
-// This handles the add student case.
-app.post('/resapp/add/student', function (req, res) {
-    //authentication, only admin can upload document
-    if (req.session && req.session.user && req.session.user.role == "Admin") {
-        // send error when no file is uploaded.
-        console.log(req.body['name_first']);
-        if (!req.body['name_first']) {
-            return res.status(400).send('No name provided.');
-        }
-        var fields = [req.body['name_first'], req.body['name_last'], req.body['name_preferred'], req.body['email'], req.body['studentID'], req.body['date_of_birth'], req.body['cohort_year'], req.body['classification_description'], req.body['state_province'], req.body['city'], req.body['room_space_description']];
-        api.addStudent(req,res,fields);
-    } else {
-        res.redirect('/login');
-    }
-});
 
 // // 404 catch-all handler (middleware)
 // app.use(function(req, res, next){
