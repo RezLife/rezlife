@@ -63,7 +63,9 @@
 
         url += '/' + data.get('fn');
         url += '/' + data.get('ln');
-        url += '/' + data.get('pn');
+        if (data.get('pn'))
+          url += '/' + data.get('pn');
+        else url += '/NULL';
         url += '/' + data.get('e');
         url += '/' + data.get('id');
         url += '/' + data.get('dob');
@@ -92,36 +94,83 @@
         });
     });
 
-
     //function to delete student - written by Caleb so possibly error prone (Asher please check this haha)
     $("#delete-student").submit(function (event) {
-    if (confirm("Are you sure you wish to delete this student?")) {
+        if (confirm("Are you sure you wish to delete this student?")) {
+            //stop submit the form, we will post it manually.
+            event.preventDefault();
+
+            // Get form
+            var form = $('#delete-student')[0];
+
+            // Create a FormData object
+            var data = new FormData(form);
+
+            // disable the submit button until server confirmation
+            $("#delete-student").prop("disabled", true);
+
+            var url = 'api/student'
+
+            url += '/' + data.get('id');
+
+            $.ajax({
+                type: "DELETE",
+                url: url,
+                data: null,
+                cache: false,
+                timeout: 600000,
+                success: function (data, status, xhr) {
+                    alert("SUCCESS : " + xhr.responseText);
+                    $("#delete-student").prop("disabled", false);
+                },
+                error: function (xhr) {
+                    alert("ERROR : " + xhr.responseText);
+                    $("#delete-student").prop("disabled", false);
+                }
+            });
+        }
+    });
+
+    // display the results of the search
+    $("#search-student").submit(function (event) {
         //stop submit the form, we will post it manually.
         event.preventDefault();
 
         // Get form
-        var form = $('#delete-student')[0];
+        var form = $('#search-student')[0];
 
         // Create a FormData object
         var data = new FormData(form);
 
         // disable the submit button until server confirmation
-        $("#delete-student").prop("disabled", true);
+        $("#search-student").prop("disabled", true);
 
-        var url = 'api/student'
-
-        url += '/' + data.get('id');
-
-        console.log(url);
+        var url = 'api/stu-search'
+        url += '/' + data.get('search');
+        $("#search-table-body").empty();
 
         $.ajax({
-            type: "DELETE",
+            type: "GET",
             url: url,
             data: null,
+            dataType: 'json',
             cache: false,
             timeout: 600000,
             success: function (data, status, xhr) {
-                alert("SUCCESS : " + xhr.responseText);
+                $.each(data.results, function (key, val) {
+                    $("#search-table-body").append(
+                        "<tr>" +
+                            "<td>"+val.name_first+"</td>"+
+                            "<td>"+val.name_last+"</td>"+
+                            "<td>"+val.name_preferred+"</td>"+
+                            "<td>"+val.studentID+"</td>"+
+                            "<td>"+val.cohort_year+"</td>"+
+                            "<td>"+val.date_of_birth.substring(0,10)+"</td>"+
+                            "<td>"+val.city+", "+val.state_province+"</td>"+
+                            "<td>"+val.room_space_description+"</td>"+
+                        "</tr>"
+                    );
+                });
                 $("#delete-student").prop("disabled", false);
             },
             error: function (xhr) {
@@ -129,7 +178,6 @@
                 $("#delete-student").prop("disabled", false);
             }
         });
-    }
     });
 
 </script>
@@ -227,12 +275,12 @@
                 </div>
                 <div class="card mb-3">
                     <div class="card-header">
-                        <i class="fa fa-edit"></i> Edit
+                        <i class="fa fa-edit"></i> Edit Roster
                     </div>
                     <div class="card-body">
-                        <button id="delete" data-toggle="modal" data-target="#deleteModal" class="btn">Delete Student</button>
-                        <button id="add_student" data-toggle="modal" data-target="#addModal" class="btn">Add student</button>
-                        <button id="search" class="btn">Search</button>
+                        <button id="delete" data-toggle="modal" data-target="#deleteModal" class="btn">Delete</button>
+                        <button id="add_student" data-toggle="modal" data-target="#addModal" class="btn">Add</button>
+                        <button id="search" data-toggle="modal" data-target="#searchModal" class="btn">Search</button>
                     </div>
                     <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
                 </div>
@@ -245,7 +293,7 @@
 
 <!-- Edit Student Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addModalLabel">Add a student to the roster</h5>
@@ -270,7 +318,7 @@
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Preferred Name:</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="pn" placeholder="Enter preferred name" required>
+                            <input type="text" class="form-control" name="pn" placeholder="Enter preferred name">
                         </div>
                     </div>
                     <div class="form-row">
@@ -348,7 +396,7 @@
 
 <!-- Delete Student Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">Delete a student from the roster</h5>
@@ -369,6 +417,47 @@
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                 <input type="submit" class="btn btn-primary" value="Delete" id="delete-submit">
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search Student Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="max-width: 80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Delete a student from the roster</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="search-student">
+                    <div class="form-row">
+                        {{!-- <label class="control-label col-sm-3" for="">Student ID number:</label> --}}
+                        <div class="btn-group" style="width: 75%;margin: auto">
+                            <input type="search" class="form-control" name="search" placeholder="Search student roster..." required>
+                            <button type="submit" class="btn btn-primary" id="delete-submit"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+                <table id="search-table" style="width:100%">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Preferred Name</th>
+                        <th>Student ID</th>
+                        <th>Year</th>
+                        <th>Birth Date</th>
+                        <th>City</th>
+                        <th>Room</th>
+                    </tr>
+                    <tbody id="search-table-body"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

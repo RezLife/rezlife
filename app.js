@@ -109,7 +109,7 @@ app.get('/resapp/api/students/:building/:floor/:room', (req, res) => {
 });
 
 // Search for students who's attributes match the query string.
-app.get('/resapp/api/search/:query', (req, res) => {
+app.get('/resapp/api/stu-search/:query', (req, res) => {
     api.searchAllStudents(req, res, req.params.query);
 });
 
@@ -356,8 +356,6 @@ app.post('/resapp/upload', function (req, res) {
     }
 });
 
-var printlistParams = [];
-
 // This sends a floor chart with the necessary information
 app.get('/resapp/printlist', function (req, res) {
     //authentication, only admin print floor charts
@@ -369,9 +367,6 @@ app.get('/resapp/printlist', function (req, res) {
         res.redirect('/login');
     }
 });
-
-var today = new Date();
-console.log(today.getFullYear());
 
 app.get('/resapp/floorlist', function (req, res) {
     //authentication, only admin print floor charts

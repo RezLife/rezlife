@@ -47,10 +47,10 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
                         record += year; // this column won't be in any csv files
                         // first delete any instances of this same student in case there are duplicates
                         // this will replace duplicate records.
-                        con.query("DELETE FROM t_students WHERE record_year = " + year + " AND studentID = " + id, function (err, result, fields) {
+                        con.query("DELETE FROM t_students WHERE record_year = ? AND studentID = ?", [id,year], function (err, result, fields) {
                             if (err) return callback(err.message);
                             // insert the info.
-                            con.query("INSERT INTO t_students (" + columns + ") VALUES (" + record + ")", function (err, result, fields) {
+                            con.query("INSERT INTO t_students (?) VALUES (?)", [columns,record], function (err, result, fields) {
                                 if (err) return callback(err.message);
                                 // this continues the function call so things run in order.
                                 // Make sure to only callback when the for loop has ended.

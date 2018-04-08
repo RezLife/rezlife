@@ -75,6 +75,8 @@ exports.searchAllStudents = (req,res,query) => {
 
 //add a students
 exports.addStudent = (req,res,fields) => {
+    if (fields[2] === 'NULL')
+        fields[2] = '';
     var today = new Date();
     fields.push(today.getFullYear());
     con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, room_space_description, record_year) ' +
