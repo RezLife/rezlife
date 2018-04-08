@@ -64,9 +64,12 @@ exports.getAllFromRoom = (req,res,building,floor,room) => {
 
 //search for students
 exports.searchAllStudents = (req,res,query) => {
-    var searchString = '%' + query + '%';
-    con.query('SELECT * FROM t_students WHERE building LIKE ? OR floor_and_room LIKE ? OR name_first LIKE ?'+
-            'OR name_last LIKE ? OR studentID LIKE ? OR name_preferred LIKE ?',
+    // this allows for each word to be searched for separately
+    // all spaces are replaced with ORs in the regex
+    var oredWords = query.replace(/ /g, '|');
+    var searchString = '.*(' + oredWords + ').*';
+    con.query('SELECT * FROM t_students WHERE building RLIKE ? OR floor_and_room RLIKE ? OR name_first RLIKE ?'+
+            'OR name_last RLIKE ? OR studentID RLIKE ? OR name_preferred RLIKE ?',
             [searchString,searchString,searchString,searchString,searchString,searchString], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
