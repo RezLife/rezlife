@@ -5,7 +5,6 @@
 
 {{#section 'script'}}
 <!-- javascript files that go in the bottom html: -->
-
 <!-- Script for successful upload message for upload roster-->
 <script>
     $("#edit").click(function(){
@@ -21,10 +20,10 @@
         // Get form
         var form = $('#upload')[0];
 
-		// Create an FormData object
+		    // Create an FormData object
         var data = new FormData(form);
 
-		// disabled the submit button
+		    // disabled the submit button
         $("#chart_upload").prop("disabled", true);
 
         $.ajax({
@@ -46,161 +45,420 @@
             }
         });
     });
-    // $("#print_chart").submit(function (event) {
-    //
-    //     //stop submit the form, we will post it manually.
-    //     event.preventDefault();
-    //
-    //     // Get form
-    //     var form = $('#print_chart')[0];
-    //
-    //     // Create a FormData object
-    //     var data = new FormData(form);
-    //
-    //     // disable the submit button until server confirmation
-    //     $("#print_chart").prop("disabled", true);
-    //
-    //     var url = "floorlist";
-    //     $.each(form, function (key, val) {
-    //         alert(key + val);
-    //     });
-    //
-    //     window.open('floorlist');
-    //
-    //     // $.ajax({
-    //     //     type: "GET",
-    //     //     //enctype: 'multipart/form-data',
-    //     //     url: "/resapp/printlist",
-    //     //     data: data,
-    //     //     // processData: false,
-    //     //     // contentType: false,
-    //     //     cache: false,
-    //     //     timeout: 600000,
-    //     //     success: function (data, status, xhr) {
-    //     //         window.open('floorlist');
-    //     //         $("#print_chart").prop("disabled", false);
-    //     //     },
-    //     //     error: function (xhr) {
-    //     //         alert("ERROR : " + xhr.responseText);
-    //     //         $("#print_chart").prop("disabled", false);
-    //     //     }
-    //     // });
-    // });
-    // $("#print_chart").click(function () {
-    //     $.get('floorlist', function (data, status) {
-    //         var list = window.open('floorlist');
-    //         list.document.(data);
-    //     })
-    //     window.open('floorlist');
-    // });
+    $("#add-student").submit(function (event) {
+
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
+
+        // Get form
+        var form = $('#add-student')[0];
+
+        // Create a FormData object
+        var data = new FormData(form);
+
+        // disable the submit button until server confirmation
+        $("#add-student").prop("disabled", true);
+
+        var url = 'api/students/add';
+
+        url += '/' + data.get('fn');
+        url += '/' + data.get('ln');
+        if (data.get('pn'))
+          url += '/' + data.get('pn');
+        else url += '/NULL';
+        url += '/' + data.get('e');
+        url += '/' + data.get('id');
+        url += '/' + data.get('dob');
+        url += '/' + data.get('y');
+        url += '/' + data.get('cd');
+        url += '/' + data.get('s');
+        url += '/' + data.get('c');
+        url += '/' + data.get('rsd');
+
+        console.log(url);
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: null,
+            cache: false,
+            timeout: 600000,
+            success: function (data, status, xhr) {
+                alert("SUCCESS : " + xhr.responseText);
+                $("#add-student").prop("disabled", false);
+            },
+            error: function (xhr) {
+                alert("ERROR : " + xhr.responseText);
+                $("#add-student").prop("disabled", false);
+            }
+        });
+    });
+
+    //function to delete student - written by Caleb so possibly error prone (Asher please check this haha)
+    $("#delete-student").submit(function (event) {
+        if (confirm("Are you sure you wish to delete this student?")) {
+            //stop submit the form, we will post it manually.
+            event.preventDefault();
+
+            // Get form
+            var form = $('#delete-student')[0];
+
+            // Create a FormData object
+            var data = new FormData(form);
+
+            // disable the submit button until server confirmation
+            $("#delete-student").prop("disabled", true);
+
+            var url = 'api/student'
+
+            url += '/' + data.get('id');
+
+            $.ajax({
+                type: "DELETE",
+                url: url,
+                data: null,
+                cache: false,
+                timeout: 600000,
+                success: function (data, status, xhr) {
+                    alert("SUCCESS : " + xhr.responseText);
+                    $("#delete-student").prop("disabled", false);
+                },
+                error: function (xhr) {
+                    alert("ERROR : " + xhr.responseText);
+                    $("#delete-student").prop("disabled", false);
+                }
+            });
+        }
+    });
+
+    // display the results of the search
+    $("#search-student").submit(function (event) {
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
+
+        // Get form
+        var form = $('#search-student')[0];
+
+        // Create a FormData object
+        var data = new FormData(form);
+
+        // disable the submit button until server confirmation
+        $("#search-student").prop("disabled", true);
+
+        var url = 'api/stu-search'
+        url += '/' + data.get('search');
+        $("#search-table-body").empty();
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: null,
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data, status, xhr) {
+                $.each(data.results, function (key, val) {
+                    $("#search-table-body").append(
+                        "<tr>" +
+                            "<td>"+val.name_first+"</td>"+
+                            "<td>"+val.name_last+"</td>"+
+                            "<td>"+val.name_preferred+"</td>"+
+                            "<td>"+val.studentID+"</td>"+
+                            "<td>"+val.cohort_year+"</td>"+
+                            "<td>"+val.date_of_birth.substring(0,10)+"</td>"+
+                            "<td>"+val.city+", "+val.state_province+"</td>"+
+                            "<td>"+val.room_space_description+"</td>"+
+                        "</tr>"
+                    );
+                });
+                $("#delete-student").prop("disabled", false);
+            },
+            error: function (xhr) {
+                alert("ERROR : " + xhr.responseText);
+                $("#delete-student").prop("disabled", false);
+            }
+        });
+    });
 
 </script>
 <script src="js/accounts.js"></script>
-{{/section}} 
+{{/section}}
 
 {{!-- Actual Content --}}
 <div class="content-wrapper">
-  <div class="container-fluid">
-    <!-- Breadcrumbs-->
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a href="home">Home</a>
-      </li>
-      <li class="breadcrumb-item active">Roster</li>
-    </ol>
-    <div class="row">
-      <div class="col-12">
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fa fa-upload"></i> Upload new student chart
-          </div>
-          <div class="card-body">
-            <!--the upload form-->
-            <form id="upload" action="upload" method="post" enctype="multipart/form-data">
-              Dorm:
-              <select name="dorm">
-                <option value="smithtraber">Smith-Traber</option>
-                <option value="fischer">Fischer</option>
-                <option value="macevans">MacEvans</option>
-                <option value="williston">Williston</option>
-                <option value="apartments">Apartments</option>
-                <option value="houses">Houses</option>
-              </select>
-              <br> Semester:
-              <select name="semester">
-                <option value="fall">Fall</option>
-                <option value="spring">Spring</option>
-              </select>
-              <!--The number field has a min, max, and a pattern that only allows integers.-->
-              <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*">
-              <br> Floor chart:
-              <input type="file" name="chartupload">
-              <br>
-              <input type="submit" value="Upload" id="chart_upload">
-            </form>
-          </div>
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="home">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Roster</li>
+        </ol>
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fa fa-upload"></i> Upload new student chart
+                    </div>
+                    <div class="card-body">
+                        <!--the upload form-->
+                        <form id="upload" action="upload" method="post" enctype="multipart/form-data">
+                            Dorm:
+                            <select name="dorm">
+                                <option value="smithtraber">Smith-Traber</option>
+                                <option value="fischer">Fischer</option>
+                                <option value="macevans">MacEvans</option>
+                                <option value="williston">Williston</option>
+                                <option value="apartments">Apartments</option>
+                                <option value="houses">Houses</option>
+                            </select>
+                            <br> Semester:
+                            <select name="semester">
+                                <option value="fall">Fall</option>
+                                <option value="spring">Spring</option>
+                            </select>
+                            <!--The number field has a min, max, and a pattern that only allows integers.-->
+                            <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*">
+                            <br> Floor chart:
+                            <input type="file" class="btn" name="chartupload">
+                            <br>
+                            <input type="submit" class="btn" value="Upload" id="chart_upload">
+                        </form>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fa fa-print"></i> Print Chart
+                    </div>
+                    <div class="card-body">
+                        <form id="print_chart" action="floorlist" target="_blank">
+                            Dorm:
+                            <select name="dorm">
+                                <option value="Traber 2">Traber 2</option>
+                                <option value="Traber 3">Traber 3</option>
+                                <option value="Traber 4">Traber 4</option>
+                                <option value="Traber 5">Traber 5</option>
+                                <option value="Traber 6">Traber 6</option>
+                                <option value="Traber 7">Traber 7</option>
+                                <option value="Smith 1S">Smith 1S</option>
+                                <option value="Smith 2S">Smith 2S</option>
+                                <option value="Smith 2E">Smith 2E</option>
+                                <option value="Smith 3S">Smith 3S</option>
+                                <option value="Smith 3E">Smith 3E</option>
+                                <option value="Fischer 2E">Fischer 2E</option>
+                                <option value="Fischer 3E">Fischer 3E</option>
+                                <option value="Fischer 4E">Fischer 4E</option>
+                                <option value="Fischer 5E">Fischer 5E</option>
+                                <option value="Fischer 3S">Fischer 3S</option>
+                                <option value="Fischer 4S">Fischer 4S</option>
+                                <option value="Fischer 5S">Fischer 5S</option>
+                                <option value="Fischer 1W">Fischer 1W</option>
+                                <option value="Fischer 2W">Fischer 2W</option>
+                                <option value="Fischer 3W">Fischer 3W</option>
+                                <option value="Fischer 4W">Fischer 4W</option>
+                                <option value="Fischer 5W">Fischer 5W</option>
+                            </select>
+                            <br> Semester:
+                            <select name="semester">
+                                <option value="fall">Fall</option>
+                                <option value="spring">Spring</option>
+                            </select>
+                            <br> Year:
+                            <!--The number field has a min, max, and a pattern that only allows integers.-->
+                            <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*">
+                            <br>
+                            <input type="radio" name="form" value="list" checked> List<br>
+                            <input type="radio" name="form" value="chart"> Chart<br>
+                            <input type="submit" value="Print" class="btn">
+                        </form>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fa fa-edit"></i> Edit Roster
+                    </div>
+                    <div class="card-body">
+                        <button id="delete" data-toggle="modal" data-target="#deleteModal" class="btn">Delete</button>
+                        <button id="add_student" data-toggle="modal" data-target="#addModal" class="btn">Add</button>
+                        <button id="search" data-toggle="modal" data-target="#searchModal" class="btn">Search</button>
+                    </div>
+                    <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
+                </div>
+                <!--<h1>Blank</h1>-->
+                <!--<p>This is an example of a Roster that you can use as a starting point for creating new ones.</p>-->
+            </div>
         </div>
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fa fa-print"></i> Print Chart
-          </div>
-          <div class="card-body">
-              <form id="print_chart" action="floorlist" target="_blank">
-                  Dorm:
-                  <select name="dorm">
-                      <option value="Traber 2">Traber 2</option>
-                      <option value="Traber 3">Traber 3</option>
-                      <option value="Traber 4">Traber 4</option>
-                      <option value="Traber 5">Traber 5</option>
-                      <option value="Traber 6">Traber 6</option>
-                      <option value="Traber 7">Traber 7</option>
-                      <option value="Smith 1S">Smith 1S</option>
-                      <option value="Smith 2S">Smith 2S</option>
-                      <option value="Smith 2E">Smith 2E</option>
-                      <option value="Smith 3S">Smith 3S</option>
-                      <option value="Smith 3E">Smith 3E</option>
-                      <option value="Fischer 2E">Fischer 2E</option>
-                      <option value="Fischer 3E">Fischer 3E</option>
-                      <option value="Fischer 4E">Fischer 4E</option>
-                      <option value="Fischer 5E">Fischer 5E</option>
-                      <option value="Fischer 3S">Fischer 3S</option>
-                      <option value="Fischer 4S">Fischer 4S</option>
-                      <option value="Fischer 5S">Fischer 5S</option>
-                      <option value="Fischer 1W">Fischer 1W</option>
-                      <option value="Fischer 2W">Fischer 2W</option>
-                      <option value="Fischer 3W">Fischer 3W</option>
-                      <option value="Fischer 4W">Fischer 4W</option>
-                      <option value="Fischer 5W">Fischer 5W</option>
-                  </select>
-                  <br> Semester:
-                  <select name="semester">
-                      <option value="fall">Fall</option>
-                      <option value="spring">Spring</option>
-                  </select>
-                  <br> Year:
-                  <!--The number field has a min, max, and a pattern that only allows integers.-->
-                  <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*">
-                  <br>
-                  <input type="radio" name="form" value="list" checked> List<br>
-                  <input type="radio" name="form" value="chart"> Chart<br>
-                  <input type="submit" value="Print">
-              </form>
-          </div>
-        </div>
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fa fa-edit"></i> Edit
-          </div>
-          <div class="card-body">
-            <button id="edit">Edit</button>
-            <button id="add_student">Add student</button>
-            <button id="search">Search</button>
-          </div>
-          <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
-        </div>
-        <!--<h1>Blank</h1>-->
-        <!--<p>This is an example of a Roster that you can use as a starting point for creating new ones.</p>-->
-      </div>
     </div>
-  </div>
+</div>
+
+<!-- Edit Student Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Add a student to the roster</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="add-student">
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">First Name:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="fn" placeholder="Enter first name" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Last Name:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="ln" placeholder="Enter last name" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Preferred Name:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="pn" placeholder="Enter preferred name">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="email">Email:</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" name="e" placeholder="Enter email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Student ID number:</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="id" placeholder="Enter ID" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Date of Birth:</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" name="dob" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Year:</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="y">
+                                <option value="1">Freshman</option>
+                                <option value="2">Sophomore</option>
+                                <option value="3">Junior</option>
+                                <option value="4">Senior</option>
+                                <option value="5">5th year</option>
+                                <option value="6">6th year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Classification:</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name='cd'>
+                                <option value="New Freshman">New Freshman</option>
+                                <option value="Continuing 2nd Year">Continuing 2nd Year</option>
+                                <option value="Returning 2nd Year">Returning 2nd Year</option>
+                                <option value="Transfer 2nd Year">Transfer 2nd Year</option>
+                                <option value="Continuing 3-5">Continuing 3-5</option>
+                                <option value="Returning 3-5">Returning 3-5</option>
+                                <option value="Transfer 3-5">Transfer 3-5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">State<br>(two letters):</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="state" name="s" pattern="[A-Z]{2}" placeholder="Enter State of origin" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">City:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="city" name="c" placeholder="Enter city of origin" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Room Space Description:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="rsd" pattern="[A-Z]{5} .*" placeholder="Enter room space description" required>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-primary" value="Add" id="add-submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Student Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete a student from the roster</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="delete-student">
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Student ID number:</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="id" placeholder="Enter ID" min="10000" max="99999" required>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-primary" value="Delete" id="delete-submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search Student Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="max-width: 80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Search for a student</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="search-student">
+                    <div class="form-row">
+                        {{!-- <label class="control-label col-sm-3" for="">Student ID number:</label> --}}
+                        <div class="btn-group" style="width: 75%;margin: auto">
+                            <input type="search" class="form-control" name="search" placeholder="Search student roster..." required>
+                            <button type="submit" class="btn btn-primary" id="search-submit"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+                <table id="search-table" style="width:100%">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Preferred Name</th>
+                        <th>Student ID</th>
+                        <th>Year</th>
+                        <th>Birth Date</th>
+                        <th>City</th>
+                        <th>Room</th>
+                    </tr>
+                    <tbody id="search-table-body"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>

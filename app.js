@@ -97,7 +97,7 @@ app.get('/resapp/api/students/:building', (req, res) => {
 });
 
 // Get all data about students on a specific floor
-// TRABE: 2 3 4 5 6 7 SMITH: S1 E2 S2 E3 S3 FISCH: E2-5 S3-5 W1-5
+// Traber: 2 3 4 5 6 7 Smith: S1 E2 S2 E3 S3 Fischer: E2-5 S3-5 W1-5
 app.get('/resapp/api/students/:building/:floor', (req, res) => {
     api.getAllFromFloor(req, res, req.params.building, req.params.floor);
 });
@@ -109,9 +109,20 @@ app.get('/resapp/api/students/:building/:floor/:room', (req, res) => {
 });
 
 // Search for students who's attributes match the query string.
-app.get('/resapp/api/search/:query', (req, res) => {
-    console.log(req.params.query);
+app.get('/resapp/api/stu-search/:query', (req, res) => {
     api.searchAllStudents(req, res, req.params.query);
+});
+
+// Add a student to the roster
+app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/:class/:state/:city/:rsd', (req, res) => {
+    api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id, 
+        req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.rsd]);
+});
+
+// Delete a student from the roster by ID
+app.delete('/resapp/api/student/:id', (req, res) => {
+    console.log("thing");
+    api.deleteStudent(req, res, req.params.id);
 });
 
 /**
@@ -349,8 +360,6 @@ app.post('/resapp/upload', function (req, res) {
     }
 });
 
-var printlistParams = [];
-
 // This sends a floor chart with the necessary information
 app.get('/resapp/printlist', function (req, res) {
     //authentication, only admin print floor charts
@@ -372,28 +381,6 @@ app.get('/resapp/floorlist', function (req, res) {
     }
 })
 
-// This sends a floor chart with the necessary information
-app.get('/resapp/traber2', function (req, res) {
-    //authentication, only admin print floor charts
-    if (req.session && req.session.user && req.session.user.role == "Admin") {
-        // connect to the database as the reslifeadmin
-        var con = mysql.createConnection({
-            host: "csdb.wheaton.edu",
-            user: "reslifeadmin",
-            password: "eoekK8bRe4wa",
-            database: "reslife"
-        });
-        console.log("traber");
-        console.log(printlistParams);
-        con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ? AND record_year=? ORDER BY name_first', printlistParams, (error, results, fields) => {
-            if (error) return console.log(error); //need work
-            console.log(results);
-            return res.json({ results });
-        });
-    } else {
-        res.redirect('/login');
-    }
-});
 
 // 404 catch-all handler (middleware)
 app.use(function(req, res, next){
