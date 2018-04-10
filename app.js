@@ -130,6 +130,10 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/login.html'));
 });
 
+app.get('/login/forgot', function(req,res){
+    res.sendFile(path.join(__dirname, 'views/forgot-password.html'))
+});
+
 app.use('/resapp', app_routes);
 
 //post method called after the login button is pressed
