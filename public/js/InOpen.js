@@ -3,6 +3,11 @@ var table = document.getElementById('maintable').getElementsByTagName('tbody')[0
 var totalRows = 0;
 var rows = [];
 var user;
+var FirstMonday;
+var SecondMonday;
+var ThirdMonday;
+//The monday of the week being viewed
+var MainDate;
 
 function getMonday(d) {
     d = new Date(d); document.get
@@ -11,11 +16,14 @@ function getMonday(d) {
     return new Date(d.setDate(diff));
 }
 
-function func(val, j, i) {
-    var id = (j * 10) + i;
+function update(val, j, r) {
+    var id = (j * 10) + r;
+
     var status = "In";
     if (val == 2) status = "Open";
-    else if (val == 3) status = id;
+    else if (val == 3) status = "Off";
+
+
     $(document).ready(function() {
         $('#'+id).text(status);
         $('#p'+id).hide();
@@ -26,6 +34,7 @@ function func(val, j, i) {
 
 
 $(document).ready(function () {
+    //Show the corresponding popup
     $('.clicker').on('click', function(){
         $('#weekLable').html("working");
     var hid = $('#p' + this.id).is(':visible');
@@ -41,41 +50,13 @@ $(document).ready(function () {
         for(var i = 0; i < 4; i++){
             table.deleteRow(1);
         }
-        if (typeof addRow.counter == 'undefined') {
-            addRow.counter = 0;
-        }
-    
-        
-        var isAccount = true;
-        for (var j = totalRows; j < totalRows + 8; j++) {
-            rows[j] = table.insertRow(1);
-            schedule[j] = new Array(8);
-            for (var i = 0; i < 8; i++) {
-                schedule[j][i] = rows[j].insertCell(i);
-            }
-    
-    
-            schedule[j][0].innerHTML = "Steve";
-            var testVal = "Open";
-    
-            for (var r = 1; r < 8; r++) {
-    
-                if (isAccount == true){
-                     schedule[j][r].innerHTML = createButton((j*10)+r, j, r);
-                     
-                }
-                else schedule[j][r].innerHTML = testVal;
-    
-            }
-            if (isAccount == true) isAccount = false;
-        }
-        totalRows = j;
         $(document).ready(function() {
             $(".popuptext").hide();
         });
         //schedule.length = 0;
         
     });
+
     $('#testing').text(user);
 
     //Monday of current week
@@ -84,6 +65,7 @@ $(document).ready(function () {
     var firstSt = (date.getMonth() + 1) + '/' + date.getDate();
     //add 6 days to that week's Sunday
     date.setDate(date.getDate() + 6);
+    FirstMonday = date;
     //Format to MM/dd
     var secondSt = (date.getMonth() + 1) + '/' + date.getDate();
     //startdate - enddate
@@ -92,7 +74,7 @@ $(document).ready(function () {
 
     //increment one day to next Monday, then repeat for next two weeks
     date.setDate(date.getDate() + 1);
-
+    SecondMonday = date;
     var thirdSt = (date.getMonth() + 1) + '/' + date.getDate();
     date.setDate(date.getDate() + 6);
     var fourthSt = (date.getMonth() + 1) + '/' + date.getDate();
@@ -101,7 +83,7 @@ $(document).ready(function () {
 
     //increment 1 day
     date.setDate(date.getDate() + 1);
-
+    ThirdMonday = date;
     var fifthSt = (date.getMonth() + 1) + '/' + date.getDate();
     date.setDate(date.getDate() + 6);
     var sixthSt = (date.getMonth() + 1) + '/' + date.getDate();
@@ -113,9 +95,12 @@ $(document).ready(function () {
     function createButton(val, j, i) {
         var id = (j * 10) + i;
 
-        var part1 = "<line id="+id+" class=clicker>"+val+'</line><div class="popup"><span class="popuptext" id="p' + id + '"><button onclick="func(1, ';
-        return part1 + j + ',' + i + ')">In</button><button onclick="func(2, ' + j + ',' + i + ')">Open</button><button onclick="func(3, ' + j + ',' + i + ')">Off</button></span>';
+        var part1 = "<line id="+id+" class=clicker>"+val+'</line><div class="popup"><span class="popuptext" id="p' + id + '"><button onclick="update(1, ';
+        return part1 + j + ',' + i + ')">In</button><button onclick="update(2, ' + j + ',' + i + ')">Open</button><button onclick="update(3, ' + j + ',' + i + ')">Off</button></span>';
     }
+function setFirstMonday(){
+    MainDate = FirstMonday;
+}
 
 //fill the table 
 function addRow() {
@@ -143,7 +128,7 @@ function addRow() {
         for (var r = 1; r < 8; r++) {
 
             if (isAccount == true){
-                 schedule[j][r].innerHTML = createButton((j*10)+r, j, r);
+                 schedule[j][r].innerHTML = createButton(testVal, j, r);
                  
             }
             else schedule[j][r].innerHTML = testVal;

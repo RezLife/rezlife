@@ -141,6 +141,10 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/login.html'));
 });
 
+app.get('/login/forgot', function(req,res){
+    res.sendFile(path.join(__dirname, 'views/forgot-password.html'))
+});
+
 app.use('/resapp', app_routes);
 
 //post method called after the login button is pressed
@@ -377,11 +381,12 @@ app.get('/resapp/floorlist', function (req, res) {
     }
 })
 
-// // 404 catch-all handler (middleware)
-// app.use(function(req, res, next){
-//     res.status(404);
-//     res.render('404');
-// });
+
+// 404 catch-all handler (middleware)
+app.use(function(req, res, next){
+    res.status(404);
+    res.sendFile(path.join(__dirname,'views/404.html'));
+});
 // // 500 error handler (middleware)
 // app.use(function(err, req, res, next){
 //     console.error(err.stack);
