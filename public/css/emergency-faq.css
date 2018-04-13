@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+li{
+  font-family:'roboto',sans-serif;
+  font-weight:0;
+}
 body {
   font-family: 'roboto', sans-serif;
   color: #000;
@@ -52,7 +56,7 @@ h1 {
 }
 
 .faq li.q {
-  font-weight: bold;
+  
   font-size: 120%;
   border-bottom: 1px #ddd solid;
   cursor: pointer;
