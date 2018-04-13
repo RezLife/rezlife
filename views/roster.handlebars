@@ -1,6 +1,7 @@
 ﻿{{#section 'head'}}
 <!-- stuff/css stylesheets that goes in head: -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="css/roster.css" rel="stylesheet">
 {{/section}}
 
 {{#section 'script'}}
@@ -198,31 +199,41 @@
             <div class="col-12">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <i class="fa fa-upload"></i> Upload new student chart
+                        <i class="fa fa-upload"></i> Upload New Student Chart
                     </div>
                     <div class="card-body">
+                        
                         <!--the upload form-->
                         <form id="upload" action="upload" method="post" enctype="multipart/form-data">
-                            Dorm:
-                            <select name="dorm">
-                                <option value="smithtraber">Smith-Traber</option>
-                                <option value="fischer">Fischer</option>
-                                <option value="macevans">MacEvans</option>
-                                <option value="williston">Williston</option>
-                                <option value="apartments">Apartments</option>
-                                <option value="houses">Houses</option>
-                            </select>
-                            <br> Semester:
-                            <select name="semester">
-                                <option value="fall">Fall</option>
-                                <option value="spring">Spring</option>
-                            </select>
-                            <!--The number field has a min, max, and a pattern that only allows integers.-->
-                            <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*">
-                            <br> Floor chart:
-                            <input type="file" class="btn" name="chartupload">
-                            <br>
-                            <input type="submit" class="btn" value="Upload" id="chart_upload">
+                            <div class="row">
+                                <div class="col">
+                                    <p>To update roster data, first indicate the dorm and semester of the roster chart to be uploaded.</p> 
+                                    <b>Dorm:</b>
+                                    <select name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:30%;">
+                                        <option value="smithtraber">Smith-Traber</option>
+                                        <option value="fischer">Fischer</option>
+                                        <option value="macevans">MacEvans</option>
+                                        <option value="williston">Williston</option>
+                                        <option value="apartments">Apartments</option>
+                                        <option value="houses">Houses</option>
+                                    </select>
+                                    <br> <b>Semester:</b>
+                                    <select name="semester" class="custom-select m-l-5 custom-select-sm" style="width:20%">
+                                        <option value="fall">Fall</option>
+                                        <option value="spring">Spring</option>
+                                    </select>
+                                    <!--The number field has a min, max, and a pattern that only allows integers.-->
+                                    <input type="number" class="m-l-5" name="year" value="2017" min="1950" max="3000" pattern="\d*">
+                                </div>
+
+                                <div class="col">
+                                    <b>Select Floor Chart:</b><br>
+                                    <input type="file" class="btn m-t-10 m-b-15 p-none" name="chartupload">
+                                    <br>
+                                    <input type="submit" class="btn btn-dark m-b-10" value="Upload" id="chart_upload">
+                                    <p style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building and semester.</p>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -232,8 +243,8 @@
                     </div>
                     <div class="card-body">
                         <form id="print_chart" action="floorlist" target="_blank">
-                            Dorm:
-                            <select name="dorm">
+                            Dorm:    
+                            <select name="dorm" style="margin-left:5px">
                                 <option value="Traber 2">Traber 2</option>
                                 <option value="Traber 3">Traber 3</option>
                                 <option value="Traber 4">Traber 4</option>
@@ -265,7 +276,7 @@
                             </select>
                             <br> Year:
                             <!--The number field has a min, max, and a pattern that only allows integers.-->
-                            <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*">
+                            <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*" >
                             <br>
                             <input type="radio" name="form" value="list" checked> List<br>
                             <input type="radio" name="form" value="chart"> Chart<br>
