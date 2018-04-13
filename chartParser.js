@@ -26,31 +26,32 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
                 for (let i = 1; i < csv.length; i++) {
                     // makes sure you don't have an empty line
                     if (csv[i].length > 1) {
-                        let record = ""; // the list of elements of the record.
+                        let record = []; // the list of elements of the record.
                         let id;          // temporary store the student's ID number
                         // for each column of the row (each attribute of the student)
                         for (var j = 0; j < validColumns.length; j++) {
                             // split the DOB into a valid SQL format.
                             if (validColumns[j] === "Date of Birth") {
-                                console.log(csv[i][j]);
                                 var date_arr = csv[i][j].split("/");
-                                record += "\"" + date_arr[2] + "-" + date_arr[0] + "-" + date_arr[1] + "\", ";
+                                record.push(date_arr[2] + "-" + date_arr[0] + "-" + date_arr[1]);
                             }
                             else if (isIntCol(validColumns[j]))
-                                record += csv[i][j] + ", ";
-                            else record += "\"" + csv[i][j] + "\", ";
+                                record.push(csv[i][j]);
+                            else record.push(csv[i][j]);
                             if (validColumns[j] === "Student ID") {
                                 id = csv[i][j];
                             }
                             //addBuildingFloorRoom(csv[i][j], record);
                         }
-                        record += year; // this column won't be in any csv files
+                        record.push(year); // this column won't be in any csv files
                         // first delete any instances of this same student in case there are duplicates
-                        // this will replace duplicate records.
-                        con.query("DELETE FROM t_students WHERE record_year = ? AND studentID = ?", [id,year], function (err, result, fields) {
+                        // this will replace duplicate records.\
+                        console.log(id + year);
+                        con.query("DELETE FROM t_students WHERE record_year = ? AND studentID = ?", [year,id], function (err, result, fields) {
                             if (err) return callback(err.message);
+                            console.log(result);
                             // insert the info.
-                            con.query("INSERT INTO t_students (?) VALUES (?)", [columns,record], function (err, result, fields) {
+                            con.query("INSERT INTO t_students ("+columns+") VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", record, function (err, result, fields) {
                                 if (err) return callback(err.message);
                                 // this continues the function call so things run in order.
                                 // Make sure to only callback when the for loop has ended.

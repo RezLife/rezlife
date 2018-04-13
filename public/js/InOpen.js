@@ -9,6 +9,16 @@ var ThirdMonday;
 //The monday of the week being viewed
 var MainDate;
 
+//connect to mysql database
+var mysql = require('mysql');
+var con = mysql.createConnection({
+    host: "csdb.wheaton.edu",
+    port: "3306",
+    user: "reslife_user",
+    password: "rez4Life!)GrTZ",
+    database: "reslife"
+});
+
 function getMonday(d) {
     d = new Date(d); document.get
     var day = d.getDay(),
