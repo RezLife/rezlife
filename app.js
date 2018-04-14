@@ -328,8 +328,8 @@ app.post('/resapp/upload', function (req, res) {
 
         // The name of the input field is used to retrieve the uploaded file
         var chart = req.files.chartupload;
-
-        var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
+        console.log(req.body);
+        var chartid = req.body["dorm"];
 
         // Use the mv() method to place the file somewhere on your server
         chart.mv(path.join(__dirname, 'chart'), function (err) {
@@ -343,7 +343,7 @@ app.post('/resapp/upload', function (req, res) {
                 database: "reslife"
             });
             // Parse the uploaded file into the database with the chartParser.js
-            chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function (errstr) {
+            chartParser.parseIntoDatabase(con, "./chart", chartid, function (errstr) {
                 // if ChartParser sends an error, send it back to the page.
                 if (errstr) return res.status(400).send(errstr);
                 // After dealing with the file, delete it.

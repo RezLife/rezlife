@@ -69,8 +69,8 @@ exports.searchAllStudents = (req,res,query) => {
     var oredWords = query.replace(/ /g, '|');
     var searchString = '.*(' + oredWords + ').*';
     con.query('SELECT * FROM t_students WHERE building RLIKE ? OR floor_and_room RLIKE ? OR name_first RLIKE ?'+
-            'OR name_last RLIKE ? OR studentID RLIKE ? OR name_preferred RLIKE ?',
-            [searchString,searchString,searchString,searchString,searchString,searchString], (error, results, fields) => {
+            'OR name_last RLIKE ? OR studentID RLIKE ? OR name_preferred RLIKE ? OR city RLIKE ? OR state_province RLIKE ?',
+            [searchString,searchString,searchString,searchString,searchString,searchString, searchString, searchString], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
@@ -82,8 +82,8 @@ exports.addStudent = (req,res,fields) => {
         fields[2] = '';
     var today = new Date();
     fields.push(today.getFullYear());
-    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, room_space_description, record_year) ' +
-            'VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, room_space_description) ' +
+            'VALUES (?,?,?,?,?,?,?,?,?,?,?)',
             fields, (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
@@ -94,8 +94,8 @@ exports.addStudent = (req,res,fields) => {
 exports.deleteStudent = (req,res,id) => {
     var today = new Date();
     console.log([id, today.getFullYear()]);
-    con.query('DELETE FROM t_students WHERE studentID=? AND record_year=?',
-            [id,today.getFullYear()], (error, results, fields) => {
+    con.query('DELETE FROM t_students WHERE studentID=?',
+            [id], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });

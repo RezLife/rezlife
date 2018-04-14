@@ -217,13 +217,6 @@
                                         <option value="apartments">Apartments</option>
                                         <option value="houses">Houses</option>
                                     </select>
-                                    <br> <b>Semester:</b>
-                                    <select name="semester" class="custom-select m-l-5 custom-select-sm" style="width:20%">
-                                        <option value="fall">Fall</option>
-                                        <option value="spring">Spring</option>
-                                    </select>
-                                    <!--The number field has a min, max, and a pattern that only allows integers.-->
-                                    <input type="number" class="m-l-5" name="year" value="2017" min="1950" max="3000" pattern="\d*">
                                 </div>
 
                                 <div class="col">
@@ -231,7 +224,7 @@
                                     <input type="file" class="btn m-t-10 m-b-15 p-none" name="chartupload">
                                     <br>
                                     <input type="submit" class="btn btn-dark m-b-10" value="Upload" id="chart_upload">
-                                    <p style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building and semester.</p>
+                                    <p style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building.</p>
                                 </div>
                             </div>
                         </form>
@@ -270,15 +263,7 @@
                                 <option value="Fischer 4W">Fischer 4W</option>
                                 <option value="Fischer 5W">Fischer 5W</option>
                             </select>
-                            <br> Semester:
-                            <select name="semester">
-                                <option value="fall">Fall</option>
-                                <option value="spring">Spring</option>
-                            </select>
-                            <br> Year:
-                            <!--The number field has a min, max, and a pattern that only allows integers.-->
-                            <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*" >
-                            <br>
+                            <br />
                             <input type="radio" name="form" value="list" checked> List<br>
                             <input type="radio" name="form" value="chart"> Chart<br>
                             <input type="submit" value="Print" class="btn">
