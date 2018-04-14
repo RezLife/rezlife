@@ -153,7 +153,7 @@ app.get('/login', function (req, res) {
 });
 
 app.get('/login/forgot', function (req, res) {
-    res.sendFile(path.join(__dirname, 'views/forgot-password.html'))
+    res.sendFile(path.join(__dirname, 'views/forgot-password.html'));
 });
 
 //post method called after a user enters their email address to change their password
@@ -187,7 +187,7 @@ app.post('/login/forgot', function (req, res) {
                 console.log("Error hashing password: " + err);
             } else {
                 //update user password
-                var sql = `UPDATE t_users SET password = '${password}' WHERE email = '${email}'`;
+                var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
                 con.query(sql, function (err, result) {
                     if (err) {
                         console.log(err);
@@ -197,7 +197,7 @@ app.post('/login/forgot', function (req, res) {
                 });
             }
         });
-
+        res.redirect("/login");
        // res.sendFile(path.join(__dirname, 'views/login.html'));
 
     } else {
