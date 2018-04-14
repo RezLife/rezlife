@@ -14,10 +14,10 @@ function showDorms(id) {
 
 //Show dorms for RA Account creation
 $('#roles').change(function () {
-    if ($(this).val() == "Admin") {
+    if ($(this).val() == "Admin"|| $(this).val() == "Select") {
         $('#dorms').hide();
-        $('#stFL').hide();
-        $('#fiscFL').hide();
+        $('#floors').hide();
+       // $('#fiscFL').hide();
     }
     if ($(this).val() == "RA") {
         $('#dorms').show();
@@ -26,12 +26,5 @@ $('#roles').change(function () {
 
 //Show floors for RA Account creation
 $('#dorms').change(function () {
-    if ($(this).val() == "Fischer") {
-        $('#stFL').hide();
-        $('#fiscFL').show();
-    }
-    if ($(this).val() == "Smith-Traber") {
-        $('#fiscFL').hide();
-        $('#stFL').show();
-    }
+     $('#floors').show();
 });

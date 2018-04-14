@@ -50,17 +50,18 @@
             <div class="wrap-input100 validate-input m-b-16" data-validate="Dorm is required">
               <form action="/action_page.php">
                 <select name="dorm" id='dorms' class="hidden">
-                  <option value="Select">Dorm</option>
+                  <option value="Select">Select</option>
                   <option value="Fischer" id = "Fischer">Fischer</option>
-                  <option value="Smith-Traber" id = "Smaber">Smith-Traber</option>
+                  <option value="Smaber" id = "Smaber">Smith-Traber</option>
                 </select>
                 <br>
                 <br>
             </div>
             <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
               <form action="/action_page.php">
-                <select name="floor" id='fiscFL' class = "hidden">
-                  <option value="Select">Floor</option>
+                <select name="floor" id='floors' class = "hidden">
+                  <option>Select</option>
+                  <option>Fischer</option>
                   <option value="1 West">1 West</option>
                   <option value="2 West">2 West</option>
                   <option value="3 West">3 West</option>
@@ -73,16 +74,7 @@
                   <option value="3 East">3 East</option>
                   <option value="4 East">4 East</option>
                   <option value="5 East">5 East</option>
-                </select>
-                <br id='stFL'>
-                <br id='stFL'>
-
-            </div>
-
-            <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
-              <form action="/action_page.php">
-                <select name="floor" id='stFL' class="hidden">
-                  <option value="Select">Floor</option>
+                  <option>Smith-Traber</option>
                   <option value="1 South">1 South</option>
                   <option value="2 South">2 South</option>
                   <option value="3 South">3 South</option>
@@ -101,7 +93,7 @@
             </div>
             <br/>
 
-            <input type="submit" value="Create">
+            <input type="submit" value="Create" class = "btn btn-primary">
             </form>
 
         </div>
@@ -114,7 +106,7 @@
     <div class="row">
       <div class="col-12">
 
-        <div id="delete" class="tabcontent">
+        <div id="delete" class="tabcontent"  class = "btn btn-primary">
           <h1>Delete Account</h1>
           <p>Enter email of account to delete:</p>
           <form action="/deleteAccount" method="post" target="_blank">
@@ -123,7 +115,7 @@
               <span class="focus-input100"></span>
             </div>
             <br/>
-            <input type="submit" value="Delete" onclick="return confirm('Are you sure you would like to delete this account?\n This action cannot be undone.')"
+            <input type="submit" value="Delete"  class = "btn btn-primary" onclick="return confirm('Are you sure you would like to delete this account?\n This action cannot be undone.')"
             />
           </form>
           <br/>

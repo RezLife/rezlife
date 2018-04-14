@@ -14,6 +14,8 @@ var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 let api = require('./model/api.js');
 let app_routes = require('./routes/app_routes');
+var generator = require('generate-password');
+var nodemailer = require('nodemailer');
 
 var app = express();
 let handlebars = require('express-handlebars');
@@ -32,6 +34,15 @@ app.engine('handlebars', handlebars({
         }
     }
 }));
+
+//email account settings
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'noreplyrezlife@gmail.com',
+        pass: 'eK2BieN83'
+    }
+});
 
 app.set('view engine', 'handlebars');
 
@@ -115,8 +126,8 @@ app.get('/resapp/api/stu-search/:query', (req, res) => {
 
 // Add a student to the roster
 app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/:class/:state/:city/:rsd', (req, res) => {
-    api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id, 
-        req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.rsd]);
+    api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id,
+    req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.rsd]);
 });
 
 // Delete a student from the roster by ID
@@ -141,8 +152,60 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/login.html'));
 });
 
-app.get('/login/forgot', function(req,res){
+app.get('/login/forgot', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/forgot-password.html'))
+});
+
+//post method called after a user enters their email address to change their password
+app.post('/login/forgot', function (req, res) {
+    if (req.body && req.body.email) {
+        var email = req.body.email;
+        var password = generator.generate();
+
+        //layout for the email
+        var mailOptions = {
+            from: 'noreplyrezlife@gmail.com',
+            to: email,
+            subject: 'Resident Life Forgot Password',
+            text: 'This is your temporary password: ' + password +
+                '. Go to the Settings tab to update your password after logging in.' +
+                '- Rezlife App Team'
+        };
+
+        //send the email with temporary password
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+        //encrypt the password
+        bcrypt.hash(password, saltRounds, function (err, hash) {
+            if (err) {
+                console.log("Error hashing password: " + err);
+            } else {
+                //update user password
+                var sql = `UPDATE t_users SET password = '${password}' WHERE email = '${email}'`;
+                con.query(sql, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("1 record updated:", result);
+                    }
+                });
+            }
+        });
+
+       // res.sendFile(path.join(__dirname, 'views/login.html'));
+
+    } else {
+        res.send({
+            "code": 400,
+            "failed": "Must enter email."
+        });
+    }
 });
 
 app.use('/resapp', app_routes);
@@ -151,7 +214,7 @@ app.use('/resapp', app_routes);
 app.post('/login', function (req, res) {
     //make sure there is no current user logged in, this also takes care of logout
     req.session.user = null;
-    
+
     //if email and password were entered
     if (req.body && req.body.email && req.body.password) {
         var email = req.body.email;
@@ -181,8 +244,8 @@ app.post('/login', function (req, res) {
                             req.user = results[0];
                             delete req.user.password; // delete the password from the session
                             req.session.user = req.user;  //refresh the session value
-                            
-                            res.send({redirect: '/resapp'}); //send redirect to AJAX
+
+                            res.send({ redirect: '/resapp' }); //send redirect to AJAX
                         }
                     });
                 } //error handling
@@ -211,7 +274,18 @@ app.post('/accounts', function (req, res) {
         if (req.body && req.body.email && req.body.role) {
             //make sure the role is valid
             if (req.body.role == "RA" || req.body.role == "Admin") {
-                createAccount.addAccount(con, req.body.email, req.body.role, res);
+                if (req.body.role == "RA") {
+                    //make sure RA has valid dorm building and floor
+                    if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber")) {
+                        createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
+                    } else {
+                        res.send({
+                            "code": "400",
+                            "failed": "Error: must select a dorm and floor for an RA."
+                        });
+                    }
+                }
+                createAccount.addAccount(con, req.body.email, req.body.role, ' ', ' ', res);
             } else {
                 res.send({
                     "code": "400",
@@ -383,9 +457,9 @@ app.get('/resapp/floorlist', function (req, res) {
 
 
 // 404 catch-all handler (middleware)
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     res.status(404);
-    res.sendFile(path.join(__dirname,'views/404.html'));
+    res.sendFile(path.join(__dirname, 'views/404.html'));
 });
 // // 500 error handler (middleware)
 // app.use(function(err, req, res, next){
