@@ -9,13 +9,13 @@ var mysql = require('mysql');
 var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
 var createAccount = require('./createAccount.js');
+var sendEmail = require('./sendEmail.js');
 var session = require('client-sessions');
 var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 let api = require('./model/api.js');
 let app_routes = require('./routes/app_routes');
 var generator = require('generate-password');
-var nodemailer = require('nodemailer');
 
 var app = express();
 let handlebars = require('express-handlebars');
@@ -34,15 +34,6 @@ app.engine('handlebars', handlebars({
         }
     }
 }));
-
-//email account settings
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'noreplyrezlife@gmail.com',
-        pass: 'eK2BieN83'
-    }
-});
 
 app.set('view engine', 'handlebars');
 
@@ -162,24 +153,8 @@ app.post('/login/forgot', function (req, res) {
         var email = req.body.email;
         var password = generator.generate();
 
-        //layout for the email
-        var mailOptions = {
-            from: 'noreplyrezlife@gmail.com',
-            to: email,
-            subject: 'Resident Life Forgot Password',
-            text: 'This is your temporary password: ' + password +
-                '. Go to the Settings tab to update your password after logging in.' +
-                '- Rezlife App Team'
-        };
-
-        //send the email with temporary password
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
+        //send email with the temporary password
+        sendEmail.emailPassword(email, password);
 
         //encrypt the password
         bcrypt.hash(password, saltRounds, function (err, hash) {
