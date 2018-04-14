@@ -26,8 +26,5 @@ $('#roles').change(function () {
 
 //Show floors for RA Account creation
 $('#dorms').change(function () {
-    if ($(this).val() == "dorms") {
-        $('#stFL').hide();
-        $('#floors').show();
-    }
+     $('#floors').show();
 });
