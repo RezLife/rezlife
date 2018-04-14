@@ -14,6 +14,7 @@ var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 let api = require('./model/api.js');
 let app_routes = require('./routes/app_routes');
+var nodemailer = require('nodemailer');
 
 var app = express();
 let handlebars = require('express-handlebars');
@@ -32,6 +33,15 @@ app.engine('handlebars', handlebars({
         }
     }
 }));
+
+//email account settings
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'noreplyrezlife@gmail.com',
+        pass: 'eK2BieN83'
+    }
+});
 
 app.set('view engine', 'handlebars');
 
@@ -145,6 +155,18 @@ app.get('/login/forgot', function(req,res){
     res.sendFile(path.join(__dirname, 'views/forgot-password.html'))
 });
 
+//post method called after a user enters their email address to change their password
+app.post('/login/forgot', function (req, res) {
+    if (req.body && req.body.email) {
+        res.send(req.body.email);
+    } else {
+        res.send({
+            "code": 400,
+            "failed": "Must enter email."
+        });
+    }
+});
+
 app.use('/resapp', app_routes);
 
 //post method called after the login button is pressed
@@ -211,7 +233,18 @@ app.post('/accounts', function (req, res) {
         if (req.body && req.body.email && req.body.role) {
             //make sure the role is valid
             if (req.body.role == "RA" || req.body.role == "Admin") {
-                createAccount.addAccount(con, req.body.email, req.body.role, res);
+                if (req.body.role == "RA") {
+                    //make sure RA has valid dorm building and floor
+                    if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber")) {
+                        createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
+                    } else {
+                        res.send({
+                            "code": "400",
+                            "failed": "Error: must select a dorm and floor for an RA."
+                        });
+                    }
+                }
+                createAccount.addAccount(con, req.body.email, req.body.role, '', '', res);
             } else {
                 res.send({
                     "code": "400",
