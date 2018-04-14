@@ -13,10 +13,8 @@ var transporter = nodemailer.createTransport({
 });
 
 //create new user
-exports.addAccount = function (con, email, role, res) {
+exports.addAccount = function (con, email, role, dorm, floor, res) {
     var password = generator.generate();
-    //really cheap way to get around needing different floors, need to change eventually
-    var num = generator.generate();
 
     //layout for the email
     var mailOptions = {
@@ -47,7 +45,7 @@ exports.addAccount = function (con, email, role, res) {
             console.log("Error hashing password: " + err);
         } else {
             //insert new user into the database
-            var sql = `INSERT INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${num}', 'Test')`;
+            var sql = `INSERT INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${floor}', '${dorm}')`;
             con.query(sql, function (err, result) {
                 if (err) {
                     res.send({
