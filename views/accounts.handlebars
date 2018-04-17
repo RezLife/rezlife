@@ -15,14 +15,15 @@
       </li>
       <li class="breadcrumb-item active">Accounts</li>
     </ol>
-
+<ul class="nav nav-tabs nav-justified">
     <div class="tab">
       <button class="tablinks" onclick="openCity(event, 'create')" id="defaultOpen">Create Account</button>
       <button class="tablinks" onclick="openCity(event, 'delete')">Delete Account</button>
     </div>
+    </ul>
 
     <div class="row">
-      <div class="col-12">
+      <div class="col">
         <div id="create" class="tabcontent">
           <h1>Create Account</h1>
 
@@ -59,7 +60,7 @@
             </div>
             <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
               <form action="/action_page.php">
-                <select name="floor" id='floors' class = "hidden">
+                <select name="floor" id='floors' class = "hidden" >
                   <option>Select</option>
                   <option>Fischer</option>
                   <option value="1 West">1 West</option>
