@@ -111,8 +111,8 @@ app.get('/resapp/api/students/:building/:floor/:room/:order', (req, res) => {
 });
 
 // Search for students who's attributes match the query string ordered by order
-app.get('/resapp/api/stu-search/:query', (req, res) => {
-    api.searchAllStudents(req, res, req.params.query);
+app.get('/resapp/api/stu-search/:query/:order', (req, res) => {
+    api.searchAllStudents(req, res, req.params.query, req.params.order);
 });
 
 // Add a student to the roster

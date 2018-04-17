@@ -142,7 +142,7 @@
         $("#search-student").prop("disabled", true);
 
         var url = 'api/stu-search'
-        url += '/' + data.get('search');
+        url += '/' + data.get('search') + '/' + data.get('order-by');
         $("#search-table-body").empty();
 
         $.ajax({
@@ -230,10 +230,9 @@
                         <i class="fa fa-print"></i> Print Chart
                     </div>
                     <div class="card-body">
-                    
                         <form id="print_chart" action="floorlist" target="_blank">
-                            Dorm:    
-                            <select name="dorm" style="margin-left:5px">
+                            <b>Dorm:</b>    
+                            <select class="form-control custom-select" name="dorm" style="margin-left:5px">
                                 <option value="Traber 2">Traber 2</option>
                                 <option value="Traber 3">Traber 3</option>
                                 <option value="Traber 4">Traber 4</option>
@@ -258,17 +257,17 @@
                                 <option value="Fischer W4">Fischer 4W</option>
                                 <option value="Fischer W5">Fischer 5W</option>
                             </select>
-                            <br />
-                            <input type="checkbox" name="fields" value="fn"> First Name
-                            <input type="checkbox" name="fields" value="ln"> Last Name
-                            <input type="checkbox" name="fields" value="pn"> Preferred Name
-                            <input type="checkbox" name="fields" value="id"> Student ID
-                            <input type="checkbox" name="fields" value="y"> Year of study
-                            <input type="checkbox" name="fields" value="dob"> Birth date
-                            <input type="checkbox" name="fields" value="c"> City of Origin
-                            <input type="checkbox" name="fields" value="r"> Room<br>
-                            Order by:
-                            <select name='order-by'>
+                            <b>Include:</b><br>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="fn"> First Name</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="ln"> Last Name</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="pn"> Preferred Name</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="id"> Student ID</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="y"> Year of study</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="dob"> Birth date</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="c"> City of Origin</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="r"> Room</label><br>
+                            <b>Order by:</b>
+                            <select class="form-control custom-select" name='order-by'>
                                 <option value="name_first"> First Name</option>
                                 <option value="name_last"> Last Name</option>
                                 <option value="name_preferred"> Preferred Name</option>
@@ -277,10 +276,10 @@
                                 <option value="date_of_birth"> Birth date</option>
                                 <option value="city"> City of Origin</option>
                                 <option value="room"> Room</option>
-                            </select><br>
-                            <input type="radio" name="form" value="list" checked class='hidden'> List<br>
+                            </select>
+                            <label class="radio-inline"><input type="radio" name="form" value="list" checked class='hidden'> List</label><br>
                             <!-- <input type="radio" name="form" value="chart"> Chart<br> -->
-                            <input type="submit" value="Print" class="btn">
+                            <input type="submit" value="Print" class="btn btn-dark">
                         </form>
                     </div>
                 </div>
@@ -446,10 +445,22 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="search-student">
                     <div class="form-row">
-                        {{!-- <label class="control-label col-sm-3" for="">Student ID number:</label> --}}
-                        <div class="btn-group" style="width: 75%;margin: auto">
-                            <input type="search" class="form-control" name="search" placeholder="Search student roster..." required>
-                            <button type="submit" class="btn btn-primary" id="search-submit"><i class="fa fa-search"></i></button>
+                        <div style="width: 100%; text-align: center">
+                            <div class="btn-group" style="width: 60%;margin: auto">
+                                <input type="search" class="form-control" name="search" placeholder="Search student roster..." required>
+                                <button type="submit" class="btn btn-primary" id="search-submit"><i class="fa fa-search"></i></button>
+                            </div>
+                            <b> Order by: </b>
+                            <select name='order-by' class="custom-select" style="width: auto">
+                                <option value="name_first"> First Name</option>
+                                <option value="name_last"> Last Name</option>
+                                <option value="name_preferred"> Preferred Name</option>
+                                <option value="studentID"> Student ID</option>
+                                <option value="cohort_year"> Year of study</option>
+                                <option value="date_of_birth"> Birth date</option>
+                                <option value="city"> City of Origin</option>
+                                <option value="room"> Room</option>
+                            </select>
                         </div>
                     </div>
                 </form>
