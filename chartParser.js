@@ -46,16 +46,12 @@ exports.parseIntoDatabase = function (con, fileName, tableName, callback) {
                         // first delete any instances of this same student in case there are duplicates
                         // this will replace duplicate records.\
                         console.log(id);
-                        con.query("DELETE FROM t_students WHERE studentID = ?", [id], function (err, result, fields) {
+                        // insert the info.
+                        con.query("REPLACE INTO t_students ("+columns+") VALUES (?,?,?,?,?,?,?,?,?,?,?)", record, function (err, result, fields) {
                             if (err) return callback(err.message);
-                            console.log(result);
-                            // insert the info.
-                            con.query("INSERT INTO t_students ("+columns+") VALUES (?,?,?,?,?,?,?,?,?,?,?)", record, function (err, result, fields) {
-                                if (err) return callback(err.message);
-                                // this continues the function call so things run in order.
-                                // Make sure to only callback when the for loop has ended.
-                                if (i == (csv.length - 1)) callback();
-                            });
+                            // this continues the function call so things run in order.
+                            // Make sure to only callback when the for loop has ended.
+                            if (i == (csv.length - 1)) callback();
                         });
                     }
                 }
