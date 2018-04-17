@@ -87,30 +87,30 @@ var con = mysql.createConnection({
 //     api.getRowFromTableEqual(req, res, req.params.table, req.params.column, req.params.row);
 // });
 
-// Get all data relating to students
-app.get('/resapp/api/students', (req, res) => {
-    api.getAllStudents(req, res);
+// Get all data relating to students ordered by order
+app.get('/resapp/api/students/:order', (req, res) => {
+    api.getAllStudents(req, res, req.params.order);
 });
 
-// Get all data about students in a specific building
+// Get all data about students in a specific building ordered by order
 // TRABE SMITH FISCH MCMAN EVANS ...
-app.get('/resapp/api/students/:building', (req, res) => {
-    api.getAllFromBuilding(req, res, req.params.building);
+app.get('/resapp/api/students/:building/:order', (req, res) => {
+    api.getAllFromBuilding(req, res, req.params.building, req.params.order);
 });
 
-// Get all data about students on a specific floor
+// Get all data about students on a specific floor ordered by order
 // Traber: 2 3 4 5 6 7 Smith: S1 E2 S2 E3 S3 Fischer: E2-5 S3-5 W1-5
-app.get('/resapp/api/students/:building/:floor', (req, res) => {
-    api.getAllFromFloor(req, res, req.params.building, req.params.floor);
+app.get('/resapp/api/students/:building/:floor/:order', (req, res) => {
+    api.getAllFromFloor(req, res, req.params.building, req.params.floor, req.params.order);
 });
 
-// Get all data about students in a specific room
+// Get all data about students in a specific room ordered by order
 // examples: 211 E408 S100 613 ...
-app.get('/resapp/api/students/:building/:floor/:room', (req, res) => {
-    api.getAllFromRoom(req, res, req.params.building, req.params.floor, req.params.room);
+app.get('/resapp/api/students/:building/:floor/:room/:order', (req, res) => {
+    api.getAllFromRoom(req, res, req.params.building, req.params.floor, req.params.room, req.params.order);
 });
 
-// Search for students who's attributes match the query string.
+// Search for students who's attributes match the query string ordered by order
 app.get('/resapp/api/stu-search/:query', (req, res) => {
     api.searchAllStudents(req, res, req.params.query);
 });

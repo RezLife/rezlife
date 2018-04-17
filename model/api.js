@@ -12,8 +12,8 @@ let con = mysql.createPool({
 });
 
 //get all data from stated table
-exports.getAllStudents = (req,res) => {
-    con.query('SELECT * FROM t_students', (error, results, fields) => {
+exports.getAllStudents = (req,res,order) => {
+    con.query('SELECT * FROM t_students ORDER BY '+order.split(';')[0], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
@@ -36,16 +36,16 @@ exports.getRowFromTableEqual = (req,res,table,column,row) => {
 };
 
 //get data from building
-exports.getAllFromBuilding = (req,res,building) => {
-    con.query('SELECT * FROM t_students WHERE building=?', building, (error, results, fields) => {
+exports.getAllFromBuilding = (req,res,building,order) => {
+    con.query('SELECT * FROM t_students WHERE building=? ORDER BY '+order.split(';')[0], [building], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
 };
 
-exports.getAllFromFloor = (req,res,building,floor) => {
+exports.getAllFromFloor = (req,res,building,floor,order) => {
     var regex = floorNameToQuery(floor) + '%';
-    con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ?',
+    con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ? ORDER BY '+order.split(';')[0],
             [building, regex], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
@@ -53,9 +53,9 @@ exports.getAllFromFloor = (req,res,building,floor) => {
 };
 
 //get data from room
-exports.getAllFromRoom = (req,res,building,floor,room) => {
+exports.getAllFromRoom = (req,res,building,floor,room,order) => {
     var regex = room + '%';
-    con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ?',
+    con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ? ORDER BY '+order.split(';')[0],
             [building, regex], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
@@ -63,13 +63,14 @@ exports.getAllFromRoom = (req,res,building,floor,room) => {
 };
 
 //search for students
-exports.searchAllStudents = (req,res,query) => {
+exports.searchAllStudents = (req,res,query,order) => {
     // this allows for each word to be searched for separately
     // all spaces are replaced with ORs in the regex
     var oredWords = query.replace(/ /g, '|');
     var searchString = '.*(' + oredWords + ').*';
     con.query('SELECT * FROM t_students WHERE building RLIKE ? OR floor_and_room RLIKE ? OR name_first RLIKE ?'+
-            'OR name_last RLIKE ? OR studentID RLIKE ? OR name_preferred RLIKE ? OR city RLIKE ? OR state_province RLIKE ?',
+            'OR name_last RLIKE ? OR studentID RLIKE ? OR name_preferred RLIKE ? OR city RLIKE ? OR state_province RLIKE ?'+
+            'ORDER BY '+order.split(';')[0],
             [searchString,searchString,searchString,searchString,searchString,searchString, searchString, searchString], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });

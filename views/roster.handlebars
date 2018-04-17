@@ -8,11 +8,6 @@
 <!-- javascript files that go in the bottom html: -->
 <!-- Script for successful upload message for upload roster-->
 <script>
-    $("#edit").click(function(){
-        $.get("/demo_test.txt", {name:"ASher"}, function(data, status){
-            alert("Data: " + data + "\nStatus: " + status);
-        });
-    });
     $("#upload").submit(function (event) {
 
         //stop submit the form, we will post it manually.
@@ -245,27 +240,46 @@
                                 <option value="Traber 5">Traber 5</option>
                                 <option value="Traber 6">Traber 6</option>
                                 <option value="Traber 7">Traber 7</option>
-                                <option value="Smith 1S">Smith 1S</option>
-                                <option value="Smith 2S">Smith 2S</option>
-                                <option value="Smith 2E">Smith 2E</option>
-                                <option value="Smith 3S">Smith 3S</option>
-                                <option value="Smith 3E">Smith 3E</option>
-                                <option value="Fischer 2E">Fischer 2E</option>
-                                <option value="Fischer 3E">Fischer 3E</option>
-                                <option value="Fischer 4E">Fischer 4E</option>
-                                <option value="Fischer 5E">Fischer 5E</option>
-                                <option value="Fischer 3S">Fischer 3S</option>
-                                <option value="Fischer 4S">Fischer 4S</option>
-                                <option value="Fischer 5S">Fischer 5S</option>
-                                <option value="Fischer 1W">Fischer 1W</option>
-                                <option value="Fischer 2W">Fischer 2W</option>
-                                <option value="Fischer 3W">Fischer 3W</option>
-                                <option value="Fischer 4W">Fischer 4W</option>
-                                <option value="Fischer 5W">Fischer 5W</option>
+                                <option value="Smith S1">Smith 1S</option>
+                                <option value="Smith S2">Smith 2S</option>
+                                <option value="Smith E2">Smith 2E</option>
+                                <option value="Smith S3">Smith 3S</option>
+                                <option value="Smith E3">Smith 3E</option>
+                                <option value="Fischer E2">Fischer 2E</option>
+                                <option value="Fischer E3">Fischer 3E</option>
+                                <option value="Fischer E4">Fischer 4E</option>
+                                <option value="Fischer E5">Fischer 5E</option>
+                                <option value="Fischer S3">Fischer 3S</option>
+                                <option value="Fischer S4">Fischer 4S</option>
+                                <option value="Fischer S5">Fischer 5S</option>
+                                <option value="Fischer W1">Fischer 1W</option>
+                                <option value="Fischer W2">Fischer 2W</option>
+                                <option value="Fischer W3">Fischer 3W</option>
+                                <option value="Fischer W4">Fischer 4W</option>
+                                <option value="Fischer W5">Fischer 5W</option>
                             </select>
                             <br />
-                            <input type="radio" name="form" value="list" checked> List<br>
-                            <input type="radio" name="form" value="chart"> Chart<br>
+                            <input type="checkbox" name="fields" value="fn"> First Name
+                            <input type="checkbox" name="fields" value="ln"> Last Name
+                            <input type="checkbox" name="fields" value="pn"> Preferred Name
+                            <input type="checkbox" name="fields" value="id"> Student ID
+                            <input type="checkbox" name="fields" value="y"> Year of study
+                            <input type="checkbox" name="fields" value="dob"> Birth date
+                            <input type="checkbox" name="fields" value="c"> City of Origin
+                            <input type="checkbox" name="fields" value="r"> Room<br>
+                            Order by:
+                            <select name='order-by'>
+                                <option value="name_first"> First Name</option>
+                                <option value="name_last"> Last Name</option>
+                                <option value="name_preferred"> Preferred Name</option>
+                                <option value="studentID"> Student ID</option>
+                                <option value="cohort_year"> Year of study</option>
+                                <option value="date_of_birth"> Birth date</option>
+                                <option value="city"> City of Origin</option>
+                                <option value="room"> Room</option>
+                            </select><br>
+                            <input type="radio" name="form" value="list" checked class='hidden'> List<br>
+                            <!-- <input type="radio" name="form" value="chart"> Chart<br> -->
                             <input type="submit" value="Print" class="btn">
                         </form>
                     </div>
