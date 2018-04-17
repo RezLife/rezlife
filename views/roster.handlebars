@@ -8,11 +8,6 @@
 <!-- javascript files that go in the bottom html: -->
 <!-- Script for successful upload message for upload roster-->
 <script>
-    $("#edit").click(function(){
-        $.get("/demo_test.txt", {name:"ASher"}, function(data, status){
-            alert("Data: " + data + "\nStatus: " + status);
-        });
-    });
     $("#upload").submit(function (event) {
 
         //stop submit the form, we will post it manually.
@@ -147,7 +142,7 @@
         $("#search-student").prop("disabled", true);
 
         var url = 'api/stu-search'
-        url += '/' + data.get('search');
+        url += '/' + data.get('search') + '/' + data.get('order-by');
         $("#search-table-body").empty();
 
         $.ajax({
@@ -217,13 +212,6 @@
                                         <option value="apartments">Apartments</option>
                                         <option value="houses">Houses</option>
                                     </select>
-                                    <br> <b>Semester:</b>
-                                    <select name="semester" class="custom-select m-l-5 custom-select-sm" style="width:20%">
-                                        <option value="fall">Fall</option>
-                                        <option value="spring">Spring</option>
-                                    </select>
-                                    <!--The number field has a min, max, and a pattern that only allows integers.-->
-                                    <input type="number" class="m-l-5" name="year" value="2017" min="1950" max="3000" pattern="\d*">
                                 </div>
 
                                 <div class="col">
@@ -231,7 +219,7 @@
                                     <input type="file" class="btn m-t-10 m-b-15 p-none" name="chartupload">
                                     <br>
                                     <input type="submit" class="btn btn-dark m-b-10" value="Upload" id="chart_upload">
-                                    <p style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building and semester.</p>
+                                    <p style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building.</p>
                                 </div>
                             </div>
                         </form>
@@ -242,45 +230,55 @@
                         <i class="fa fa-print"></i> Print Chart
                     </div>
                     <div class="card-body">
-                    
                         <form id="print_chart" action="floorlist" target="_blank">
-                            Dorm:    
-                            <select name="dorm" style="margin-left:5px">
+                            <b>Dorm:</b>    
+                            <select class="form-control custom-select" name="dorm" style="margin-left:5px">
                                 <option value="Traber 2">Traber 2</option>
                                 <option value="Traber 3">Traber 3</option>
                                 <option value="Traber 4">Traber 4</option>
                                 <option value="Traber 5">Traber 5</option>
                                 <option value="Traber 6">Traber 6</option>
                                 <option value="Traber 7">Traber 7</option>
-                                <option value="Smith 1S">Smith 1S</option>
-                                <option value="Smith 2S">Smith 2S</option>
-                                <option value="Smith 2E">Smith 2E</option>
-                                <option value="Smith 3S">Smith 3S</option>
-                                <option value="Smith 3E">Smith 3E</option>
-                                <option value="Fischer 2E">Fischer 2E</option>
-                                <option value="Fischer 3E">Fischer 3E</option>
-                                <option value="Fischer 4E">Fischer 4E</option>
-                                <option value="Fischer 5E">Fischer 5E</option>
-                                <option value="Fischer 3S">Fischer 3S</option>
-                                <option value="Fischer 4S">Fischer 4S</option>
-                                <option value="Fischer 5S">Fischer 5S</option>
-                                <option value="Fischer 1W">Fischer 1W</option>
-                                <option value="Fischer 2W">Fischer 2W</option>
-                                <option value="Fischer 3W">Fischer 3W</option>
-                                <option value="Fischer 4W">Fischer 4W</option>
-                                <option value="Fischer 5W">Fischer 5W</option>
+                                <option value="Smith S1">Smith 1S</option>
+                                <option value="Smith S2">Smith 2S</option>
+                                <option value="Smith E2">Smith 2E</option>
+                                <option value="Smith S3">Smith 3S</option>
+                                <option value="Smith E3">Smith 3E</option>
+                                <option value="Fischer E2">Fischer 2E</option>
+                                <option value="Fischer E3">Fischer 3E</option>
+                                <option value="Fischer E4">Fischer 4E</option>
+                                <option value="Fischer E5">Fischer 5E</option>
+                                <option value="Fischer S3">Fischer 3S</option>
+                                <option value="Fischer S4">Fischer 4S</option>
+                                <option value="Fischer S5">Fischer 5S</option>
+                                <option value="Fischer W1">Fischer 1W</option>
+                                <option value="Fischer W2">Fischer 2W</option>
+                                <option value="Fischer W3">Fischer 3W</option>
+                                <option value="Fischer W4">Fischer 4W</option>
+                                <option value="Fischer W5">Fischer 5W</option>
                             </select>
-                            <br> Semester:
-                            <select name="semester">
-                                <option value="fall">Fall</option>
-                                <option value="spring">Spring</option>
+                            <b>Include:</b><br>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="fn"> First Name</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="ln"> Last Name</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="pn"> Preferred Name</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="id"> Student ID</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="y"> Year of study</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="dob"> Birth date</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="c"> City of Origin</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="r"> Room</label><br>
+                            <b>Order by:</b>
+                            <select class="form-control custom-select" name='order-by'>
+                                <option value="name_first"> First Name</option>
+                                <option value="name_last"> Last Name</option>
+                                <option value="name_preferred"> Preferred Name</option>
+                                <option value="studentID"> Student ID</option>
+                                <option value="cohort_year"> Year of study</option>
+                                <option value="date_of_birth"> Birth date</option>
+                                <option value="city"> City of Origin</option>
+                                <option value="room"> Room</option>
                             </select>
-                            <br> Year:
-                            <!--The number field has a min, max, and a pattern that only allows integers.-->
-                            <input type="number" name="year" value="2017" min="1950" max="3000" pattern="\d*" >
-                            <br>
-                            <input type="radio" name="form" value="list" checked> List<br>
-                            <input type="radio" name="form" value="chart"> Chart<br>
+                            <label class="radio-inline"><input type="radio" name="form" value="list" checked class='hidden'> List</label><br>
+                            <!-- <input type="radio" name="form" value="chart"> Chart<br> -->
                             <input type="submit" value="Print" class="btn btn-dark">
                         </form>
                     </div>
@@ -447,10 +445,22 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="search-student">
                     <div class="form-row">
-                        {{!-- <label class="control-label col-sm-3" for="">Student ID number:</label> --}}
-                        <div class="btn-group" style="width: 75%;margin: auto">
-                            <input type="search" class="form-control" name="search" placeholder="Search student roster..." required>
-                            <button type="submit" class="btn btn-primary" id="search-submit"><i class="fa fa-search"></i></button>
+                        <div style="width: 100%; text-align: center">
+                            <div class="btn-group" style="width: 60%;margin: auto">
+                                <input type="search" class="form-control" name="search" placeholder="Search student roster..." required>
+                                <button type="submit" class="btn btn-primary" id="search-submit"><i class="fa fa-search"></i></button>
+                            </div>
+                            <b> Order by: </b>
+                            <select name='order-by' class="custom-select" style="width: auto">
+                                <option value="name_first"> First Name</option>
+                                <option value="name_last"> Last Name</option>
+                                <option value="name_preferred"> Preferred Name</option>
+                                <option value="studentID"> Student ID</option>
+                                <option value="cohort_year"> Year of study</option>
+                                <option value="date_of_birth"> Birth date</option>
+                                <option value="city"> City of Origin</option>
+                                <option value="room"> Room</option>
+                            </select>
                         </div>
                     </div>
                 </form>

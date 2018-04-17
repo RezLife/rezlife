@@ -9,11 +9,13 @@ var mysql = require('mysql');
 var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
 var createAccount = require('./createAccount.js');
+var sendEmail = require('./sendEmail.js');
 var session = require('client-sessions');
 var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 let api = require('./model/api.js');
 let app_routes = require('./routes/app_routes');
+var generator = require('generate-password');
 
 var app = express();
 let handlebars = require('express-handlebars');
@@ -85,38 +87,38 @@ var con = mysql.createConnection({
 //     api.getRowFromTableEqual(req, res, req.params.table, req.params.column, req.params.row);
 // });
 
-// Get all data relating to students
-app.get('/resapp/api/students', (req, res) => {
-    api.getAllStudents(req, res);
+// Get all data relating to students ordered by order
+app.get('/resapp/api/students/:order', (req, res) => {
+    api.getAllStudents(req, res, req.params.order);
 });
 
-// Get all data about students in a specific building
+// Get all data about students in a specific building ordered by order
 // TRABE SMITH FISCH MCMAN EVANS ...
-app.get('/resapp/api/students/:building', (req, res) => {
-    api.getAllFromBuilding(req, res, req.params.building);
+app.get('/resapp/api/students/:building/:order', (req, res) => {
+    api.getAllFromBuilding(req, res, req.params.building, req.params.order);
 });
 
-// Get all data about students on a specific floor
+// Get all data about students on a specific floor ordered by order
 // Traber: 2 3 4 5 6 7 Smith: S1 E2 S2 E3 S3 Fischer: E2-5 S3-5 W1-5
-app.get('/resapp/api/students/:building/:floor', (req, res) => {
-    api.getAllFromFloor(req, res, req.params.building, req.params.floor);
+app.get('/resapp/api/students/:building/:floor/:order', (req, res) => {
+    api.getAllFromFloor(req, res, req.params.building, req.params.floor, req.params.order);
 });
 
-// Get all data about students in a specific room
+// Get all data about students in a specific room ordered by order
 // examples: 211 E408 S100 613 ...
-app.get('/resapp/api/students/:building/:floor/:room', (req, res) => {
-    api.getAllFromRoom(req, res, req.params.building, req.params.floor, req.params.room);
+app.get('/resapp/api/students/:building/:floor/:room/:order', (req, res) => {
+    api.getAllFromRoom(req, res, req.params.building, req.params.floor, req.params.room, req.params.order);
 });
 
-// Search for students who's attributes match the query string.
-app.get('/resapp/api/stu-search/:query', (req, res) => {
-    api.searchAllStudents(req, res, req.params.query);
+// Search for students who's attributes match the query string ordered by order
+app.get('/resapp/api/stu-search/:query/:order', (req, res) => {
+    api.searchAllStudents(req, res, req.params.query, req.params.order);
 });
 
 // Add a student to the roster
 app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/:class/:state/:city/:rsd', (req, res) => {
-    api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id, 
-        req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.rsd]);
+    api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id,
+    req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.rsd]);
 });
 
 // Delete a student from the roster by ID
@@ -141,8 +143,44 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/login.html'));
 });
 
-app.get('/login/forgot', function(req,res){
-    res.sendFile(path.join(__dirname, 'views/forgot-password.html'))
+app.get('/login/forgot', function (req, res) {
+    res.sendFile(path.join(__dirname, 'views/forgot-password.html'));
+});
+
+//post method called after a user enters their email address to change their password
+app.post('/login/forgot', function (req, res) {
+    if (req.body && req.body.email) {
+        var email = req.body.email;
+        var password = generator.generate();
+
+        //send email with the temporary password
+        sendEmail.emailPassword(email, password);
+
+        //encrypt the password
+        bcrypt.hash(password, saltRounds, function (err, hash) {
+            if (err) {
+                console.log("Error hashing password: " + err);
+            } else {
+                //update user password
+                var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
+                con.query(sql, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("1 record updated:", result);
+                    }
+                });
+            }
+        });
+        res.redirect("/login");
+       // res.sendFile(path.join(__dirname, 'views/login.html'));
+
+    } else {
+        res.send({
+            "code": 400,
+            "failed": "Must enter email."
+        });
+    }
 });
 
 app.use('/resapp', app_routes);
@@ -151,7 +189,7 @@ app.use('/resapp', app_routes);
 app.post('/login', function (req, res) {
     //make sure there is no current user logged in, this also takes care of logout
     req.session.user = null;
-    
+
     //if email and password were entered
     if (req.body && req.body.email && req.body.password) {
         var email = req.body.email;
@@ -181,8 +219,8 @@ app.post('/login', function (req, res) {
                             req.user = results[0];
                             delete req.user.password; // delete the password from the session
                             req.session.user = req.user;  //refresh the session value
-                            
-                            res.send({redirect: '/resapp'}); //send redirect to AJAX
+
+                            res.send({ redirect: '/resapp' }); //send redirect to AJAX
                         }
                     });
                 } //error handling
@@ -211,7 +249,18 @@ app.post('/accounts', function (req, res) {
         if (req.body && req.body.email && req.body.role) {
             //make sure the role is valid
             if (req.body.role == "RA" || req.body.role == "Admin") {
-                createAccount.addAccount(con, req.body.email, req.body.role, res);
+                if (req.body.role == "RA") {
+                    //make sure RA has valid dorm building and floor
+                    if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber")) {
+                        createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
+                    } else {
+                        res.send({
+                            "code": "400",
+                            "failed": "Error: must select a dorm and floor for an RA."
+                        });
+                    }
+                }
+                createAccount.addAccount(con, req.body.email, req.body.role, ' ', ' ', res);
             } else {
                 res.send({
                     "code": "400",
@@ -328,8 +377,8 @@ app.post('/resapp/upload', function (req, res) {
 
         // The name of the input field is used to retrieve the uploaded file
         var chart = req.files.chartupload;
-
-        var chartid = req.body["dorm"] + req.body["semester"] + req.body["year"];
+        console.log(req.body);
+        var chartid = req.body["dorm"];
 
         // Use the mv() method to place the file somewhere on your server
         chart.mv(path.join(__dirname, 'chart'), function (err) {
@@ -343,7 +392,7 @@ app.post('/resapp/upload', function (req, res) {
                 database: "reslife"
             });
             // Parse the uploaded file into the database with the chartParser.js
-            chartParser.parseIntoDatabase(con, "./chart", chartid, req.body["year"], function (errstr) {
+            chartParser.parseIntoDatabase(con, "./chart", chartid, function (errstr) {
                 // if ChartParser sends an error, send it back to the page.
                 if (errstr) return res.status(400).send(errstr);
                 // After dealing with the file, delete it.
@@ -383,9 +432,9 @@ app.get('/resapp/floorlist', function (req, res) {
 
 
 // 404 catch-all handler (middleware)
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     res.status(404);
-    res.sendFile(path.join(__dirname,'views/404.html'));
+    res.sendFile(path.join(__dirname, 'views/404.html'));
 });
 // // 500 error handler (middleware)
 // app.use(function(err, req, res, next){

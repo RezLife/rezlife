@@ -1,41 +1,15 @@
+//modules
 var generator = require('generate-password');
-var nodemailer = require('nodemailer');
+var sendEmail = require('./sendEmail.js');
 var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 
-//email account settings
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'noreplyrezlife@gmail.com',
-        pass: 'eK2BieN83'
-    }
-});
-
 //create new user
-exports.addAccount = function (con, email, role, res) {
+exports.addAccount = function (con, email, role, dorm, floor, res) {
     var password = generator.generate();
-    //really cheap way to get around needing different floors, need to change eventually
-    var num = generator.generate();
 
-    //layout for the email
-    var mailOptions = {
-        from: 'noreplyrezlife@gmail.com',
-        to: email,
-        subject: 'Resident Life Account Creation',
-        text: 'This is your temporary password: ' + password + 
-        '. Go to the Settings tab to update your password after logging in.' + 
-        '- Rezlife App Team'
-    };
-
-    //send the email with temporary password
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    //send email with the temporary password
+    sendEmail.emailPassword(email, password);
 
     //encrypt the password
     bcrypt.hash(password, saltRounds, function (err, hash) {
@@ -47,7 +21,7 @@ exports.addAccount = function (con, email, role, res) {
             console.log("Error hashing password: " + err);
         } else {
             //insert new user into the database
-            var sql = `INSERT INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${num}', 'Test')`;
+            var sql = `INSERT INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${floor}', '${dorm}')`;
             con.query(sql, function (err, result) {
                 if (err) {
                     res.send({

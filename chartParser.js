@@ -1,19 +1,17 @@
 var parse = require('csv-parse');
 var fs = require('fs');
 
-exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) {
+exports.parseIntoDatabase = function (con, fileName, tableName, callback) {
     fs.readFile(fileName, function(err, data) {
         if (err) return callback(err.message);
         parse(data, function(err, output) {
             if (err) return callback(err.message);
             var csv = output;
-
             con.connect(function (err) {
                 if (err) return callback(err.message);
                 var columns = "name_last, name_first, studentID, date_of_birth, " +
                             "name_preferred, cohort_year, room_space_description, " +
-                            //"record_building, record_floor, record_room_number, " +
-                            "email, classification_description_1, city, state_province, record_year";
+                            "email, classification_description_1, city, state_province";
                 // this variable is meant to keep track of which columns in the csv file
                 // correlate to actual columns in the DB; some csv files might include
                 // columns other than the 12 provided above.
@@ -22,6 +20,7 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
                     if (isColumn(csv[0][i]))
                         validColumns[i] = csv[0][i];
                 }
+                
                 // for row in the csv (each student) parse out the data and insert it
                 for (let i = 1; i < csv.length; i++) {
                     // makes sure you don't have an empty line
@@ -43,20 +42,16 @@ exports.parseIntoDatabase = function (con, fileName, tableName, year, callback) 
                             }
                             //addBuildingFloorRoom(csv[i][j], record);
                         }
-                        record.push(year); // this column won't be in any csv files
+                        //record.push(year); // this column won't be in any csv files
                         // first delete any instances of this same student in case there are duplicates
                         // this will replace duplicate records.\
-                        console.log(id + year);
-                        con.query("DELETE FROM t_students WHERE record_year = ? AND studentID = ?", [year,id], function (err, result, fields) {
+                        console.log(id);
+                        // insert the info.
+                        con.query("REPLACE INTO t_students ("+columns+") VALUES (?,?,?,?,?,?,?,?,?,?,?)", record, function (err, result, fields) {
                             if (err) return callback(err.message);
-                            console.log(result);
-                            // insert the info.
-                            con.query("INSERT INTO t_students ("+columns+") VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", record, function (err, result, fields) {
-                                if (err) return callback(err.message);
-                                // this continues the function call so things run in order.
-                                // Make sure to only callback when the for loop has ended.
-                                if (i == (csv.length - 1)) callback();
-                            });
+                            // this continues the function call so things run in order.
+                            // Make sure to only callback when the for loop has ended.
+                            if (i == (csv.length - 1)) callback();
                         });
                     }
                 }
