@@ -1,3 +1,12 @@
+{{#section 'head'}}
+<!-- stuff/css stylesheets that goes in head: -->
+
+<link href="css/phonebook.css" rel="stylesheet">
+{{/section}}
+
+{{#section 'script'}}
+{{/section}}
+
 <div class="content-wrapper">
   <div class="container-fluid">
     <!-- Breadcrumbs-->
@@ -11,16 +20,20 @@
 
 
   <div class="container">
-  <div class="jumbotron">
-    <h3>
-      <strong> Major Emergency </strong>
-    </h3>
-    <dl class="row">
-      <dt class="col-sm-3">Public Safety</dt>
-      <dd class="col-sm-9">
-        <a href="tel:630-752-5911">630-752-5911</a>
-      </dd>
-    </dl>
+  <div class="jumbotron" style="background-color: white; padding-top:10px">
+    <div class="row">
+      <div class="col">
+        <h3>
+          <strong> Major Emergency </strong>
+        </h3>
+        <dl>
+          <dt class="col-sm-3">Public Safety</dt>
+          <dd class="col-sm-9">
+            <a href="tel:630-752-5911">630-752-5911</a>
+          </dd>
+        </dl>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-5">
         <h4>
@@ -62,14 +75,14 @@
         </table>
       </div>
       <!--Second table-->
-      <div class="col-md-4">
+      <div class="col-md-5">
         <h4>
           <strong>On-Call Counselor</strong>
         </h4>
         <table class="table table-sm table-bordered  table-hover table-responsive " style="border:none">
           <thead>
             <tr>
-              <th>Avalability</th>
+              <th>Availability</th>
               <th>Phone Number</th>
             </tr>
           </thead>
@@ -89,99 +102,108 @@
           </tbody>
         </table>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
         <h5>
           <strong>On-Call Dean Number for evening and weekend emergencies</strong>
         </h5>
         <a href="tel:847-886-9101">(847) 886-9101</a>
       </div>
       <!--End 3-split-->
-      <h4>
-        <strong>
-          <br>Other Important Contact Information</br>
-        </strong>
-      </h4>
-      <table class="table table-sm table-bordered  table-hover table-responsive " style="border:none">
-        <thead>
-          <tr>
-            <th>Department</th>
-            <th>Phone Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>DuPage Crisis Intervention</td>
-            <td>
-              <a href="tel:630-627-1700">(630) 627-1700</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Central DuPage Hospital</td>
-            <td>
-              <a href="tel:630-933-1600">(630) 933-1600</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Linden Oaks Hospital at Edward</td>
-            <td>
-              <a href="tel:630-305-5500">(630) 305-5500</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <h5>
-        <br>
-        <b>
-          <u>The RA/GRA determines whom shall be brought into the situation from these contacts</u>
-        </b>
-        </br>
-      </h5>
-      <table class="table table-sm table-bordered  table-hover table-responsive " style="border:none">
-        <thead>
-          <tr>
-            <th>Name (Department)</th>
-            <th>Phone Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Carrie Williams</td>
-            <td>
-              <a href="tel:815-901-1070">(815) 901-1070</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Justin Heth (Dean of Residence Life)</td>
-            <td>
-              <a href="tel:571-393-4721">(571) 393-4721</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Tousaint Whetstone (Director of the Counseling Center)</td>
-            <td>
-              <a href="tel:630-917-9049">(630) 917-9049</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Allison Ash (Dean of Student Care and Graduate Student Life)</td>
-            <td>
-              <a href="tel:949-584-8035">(949) 584-8035</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Britt Black (Director of Student Health Services)</td>
-            <td>
-              <a href="tel:630-723-8410">(630) 723-8410</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Paul Chelsen (Vice President for Student Development)</td>
-            <td>
-              <a href="tel:630-204-5132">(630) 204-5132</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h4>
+            <strong>
+              <br>Other Important Contact Information</br>
+            </strong>
+          </h4>
+          <table class="table table-sm table-bordered  table-hover table-responsive " style="border:none">
+            <thead>
+              <tr>
+                <th>Department</th>
+                <th>Phone Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DuPage Crisis Intervention</td>
+                <td>
+                  <a href="tel:630-627-1700">(630) 627-1700</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Central DuPage Hospital</td>
+                <td>
+                  <a href="tel:630-933-1600">(630) 933-1600</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Linden Oaks Hospital at Edward</td>
+                <td>
+                  <a href="tel:630-305-5500">(630) 305-5500</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+       </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h5>
+            <br>
+            <b>
+              <u>The RA/GRA determines whom shall be brought into the situation from these contacts</u>
+            </b>
+            </br>
+          </h5>
+          <table class="table table-sm table-bordered  table-hover table-responsive " style="border:none">
+            <thead>
+              <tr>
+                <th>Name (Department)</th>
+                <th>Phone Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Carrie Williams</td>
+                <td>
+                  <a href="tel:815-901-1070">(815) 901-1070</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Justin Heth (Dean of Residence Life)</td>
+                <td>
+                  <a href="tel:571-393-4721">(571) 393-4721</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Tousaint Whetstone (Director of the Counseling Center)</td>
+                <td>
+                  <a href="tel:630-917-9049">(630) 917-9049</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Allison Ash (Dean of Student Care and Graduate Student Life)</td>
+                <td>
+                  <a href="tel:949-584-8035">(949) 584-8035</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Britt Black (Director of Student Health Services)</td>
+                <td>
+                  <a href="tel:630-723-8410">(630) 723-8410</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Paul Chelsen (Vice President for Student Development)</td>
+                <td>
+                  <a href="tel:630-204-5132">(630) 204-5132</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
       <p>
         <br>
         <b>

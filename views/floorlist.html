@@ -3,24 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Floor List</title>
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
+        body{
+            font-family:sans-serif;
+        }
         table, th, td {
             border-collapse: collapse;
             border: 0px solid black;
         }
         table {
-            width: 100%;
+            width: 90%;
         }
         th, td {
-            width: 30%;
-            border-bottom: 1px solid #dddddd;
+            /*width: 30%;*/
+            border: 1px solid #ddd;
+            
+            padding: 0px;
+        
         }
+
+        .room-num{
+            text-align:center;
+        }
+
         th {
-            padding: 15px;
+            padding: 8px;
+            font-size: 20px;
+            background-color:orange;
+            text-align:center;
+            color:black;
         }
+
         h2 {
             text-align: center;
+            padding: 10px;
+            font-size: 50px;
+            font-family: "Gill Sans";
         }
         @page {
             size: portrait;
@@ -30,38 +50,102 @@
 <body>
     <h2></h2>
     <table>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Room Number</th>
+        <!-- <thead class="thead-dark"> -->
+        <tr id='header'>
         </tr>
+        <!-- </thead> -->
         <!-- <tr>
-            <td id="first"></td>
-            <td id="last"></td>
-            <td id="room"></td>
+            <td id="first">Asher</td>
+            <td id="last">Bernardi</td>
+            <td id="room">TRABE 201</td>
         </tr> -->
     </table>
 <script>
     $(document).ready(function() {
-        var params = [];
+        var fields = [];
+        var building, floor, form, order;
         var objects = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for(var i = 0; i < objects.length; i++)
-        {
+        for(var i = 0; i < objects.length; i++) {
             elements = objects[i].split('=');
-            params.push(elements[1]);
+            switch (elements[0]) {
+                case 'dorm':
+                    building = elements[1].split("+")[0];
+                    floor = elements[1].split("+")[1];
+                    break;
+                case 'fields':
+                    fields.push(elements[1]);
+                    break;
+                case 'order-by':
+                    order = elements[1];
+                    break;
+                case 'form':
+                    form = elements[1];
+                    break;
+                default:
+                    break;
+            }
         }
-        var building = params[0].split("+")[0];
-        var floor = params[0].split("+")[1];
+        // Create the headers to the table
+        if (fields.includes('fn')) {
+            $('#header').append('<th>'+'First Name'+'</th>');
+        }
+        if (fields.includes('ln')) {
+            $('#header').append('<th>'+'Last Name'+'</th>');
+        }
+        if (fields.includes('pn')){
+            $('#header').append('<th>'+'Nickname'+'</th>');
+        }
+        if (fields.includes('id')){
+            $('#header').append('<th>'+'Student ID'+'</th>');
+        }
+        if (fields.includes('y')){
+            $('#header').append('<th>'+'Year'+'</th>');
+        }
+        if (fields.includes('dob')){
+            $('#header').append('<th>'+'Birth Date'+'</th>');
+        }
+        if (fields.includes('c')){
+            $('#header').append('<th>'+'City'+'</th>');
+        }
+        if (fields.includes('r')){
+            $('#header').append('<th>'+'Room'+'</th>');
+        }
         $("h2").append(building + " " + floor);
-        if (params[3] === 'list') {
-            $.getJSON("api/students/"+building+"/"+floor+"/", function (data, status, xhr) {
+        // If the list radio is chosen, create the list
+        if (form === 'list') {
+            $.getJSON("api/students/"+building+"/"+floor+"/"+order, function (data, status, xhr) {
                 if (status >= 400) return alert("ERROR : " + xhr.responseText);
+                // for each of the results back from the API, create the rows necessary
                 $.each(data.results, function (key, val) {
+                    var row = '';
+                    if (fields.includes('fn')) {
+                        row += "<td>"+val.name_first+"</td>";
+                    }
+                    if (fields.includes('ln')) {
+                        row += "<td>"+val.name_last+"</td>";
+                    }
+                    if (fields.includes('pn')){
+                        row += "<td>"+val.name_preferred+"</td>";
+                    }
+                    if (fields.includes('id')){
+                        row += "<td>"+val.studentID+"</td>";
+                    }
+                    if (fields.includes('y')){
+                        row += "<td>"+val.cohort_year+"</td>";
+                    }
+                    if (fields.includes('dob')){
+                        var dob = new Date(val.date_of_birth);
+                        row += "<td>"+dob.getDate()+"/"+(dob.getMonth()+1)+"/"+dob.getFullYear()+"</td>";
+                    }
+                    if (fields.includes('c')){
+                        row += "<td>"+val.city+", "+val.state_province+"</td>";
+                    }
+                    if (fields.includes('r')){
+                        row += "<td>"+val.room+"</td>";
+                    }
                     $("table").append(
-                        "<tr>" +
-                            "<td>"+val.name_first+"</td>"+
-                            "<td>"+val.name_last+"</td>"+
-                            "<td>"+val.floor_and_room+"</td>"+
+                        "<tr>"+
+                            row+
                         "</tr>"
                     );
                     // $("#first").append(val.name_first + "<br />");
