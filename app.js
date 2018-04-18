@@ -188,10 +188,7 @@ app.post('/login/forgot', function (req, res) {
             }
         });
     } else {
-        res.send({
-            "code": 400,
-            "failed": "Must enter email."
-        });
+        return res.status(400).send('Must enter email.');
     }
 });
 

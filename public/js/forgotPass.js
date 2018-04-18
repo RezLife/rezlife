@@ -1,6 +1,6 @@
 
 /**
- * JQuery to do client-side validation on initial login page. 
+ * JQuery to do client-side validation on forgot password page. 
  */
 
 "use strict";
@@ -72,8 +72,7 @@ $('form').submit(function(event){
 
     //grab data to be sent
     var formData = {
-        'email' : $('input[name=email]').val(),
-        'password' : $('input[name=password]').val(),
+        'email' : $('input[name=email]').val()
     };
 
     //send data through AJAX for client-side validation
