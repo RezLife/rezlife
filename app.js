@@ -144,6 +144,7 @@ app.get('/login', function (req, res) {
 });
 
 app.get('/login/forgot', function (req, res) {
+    req.session.user = null;
     res.sendFile(path.join(__dirname, 'views/forgot-password.html'));
 });
 
@@ -158,10 +159,7 @@ app.post('/login/forgot', function (req, res) {
         con.query(sql, function (err, result) {
             if (err) {
                 console.log(err);
-                res.send({
-                    "code": 400,
-                    "failed": err
-                });
+                return res.status(400).send(err);
             } else if (result.length > 0) {
                 //send email with the temporary password
                 sendEmail.emailPassword(email, password);
@@ -186,10 +184,7 @@ app.post('/login/forgot', function (req, res) {
             }
             else {
                 console.log("No user found: ", result);
-                res.send({
-                    "code": 400,
-                    "failed": "No user found with that email."
-                });
+                return res.status(400).send('No user found with that email.');
             }
         });
     } else {
@@ -216,10 +211,6 @@ app.post('/login', function (req, res) {
             if (error) {
                 console.log("Error occurred:", error);
                 return res.status(400).send('Error occured.');
-                // res.send({
-                //     "code": 400,
-                //     "failed": "error ocurred"
-                // })
             } else {
                 console.log('Results: ', results);
                 //check if the user email exists
@@ -227,10 +218,6 @@ app.post('/login', function (req, res) {
                     //verify the password entered
                     bcrypt.compare(password, results[0].password, function (err, check) {
                         if (check == false) {
-                            // res.send({
-                            //     "code": 204,
-                            //     "success": "Email and password do not match"
-                            // });
                             return res.status(400).send('Email and password do not match.');
                         } else {
                             req.user = results[0];
@@ -242,10 +229,6 @@ app.post('/login', function (req, res) {
                     });
                 } //error handling
                 else {
-                    // res.send({
-                    //     "code": 204,
-                    //     "success": "Email does not exist"
-                    // });
                     return res.status(400).send('Email does not exist.');
                 }
             }
