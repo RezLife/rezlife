@@ -15,7 +15,7 @@ exports.emailPassword = function (email, password) {
     var mailOptions = {
         from: 'noreplyrezlife@gmail.com',
         to: email,
-        subject: 'Resident Life Account Creation',
+        subject: 'Resident Life App Password',
         text: 'This is your temporary password: ' + password + 
         '. Go to the Settings tab to update your password after logging in.' + 
         '- Rezlife App Team'

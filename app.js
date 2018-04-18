@@ -153,28 +153,45 @@ app.post('/login/forgot', function (req, res) {
         var email = req.body.email;
         var password = generator.generate();
 
-        //send email with the temporary password
-        sendEmail.emailPassword(email, password);
-
-        //encrypt the password
-        bcrypt.hash(password, saltRounds, function (err, hash) {
+        //verify that the email is for a valid account
+        var sql = `SELECT * FROM t_users WHERE email = '${email}'`;
+        con.query(sql, function (err, result) {
             if (err) {
-                console.log("Error hashing password: " + err);
-            } else {
-                //update user password
-                var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
-                con.query(sql, function (err, result) {
+                console.log(err);
+                res.send({
+                    "code": 400,
+                    "failed": err
+                });
+            } else if (result.length > 0) {
+                //send email with the temporary password
+                sendEmail.emailPassword(email, password);
+
+                //encrypt the password
+                bcrypt.hash(password, saltRounds, function (err, hash) {
                     if (err) {
-                        console.log(err);
+                        console.log("Error hashing password: " + err);
                     } else {
-                        console.log("1 record updated:", result);
+                        //update user password
+                        var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log("1 record updated:", result);
+                            }
+                        });
                     }
+                });
+                res.redirect("/login");
+            }
+            else {
+                console.log("No user found: ", result);
+                res.send({
+                    "code": 400,
+                    "failed": "No user found with that email."
                 });
             }
         });
-        res.redirect("/login");
-       // res.sendFile(path.join(__dirname, 'views/login.html'));
-
     } else {
         res.send({
             "code": 400,
