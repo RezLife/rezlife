@@ -260,7 +260,7 @@ app.post('/accounts', function (req, res) {
                         });
                     }
                 }
-                createAccount.addAccount(con, req.body.email, req.body.role, ' ', ' ', res);
+                else createAccount.addAccount(con, req.body.email, req.body.role, ' ', ' ', res);
             } else {
                 res.send({
                     "code": "400",
