@@ -252,7 +252,15 @@ app.post('/accounts', function (req, res) {
                 if (req.body.role == "RA") {
                     //make sure RA has valid dorm building and floor
                     if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber")) {
-                        createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
+                        if (createAccount.verifyFloor(req.body.floor, req.body.dorm) == true) {
+                            createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
+                        }
+                        else {
+                            res.send({
+                                "code": "400",
+                                "failed": "Error: must select valid floor for an RA."
+                            });
+                        }
                     } else {
                         res.send({
                             "code": "400",
