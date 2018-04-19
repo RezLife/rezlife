@@ -1,4 +1,7 @@
 th {
-    background-color: blue;
+    background-color: #007bff;
     color: white;
+}
+hr {
+  border-color:#007bff;
 }

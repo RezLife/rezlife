@@ -44,9 +44,9 @@ exports.getAllFromBuilding = (req,res,building,order) => {
 };
 
 exports.getAllFromFloor = (req,res,building,floor,order) => {
-    var regex = floorNameToQuery(floor) + '%';
-    con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ? ORDER BY '+order.split(';')[0],
-            [building, regex], (error, results, fields) => {
+    // var regex = floorNameToQuery(floor) + '%';
+    con.query('SELECT * FROM t_students WHERE building=? AND floor=? ORDER BY '+order.split(';')[0],
+            [building, floor], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
@@ -54,9 +54,9 @@ exports.getAllFromFloor = (req,res,building,floor,order) => {
 
 //get data from room
 exports.getAllFromRoom = (req,res,building,floor,room,order) => {
-    var regex = room + '%';
-    con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ? ORDER BY '+order.split(';')[0],
-            [building, regex], (error, results, fields) => {
+    // var regex = room + '%';
+    con.query('SELECT * FROM t_students WHERE building=? AND floor=? AND room=? ORDER BY '+order.split(';')[0],
+            [building, floor, rooom], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
@@ -83,23 +83,42 @@ exports.addStudent = (req,res,fields) => {
         fields[2] = '';
     var today = new Date();
     fields.push(today.getFullYear());
-    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, room_space_description) ' +
-            'VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, building, floor, room) ' +
+            'VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
             fields, (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
 };
 
-//delete a students
-exports.deleteStudent = (req,res,id) => {
-    var today = new Date();
-    console.log([id, today.getFullYear()]);
+//delete a student
+exports.deleteStudentByID = (req,res,id) => {
     con.query('DELETE FROM t_students WHERE studentID=?',
             [id], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
+};
+
+//delete all students in a dorm
+exports.deleteStudentByBuilding = (req,res,b) => {
+    con.query('DELETE FROM t_students WHERE building=?',
+            [b], (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
+
+//delete all students
+exports.deleteAllStudents = (req,res) => {
+    if (req.session && req.session.user && req.session.user.role == "Admin") {
+        con.query('DELETE FROM t_students', (error, results, fields) => {
+            if (error) return res.status(500).send(error); //need work
+            return res.status(200).json({ results });
+        });
+    }
+    else
+        return res.status(400).send("Permission denied");
 };
 
 // this function turns the building query into the correct format

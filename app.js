@@ -116,15 +116,24 @@ app.get('/resapp/api/stu-search/:query/:order', (req, res) => {
 });
 
 // Add a student to the roster
-app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/:class/:state/:city/:rsd', (req, res) => {
+app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/:class/:state/:city/:building/:floor/:room', (req, res) => {
     api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id,
-    req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.rsd]);
+    req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.building, req.params.floor, req.params.room]);
 });
 
 // Delete a student from the roster by ID
-app.delete('/resapp/api/student/:id', (req, res) => {
-    console.log("thing");
-    api.deleteStudent(req, res, req.params.id);
+app.delete('/resapp/api/stu-del-id/:id', (req, res) => {
+    api.deleteStudentByID(req, res, req.params.id);
+});
+
+// Delete a student from the roster by ID
+app.delete('/resapp/api/stu-del-building/:building', (req, res) => {
+    api.deleteStudentByBuilding(req, res, req.params.building);
+});
+
+// Delete all students
+app.delete('/resapp/api/stu-del-all/:building', (req, res) => {
+    api.deleteAllStudents(req, res);
 });
 
 /**
@@ -382,33 +391,50 @@ app.post('/resapp/upload', function (req, res) {
 
         // The name of the input field is used to retrieve the uploaded file
         var chart = req.files.chartupload;
-        console.log(req.body);
-        var chartid = req.body["dorm"];
+        var dorm = req.body["dorm"];
 
-        // Use the mv() method to place the file somewhere on your server
-        chart.mv(path.join(__dirname, 'chart'), function (err) {
-            if (err) return res.status(500).send(err);
+            // Use the mv() method to place the file somewhere on your server
+            chart.mv(path.join(__dirname, 'chart'), function (err) {
+                if (err) return res.status(500).send(err);
 
-            // connect to the database as the reslifeadmin
-            var con = mysql.createConnection({
-                host: "csdb.wheaton.edu",
-                user: "reslifeadmin",
-                password: "eoekK8bRe4wa",
-                database: "reslife"
-            });
-            // Parse the uploaded file into the database with the chartParser.js
-            chartParser.parseIntoDatabase(con, "./chart", chartid, function (errstr) {
-                // if ChartParser sends an error, send it back to the page.
-                if (errstr) return res.status(400).send(errstr);
-                // After dealing with the file, delete it.
-                fs.unlink(path.join(__dirname, 'chart'), function (err) {
-                    // otherwise, everything is good! Send a success message.
-                    res.status(200).send("File successfully uploaded and parsed!");
+                // connect to the database as the reslifeadmin
+                var con = mysql.createConnection({
+                    host: "csdb.wheaton.edu",
+                    user: "reslifeadmin",
+                    password: "eoekK8bRe4wa",
+                    database: "reslife"
                 });
-            });
+                // if reset was selected in the upload form, first delete everything from
+                // the selected building.
+                if (req.body["add-reset"] === "reset") {
+                    // if 'all dorms' was selected, that means they are reuploading the
+                    // csv that will have all students in it, and we should delete everything
+                    // from the database;
+                    if (dorm === "all") {
+                        con.query("DELETE FROM t_students", function (err, result, fields) {
+                            if (err) return res.status(500).send(error);
+                        });
+                    }
+                    else {
+                        con.query('DELETE FROM t_students WHERE building=?',
+                            dorm, (err, results, fields) => {
+                            if (err) return res.status(500).send(error);
+                        });
+                    }
+                }
+                // Parse the uploaded file into the database with the chartParser.js
+                chartParser.parseIntoDatabase(con, "./chart", function (errstr) {
+                    // if ChartParser sends an error, send it back to the page.
+                    if (errstr) return res.status(400).send("3 "+errstr);
+                    // After dealing with the file, delete it.
+                    fs.unlink(path.join(__dirname, 'chart'), function (err) {
+                        // otherwise, everything is good! Send a success message.
+                        res.status(200).send("File successfully uploaded and parsed!");
+                    });
+                });
 
-            con.end;
-        });
+                //con.end;
+            });
     } else {
         res.redirect('/login');
     }
