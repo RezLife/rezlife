@@ -83,8 +83,8 @@ exports.addStudent = (req,res,fields) => {
         fields[2] = '';
     var today = new Date();
     fields.push(today.getFullYear());
-    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, room_space_description) ' +
-            'VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, building, floor, room) ' +
+            'VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
             fields, (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });

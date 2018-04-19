@@ -116,9 +116,9 @@ app.get('/resapp/api/stu-search/:query/:order', (req, res) => {
 });
 
 // Add a student to the roster
-app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/:class/:state/:city/:rsd', (req, res) => {
+app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/:class/:state/:city/:building/:floor/:room', (req, res) => {
     api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id,
-    req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.rsd]);
+    req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.building, req.params.floor, req.params.room]);
 });
 
 // Delete a student from the roster by ID

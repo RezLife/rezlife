@@ -69,9 +69,9 @@
         url += '/' + data.get('cd');
         url += '/' + data.get('s');
         url += '/' + data.get('c');
-        url += '/' + data.get('rsd');
-
-        console.log(url);
+        url += '/' + data.get('b');
+        url += '/' + data.get('f');
+        url += '/' + data.get('r');
 
         $.ajax({
             type: "GET",
@@ -163,7 +163,7 @@
                             "<td>"+val.cohort_year+"</td>"+
                             "<td>"+val.date_of_birth.substring(0,10)+"</td>"+
                             "<td>"+val.city+", "+val.state_province+"</td>"+
-                            "<td>"+val.room_space_description+"</td>"+
+                            "<td>"+val.building+" "+val.floor+" "+val.room+"</td>"+
                         "</tr>"
                     );
                 });
@@ -215,9 +215,9 @@
                                     <div id='dorm-select'>
                                         <b>Dorm:</b>
                                         <select name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
-                                            <option value="smithtraber">All dorms</option>
-                                            <option value="smithtraber">Smith</option>
-                                            <option value="smithtraber">Traber</option>
+                                            <option value="all">All dorms</option>
+                                            <option value="smith">Smith</option>
+                                            <option value="traber">Traber</option>
                                             <option value="fischer">Fischer</option>
                                             <option value="macevans">MacEvans</option>
                                             <option value="williston">Williston</option>
@@ -402,9 +402,29 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="control-label col-sm-3" for="">Room Space Description:</label>
+                        <label class="control-label col-sm-3" for="">Building:</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="rsd" pattern="[A-Z]{5} .*" placeholder="Enter room space description" required>
+                            <select class="form-control" name='b'>
+                                <option value="smith">Smith</option>
+                                <option value="traber">Traber</option>
+                                <option value="fischer">Fischer</option>
+                                <option value="macevans">MacEvans</option>
+                                <option value="williston">Williston</option>
+                                <option value="apartments">Apartments</option>
+                                <option value="houses">Houses</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Floor:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="f" pattern="\d*[A-Z]{0,1}" placeholder="Example: 3E or 5" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Room Number:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="r" pattern="\d+-\d+" placeholder="Example: 416-2" required>
                         </div>
                     </div>
             </div>
