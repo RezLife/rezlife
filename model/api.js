@@ -44,9 +44,9 @@ exports.getAllFromBuilding = (req,res,building,order) => {
 };
 
 exports.getAllFromFloor = (req,res,building,floor,order) => {
-    var regex = floorNameToQuery(floor) + '%';
-    con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ? ORDER BY '+order.split(';')[0],
-            [building, regex], (error, results, fields) => {
+    // var regex = floorNameToQuery(floor) + '%';
+    con.query('SELECT * FROM t_students WHERE building=? AND floor=? ORDER BY '+order.split(';')[0],
+            [building, floor], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
@@ -54,9 +54,9 @@ exports.getAllFromFloor = (req,res,building,floor,order) => {
 
 //get data from room
 exports.getAllFromRoom = (req,res,building,floor,room,order) => {
-    var regex = room + '%';
-    con.query('SELECT * FROM t_students WHERE building=? AND floor_and_room LIKE ? ORDER BY '+order.split(';')[0],
-            [building, regex], (error, results, fields) => {
+    // var regex = room + '%';
+    con.query('SELECT * FROM t_students WHERE building=? AND floor=? AND room=? ORDER BY '+order.split(';')[0],
+            [building, floor, rooom], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
