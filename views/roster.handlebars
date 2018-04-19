@@ -177,10 +177,10 @@
     });
 
     $('#add-upload').on('click', function (event) {
-        $('#dorm-select').hide();
+        $('#dorm-select, #reset-warning').hide();
     })
     $('#reset-upload').on('click', function (event) {
-        $('#dorm-select').show();
+        $('#dorm-select, #reset-warning').show();
     })
 
 </script>
@@ -215,7 +215,9 @@
                                     <div id='dorm-select'>
                                         <b>Dorm:</b>
                                         <select name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
-                                            <option value="smithtraber">Smith-Traber</option>
+                                            <option value="smithtraber">All dorms</option>
+                                            <option value="smithtraber">Smith</option>
+                                            <option value="smithtraber">Traber</option>
                                             <option value="fischer">Fischer</option>
                                             <option value="macevans">MacEvans</option>
                                             <option value="williston">Williston</option>
@@ -230,7 +232,7 @@
                                     <input type="file" class="btn m-t-10 m-b-15 p-none" name="chartupload">
                                     <br>
                                     <input type="submit" class="btn btn-dark m-b-10" value="Upload" id="chart_upload">
-                                    <p style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building.</p>
+                                    <p id="reset-warning" style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building.</p>
                                 </div>
                             </div>
                         </form>
