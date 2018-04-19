@@ -105,7 +105,7 @@
             // disable the submit button until server confirmation
             $("#delete-student").prop("disabled", true);
 
-            var url = 'api/student'
+            var url = 'api/stu-del-id'
 
             url += '/' + data.get('id');
 
@@ -210,8 +210,8 @@
                             <div class="row">
                                 <div class="col">
                                     <p>To update roster data, first indicate the dorm and semester of the roster chart to be uploaded.</p>
-                                    <label class="radio-inline"><input id="add-upload" type="radio" name="form" value="list"> Add</label>
-                                    <label class="radio-inline"><input id="reset-upload" type="radio" name="form" value="list" checked> Reset & add</label><br>
+                                    <label class="radio-inline"><input id="add-upload" type="radio" name="add-reset" value="add"> Add</label>
+                                    <label class="radio-inline"><input id="reset-upload" type="radio" name="add-reset" value="reset" checked> Reset & add</label><br>
                                     <div id='dorm-select'>
                                         <b>Dorm:</b>
                                         <select name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
@@ -392,7 +392,7 @@
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">State<br>(two letters):</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="state" name="s" pattern="[A-Z]{2}" placeholder="Enter State of origin" required>
+                            <input type="text" class="form-control" id="state" name="s" pattern="[A-Z]{2}" placeholder="Example: IL" required>
                         </div>
                     </div>
                     <div class="form-row">

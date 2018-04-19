@@ -91,15 +91,34 @@ exports.addStudent = (req,res,fields) => {
     });
 };
 
-//delete a students
-exports.deleteStudent = (req,res,id) => {
-    var today = new Date();
-    console.log([id, today.getFullYear()]);
+//delete a student
+exports.deleteStudentByID = (req,res,id) => {
     con.query('DELETE FROM t_students WHERE studentID=?',
             [id], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
+};
+
+//delete all students in a dorm
+exports.deleteStudentByBuilding = (req,res,b) => {
+    con.query('DELETE FROM t_students WHERE building=?',
+            [b], (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
+
+//delete all students
+exports.deleteAllStudents = (req,res) => {
+    if (req.session && req.session.user && req.session.user.role == "Admin") {
+        con.query('DELETE FROM t_students', (error, results, fields) => {
+            if (error) return res.status(500).send(error); //need work
+            return res.status(200).json({ results });
+        });
+    }
+    else
+        return res.status(400).send("Permission denied");
 };
 
 // this function turns the building query into the correct format
