@@ -24,7 +24,7 @@
         
         }
 
-        .room-num{
+        #room{
             text-align:center;
         }
 
@@ -141,7 +141,7 @@
                         row += "<td>"+val.city+", "+val.state_province+"</td>";
                     }
                     if (fields.includes('r')){
-                        row += "<td>"+val.room+"</td>";
+                        row += "<td id='room'>"+val.room+"</td>";
                     }
                     $("table").append(
                         "<tr>"+

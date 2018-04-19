@@ -1,10 +1,7 @@
 ﻿{{#section 'head'}}
 <!-- stuff/css stylesheets that goes in head: -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link href="css/roster.css" rel="stylesheet">
-{{/section}}
-
-{{#section 'script'}}
+<link href="css/roster.css" rel="stylesheet"> {{/section}} {{#section 'script'}}
 <!-- javascript files that go in the bottom html: -->
 <!-- Script for successful upload message for upload roster-->
 <script>
@@ -16,10 +13,10 @@
         // Get form
         var form = $('#upload')[0];
 
-		    // Create an FormData object
+        // Create an FormData object
         var data = new FormData(form);
 
-		    // disabled the submit button
+        // disabled the submit button
         $("#chart_upload").prop("disabled", true);
 
         $.ajax({
@@ -60,7 +57,7 @@
         url += '/' + data.get('fn');
         url += '/' + data.get('ln');
         if (data.get('pn'))
-          url += '/' + data.get('pn');
+            url += '/' + data.get('pn');
         else url += '/NULL';
         url += '/' + data.get('e');
         url += '/' + data.get('id');
@@ -69,9 +66,9 @@
         url += '/' + data.get('cd');
         url += '/' + data.get('s');
         url += '/' + data.get('c');
-        url += '/' + data.get('rsd');
-
-        console.log(url);
+        url += '/' + data.get('b');
+        url += '/' + data.get('f');
+        url += '/' + data.get('r');
 
         $.ajax({
             type: "GET",
@@ -105,7 +102,7 @@
             // disable the submit button until server confirmation
             $("#delete-student").prop("disabled", true);
 
-            var url = 'api/student'
+            var url = 'api/stu-del-id'
 
             url += '/' + data.get('id');
 
@@ -163,7 +160,7 @@
                             "<td>"+val.cohort_year+"</td>"+
                             "<td>"+val.date_of_birth.substring(0,10)+"</td>"+
                             "<td>"+val.city+", "+val.state_province+"</td>"+
-                            "<td>"+val.room_space_description+"</td>"+
+                            "<td>"+val.building+" "+val.floor+" "+val.room+"</td>"+
                         "</tr>"
                     );
                 });
@@ -176,9 +173,15 @@
         });
     });
 
+    $('#add-upload').on('click', function (event) {
+        $('#dorm-select, #reset-warning').hide();
+    })
+    $('#reset-upload').on('click', function (event) {
+        $('#dorm-select, #reset-warning').show();
+    })
+
 </script>
-<script src="js/accounts.js"></script>
-{{/section}}
+<script src="js/accounts.js"></script> {{/section}} 
 
 {{!-- Actual Content --}}
 <div class="content-wrapper">
@@ -192,80 +195,101 @@
         </ol>
         <div class="row">
             <div class="col-12">
+                {{!-- Upload Chart --}}
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fa fa-upload"></i> Upload New Student Chart
                     </div>
                     <div class="card-body">
-                        
+
                         <!--the upload form-->
                         <form id="upload" action="upload" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col">
-                                    <p>To update roster data, first indicate the dorm and semester of the roster chart to be uploaded.</p> 
-                                    <b>Dorm:</b>
-                                    <select name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
-                                        <option value="smithtraber">Smith-Traber</option>
-                                        <option value="fischer">Fischer</option>
-                                        <option value="macevans">MacEvans</option>
-                                        <option value="williston">Williston</option>
-                                        <option value="apartments">Apartments</option>
-                                        <option value="houses">Houses</option>
-                                    </select>
+                                    <p>To update roster data, first indicate the dorm and semester of the roster chart to be uploaded.</p>
+                                    <label class="radio-inline"><input id="add-upload" type="radio" name="add-reset" value="add"> Add</label>
+                                    <label class="radio-inline"><input id="reset-upload" type="radio" name="add-reset" value="reset" checked> Reset & add</label><br>
+                                    <div id='dorm-select'>
+                                        <b>Dorm:</b>
+                                        <select name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
+                                            <option value="all">All dorms</option>
+                                            <option value="smith">Smith</option>
+                                            <option value="traber">Traber</option>
+                                            <option value="fischer">Fischer</option>
+                                            <option value="macevans">MacEvans</option>
+                                            <option value="williston">Williston</option>
+                                            <option value="apartments">Apartments</option>
+                                            <option value="houses">Houses</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="col">
-                                    <b>Select Floor Chart:</b><br>
+                                    <b>Select Floor Chart:</b>
+                                    <br>
                                     <input type="file" class="btn m-t-10 m-b-15 p-none" name="chartupload">
                                     <br>
                                     <input type="submit" class="btn btn-dark m-b-10" value="Upload" id="chart_upload">
-                                    <p style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building.</p>
+                                    <p id="reset-warning" style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building.</p>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
+
+                {{!-- Print Chart --}}
                 <div class="card mb-3">
+                    Print
                     <div class="card-header">
                         <i class="fa fa-print"></i> Print Chart
                     </div>
                     <div class="card-body">
                         <form id="print_chart" action="floorlist" target="_blank">
-                            <b>Dorm:</b>    
+                            <b>Dorm:</b>
                             <select class="form-control custom-select" name="dorm" style="margin-left:5px">
-                                <option value="Traber 2">Traber 2</option>
-                                <option value="Traber 3">Traber 3</option>
-                                <option value="Traber 4">Traber 4</option>
-                                <option value="Traber 5">Traber 5</option>
-                                <option value="Traber 6">Traber 6</option>
-                                <option value="Traber 7">Traber 7</option>
-                                <option value="Smith S1">Smith 1S</option>
-                                <option value="Smith S2">Smith 2S</option>
-                                <option value="Smith E2">Smith 2E</option>
-                                <option value="Smith S3">Smith 3S</option>
-                                <option value="Smith E3">Smith 3E</option>
-                                <option value="Fischer E2">Fischer 2E</option>
-                                <option value="Fischer E3">Fischer 3E</option>
-                                <option value="Fischer E4">Fischer 4E</option>
-                                <option value="Fischer E5">Fischer 5E</option>
-                                <option value="Fischer S3">Fischer 3S</option>
-                                <option value="Fischer S4">Fischer 4S</option>
-                                <option value="Fischer S5">Fischer 5S</option>
-                                <option value="Fischer W1">Fischer 1W</option>
-                                <option value="Fischer W2">Fischer 2W</option>
-                                <option value="Fischer W3">Fischer 3W</option>
-                                <option value="Fischer W4">Fischer 4W</option>
-                                <option value="Fischer W5">Fischer 5W</option>
+                                <option value="Traber T2">Traber 2</option>
+                                <option value="Traber T3">Traber 3</option>
+                                <option value="Traber T4">Traber 4</option>
+                                <option value="Traber T5">Traber 5</option>
+                                <option value="Traber T6">Traber 6</option>
+                                <option value="Traber T7">Traber 7</option>
+                                <option value="Smith 1S">Smith 1S</option>
+                                <option value="Smith 2S">Smith 2S</option>
+                                <option value="Smith 2E">Smith 2E</option>
+                                <option value="Smith 3S">Smith 3S</option>
+                                <option value="Smith 3E">Smith 3E</option>
+                                <option value="Fischer 2E">Fischer 2E</option>
+                                <option value="Fischer 3E">Fischer 3E</option>
+                                <option value="Fischer 4E">Fischer 4E</option>
+                                <option value="Fischer 5E">Fischer 5E</option>
+                                <option value="Fischer 3S">Fischer 3S</option>
+                                <option value="Fischer 4S">Fischer 4S</option>
+                                <option value="Fischer 5S">Fischer 5S</option>
+                                <option value="Fischer 1W">Fischer 1W</option>
+                                <option value="Fischer 2W">Fischer 2W</option>
+                                <option value="Fischer 3W">Fischer 3W</option>
+                                <option value="Fischer 4W">Fischer 4W</option>
+                                <option value="Fischer 5W">Fischer 5W</option>
                             </select>
-                            <b>Include:</b><br>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="fn"> First Name</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="ln"> Last Name</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="pn"> Preferred Name</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="id"> Student ID</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="y"> Year of study</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="dob"> Birth date</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="c"> City of Origin</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="r"> Room</label><br>
+                            <b>Include:</b>
+                            <br>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="fn"> First Name</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="ln"> Last Name</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="pn"> Preferred Name</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="id"> Student ID</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="y"> Year of study</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="dob"> Birth date</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="c"> City of Origin</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="r"> Room</label>
+                            <br>
                             <b>Order by:</b>
                             <select class="form-control custom-select" name='order-by'>
                                 <option value="name_first"> First Name</option>
@@ -277,12 +301,16 @@
                                 <option value="city"> City of Origin</option>
                                 <option value="room"> Room</option>
                             </select>
-                            <label class="radio-inline"><input type="radio" name="form" value="list" checked class='hidden'> List</label><br>
+                            <label class="radio-inline">
+                                <input type="radio" name="form" value="list" checked class='hidden'> List</label>
+                            <br>
                             <!-- <input type="radio" name="form" value="chart"> Chart<br> -->
                             <input type="submit" value="Print" class="btn btn-dark">
                         </form>
                     </div>
                 </div>
+
+                {{!-- Edit Roster --}}
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fa fa-edit"></i> Edit Roster
@@ -377,9 +405,10 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="control-label col-sm-3" for="">State<br>(two letters):</label>
+                        <label class="control-label col-sm-3" for="">State
+                            <br>(two letters):</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="state" name="s" pattern="[A-Z]{2}" placeholder="Enter State of origin" required>
+                            <input type="text" class="form-control" id="state" name="s" pattern="[A-Z]{2}" placeholder="Example: IL" required>
                         </div>
                     </div>
                     <div class="form-row">
@@ -389,9 +418,29 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="control-label col-sm-3" for="">Room Space Description:</label>
+                        <label class="control-label col-sm-3" for="">Building:</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="rsd" pattern="[A-Z]{5} .*" placeholder="Enter room space description" required>
+                            <select class="form-control" name='b'>
+                                <option value="smith">Smith</option>
+                                <option value="traber">Traber</option>
+                                <option value="fischer">Fischer</option>
+                                <option value="macevans">MacEvans</option>
+                                <option value="williston">Williston</option>
+                                <option value="apartments">Apartments</option>
+                                <option value="houses">Houses</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Floor:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="f" pattern="\d*[A-Z]{0,1}" placeholder="Example: 3E or 5" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Room Number:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="r" pattern="\d+-\d+" placeholder="Example: 416-2" required>
                         </div>
                     </div>
             </div>
@@ -448,7 +497,9 @@
                         <div style="width: 100%; text-align: center">
                             <div class="btn-group" style="width: 60%;margin: auto">
                                 <input type="search" class="form-control" name="search" placeholder="Search student roster..." required>
-                                <button type="submit" class="btn btn-primary" id="search-submit"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-primary" id="search-submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
                             </div>
                             <b> Order by: </b>
                             <select name='order-by' class="custom-select" style="width: auto">
