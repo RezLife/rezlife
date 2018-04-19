@@ -153,6 +153,7 @@ app.get('/login', function (req, res) {
 });
 
 app.get('/login/forgot', function (req, res) {
+    req.session.user = null;
     res.sendFile(path.join(__dirname, 'views/forgot-password.html'));
 });
 
@@ -162,33 +163,41 @@ app.post('/login/forgot', function (req, res) {
         var email = req.body.email;
         var password = generator.generate();
 
-        //send email with the temporary password
-        sendEmail.emailPassword(email, password);
-
-        //encrypt the password
-        bcrypt.hash(password, saltRounds, function (err, hash) {
+        //verify that the email is for a valid account
+        var sql = `SELECT * FROM t_users WHERE email = '${email}'`;
+        con.query(sql, function (err, result) {
             if (err) {
-                console.log("Error hashing password: " + err);
-            } else {
-                //update user password
-                var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
-                con.query(sql, function (err, result) {
+                console.log(err);
+                return res.status(400).send(err);
+            } else if (result.length > 0) {
+                //send email with the temporary password
+                sendEmail.emailPassword(email, password);
+
+                //encrypt the password
+                bcrypt.hash(password, saltRounds, function (err, hash) {
                     if (err) {
-                        console.log(err);
+                        console.log("Error hashing password: " + err);
                     } else {
-                        console.log("1 record updated:", result);
+                        //update user password
+                        var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log("1 record updated:", result);
+                            }
+                        });
                     }
                 });
+                res.redirect("/login");
+            }
+            else {
+                console.log("No user found: ", result);
+                return res.status(400).send('No user found with that email.');
             }
         });
-        res.redirect("/login");
-       // res.sendFile(path.join(__dirname, 'views/login.html'));
-
     } else {
-        res.send({
-            "code": 400,
-            "failed": "Must enter email."
-        });
+        return res.status(400).send('Must enter email.');
     }
 });
 
@@ -208,10 +217,6 @@ app.post('/login', function (req, res) {
             if (error) {
                 console.log("Error occurred:", error);
                 return res.status(400).send('Error occured.');
-                // res.send({
-                //     "code": 400,
-                //     "failed": "error ocurred"
-                // })
             } else {
                 console.log('Results: ', results);
                 //check if the user email exists
@@ -219,10 +224,6 @@ app.post('/login', function (req, res) {
                     //verify the password entered
                     bcrypt.compare(password, results[0].password, function (err, check) {
                         if (check == false) {
-                            // res.send({
-                            //     "code": 204,
-                            //     "success": "Email and password do not match"
-                            // });
                             return res.status(400).send('Email and password do not match.');
                         } else {
                             req.user = results[0];
@@ -234,10 +235,6 @@ app.post('/login', function (req, res) {
                     });
                 } //error handling
                 else {
-                    // res.send({
-                    //     "code": 204,
-                    //     "success": "Email does not exist"
-                    // });
                     return res.status(400).send('Email does not exist.');
                 }
             }
@@ -261,7 +258,15 @@ app.post('/accounts', function (req, res) {
                 if (req.body.role == "RA") {
                     //make sure RA has valid dorm building and floor
                     if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber")) {
-                        createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
+                        if (createAccount.verifyFloor(req.body.floor, req.body.dorm) == true) {
+                            createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
+                        }
+                        else {
+                            res.send({
+                                "code": "400",
+                                "failed": "Error: must select valid floor for an RA."
+                            });
+                        }
                     } else {
                         res.send({
                             "code": "400",
@@ -269,7 +274,7 @@ app.post('/accounts', function (req, res) {
                         });
                     }
                 }
-                createAccount.addAccount(con, req.body.email, req.body.role, ' ', ' ', res);
+                else createAccount.addAccount(con, req.body.email, req.body.role, ' ', ' ', res);
             } else {
                 res.send({
                     "code": "400",
