@@ -3,8 +3,7 @@ th {
     color: white;
 }
 hr {
-<<<<<<< HEAD
-  border-color:blue;
+  border-color: #007bff;
 }
 
 .table-striped > tbody > tr:nth-child(even) > td, .table-striped > tbody > tr:nth-child(even) > th {
