@@ -153,13 +153,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     
-    <script>
+    <script type="text/javascript">
         //ajax request to get session from admin
         $.ajax({
             type: "GET",
             url: "/resapp/user-session",
             success: function (res){
                 let user = res.user;
+                
                 
                 //if admin, show the extra features
                 if (user.role == "Admin"){
@@ -171,21 +172,29 @@
             }
         });
 
-        $(document).ready(function($) { 
-          $(window).on("load",function (){
+        $(document).ready(function($) {
+            window.onload = $("#preloader").fadeOut(500); 
+          
 
-            $("#preloader").fadeOut(500);
+            //$(window).on('load',function)
+               // alert('yay');    
+              
 
-          });
+            
+
+        
         });
     </script>
+    <script src="js/sb-admin.min.js"></script>
+     {{{_sections.script}}}
+    
     
     {{!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> --}}
     <!-- Core plugin JavaScript-->
     {{!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> --}}
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin.min.js"></script>
-    {{{_sections.script}}}
+    
+   
     
     
 </body>
