@@ -14,7 +14,7 @@ var session = require('client-sessions');
 var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 let api = require('./model/api.js');
-let app_routes = require('./routes/app_routes');
+let resapp = require('./routes/resapp');
 var generator = require('generate-password');
 
 var app = express();
@@ -137,7 +137,7 @@ app.delete('/resapp/api/stu-del-all/:building', (req, res) => {
 });
 
 /**
- * HTML get requests, render handlebar files
+ * Page HTML get requests, render handlebar/HTML files
  */
 app.get('/', function (req, res) {
     req.session.user = null;
@@ -156,6 +156,9 @@ app.get('/login/forgot', function (req, res) {
     req.session.user = null;
     res.sendFile(path.join(__dirname, 'views/forgot-password.html'));
 });
+
+//render files from the resapp route
+app.use('/resapp', resapp);
 
 //post method called after a user enters their email address to change their password
 app.post('/login/forgot', function (req, res) {
@@ -200,8 +203,6 @@ app.post('/login/forgot', function (req, res) {
         return res.status(400).send('Must enter email.');
     }
 });
-
-app.use('/resapp', app_routes);
 
 //post method called after the login button is pressed
 app.post('/login', function (req, res) {
