@@ -8,13 +8,11 @@ function showDorms(id) {
     dorm.classList.toggle("show");
 }
 
-
 //Show dorms for RA Account creation
 $('#roles').change(function () {
     if ($(this).val() == "Admin"|| $(this).val() == "Select") {
         $('#dorms').hide();
         $('#floors').hide();
-       // $('#fiscFL').hide();
     }
     if ($(this).val() == "RA") {
         $('#dorms').show();

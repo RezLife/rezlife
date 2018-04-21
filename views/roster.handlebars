@@ -4,6 +4,32 @@
 <link href="css/roster.css" rel="stylesheet"> {{/section}} {{#section 'script'}}
 <!-- javascript files that go in the bottom html: -->
 <script>
+    $(document).ready(function(){
+        var url = 'api/load-building-list'
+        $("#buildingListUpload").empty();
+        $("#buildingListUpload").append("<option value='all'>All</option>");
+     $.ajax({
+            type: "GET",
+            url: url,
+            data: null,
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data, status, xhr) {
+                $.each(data.results, function (key, val) {
+                    $("#buildingListUpload").append(
+                        "<option value='" + val.buildingID + "'>" +
+                           val.buildingName +
+                        "</option>"
+                    );
+                });
+            },
+            error: function (xhr) {
+                alert("ERROR : " + xhr.responseText);
+            }
+        });
+});
+
     //Script for loading building list into dropdownlist on modal add window form load
     $('#add-student').ready(function(){
         var url = 'api/load-building-list'
@@ -232,20 +258,13 @@
                         <form id="upload" action="upload" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col">
-                                    <p>To update roster data, first indicate the dorm and semester of the roster chart to be uploaded.</p>
+                                    <p>To update roster data, first indicate the dorm of the roster chart to be uploaded.</p>
                                     <label class="radio-inline"><input id="add-upload" type="radio" name="add-reset" value="add"> Add</label>
                                     <label class="radio-inline"><input id="reset-upload" type="radio" name="add-reset" value="reset" checked> Reset & add</label><br>
                                     <div id='dorm-select'>
                                         <b>Dorm:</b>
-                                        <select name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
+                                        <select id="buildingListUpload" name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
                                             <option value="all">All dorms</option>
-                                            <option value="smith">Smith</option>
-                                            <option value="traber">Traber</option>
-                                            <option value="fischer">Fischer</option>
-                                            <option value="macevans">MacEvans</option>
-                                            <option value="williston">Williston</option>
-                                            <option value="apartments">Apartments</option>
-                                            <option value="houses">Houses</option>
                                         </select>
                                     </div>
                                 </div>
