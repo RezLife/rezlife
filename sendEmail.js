@@ -10,11 +10,20 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+//email feedback
+var feedbackTran = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'resappteam@gmail.com',
+        pass: 'eK2BieN83'
+    }
+});
+
 exports.emailFeedback = function (email, feedback) {
     //layout for the email
     var mailOptions = {
-        from: 'noreplyrezlife@gmail.com',
-        to: 'noreplyrezlife@gmail.com',
+        from: 'resappteam@gmail.com',
+        to: 'resappteam@gmail.com',
         subject: 'Feedback for WebApp',
         text: 'User who sent the feedback: ' + email + 
         '. Their comments:' + 
@@ -22,7 +31,7 @@ exports.emailFeedback = function (email, feedback) {
     };
 
     //send the email with temporary password
-    transporter.sendMail(mailOptions, function (error, info) {
+    feedbackTran.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
         } else {
