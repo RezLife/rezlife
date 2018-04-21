@@ -168,6 +168,11 @@ app.get('/login/forgot', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/forgot-password.html'));
 });
 
+app.get('/credits', function(req,res) {
+    req.session.user = null;
+    res.sendFile(path.join(__dirname, 'views/credits.html'))
+})
+
 //render files from the resapp route
 app.use('/resapp', resapp);
 
