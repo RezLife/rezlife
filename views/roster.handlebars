@@ -15,7 +15,17 @@
             timeout: 600000,
             success: function (data, status, xhr) {
                 $.each(data.results, function (key, val) {
-                    $("#upload-building-list, #add-building-list, #print-building-list").append(
+                    $("#upload-building-list").append(
+                        "<option value='" + val.buildingID + "'>" +
+                           val.buildingName +
+                        "</option>"
+                    );
+                     $("#add-building-list").append(
+                        "<option value='" + val.buildingID + "'>" +
+                           val.buildingName +
+                        "</option>"
+                    );
+                    $("#print-building-list").append(
                         "<option value='" + val.buildingID + "'>" +
                            val.buildingName +
                         "</option>"
@@ -203,7 +213,7 @@
     $('#reset-upload').on('click', function (event) {
         $('#dorm-select, #reset-warning').show();
     });
-    
+
     //
     $("#print-building-list").on('click', function (event) {
 
