@@ -14,7 +14,7 @@ var session = require('client-sessions');
 var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 let api = require('./model/api.js');
-let app_routes = require('./routes/app_routes');
+let resapp = require('./routes/resapp');
 var generator = require('generate-password');
 
 var app = express();
@@ -121,12 +121,18 @@ app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/
     req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.building, req.params.floor, req.params.room]);
 });
 
+// Load in Building Drown Down list
+app.get('/resapp/api/load-building-list', (req, res) => {
+    api.loadBuildingList(req, res);
+});
+
+
 // Delete a student from the roster by ID
 app.delete('/resapp/api/stu-del-id/:id', (req, res) => {
     api.deleteStudentByID(req, res, req.params.id);
 });
 
-// Delete a student from the roster by ID
+// Delete Students based on buildingID
 app.delete('/resapp/api/stu-del-building/:building', (req, res) => {
     api.deleteStudentByBuilding(req, res, req.params.building);
 });
@@ -137,7 +143,7 @@ app.delete('/resapp/api/stu-del-all/:building', (req, res) => {
 });
 
 /**
- * HTML get requests, render handlebar files
+ * Page HTML get requests, render handlebar/HTML files
  */
 app.get('/', function (req, res) {
     req.session.user = null;
@@ -157,7 +163,8 @@ app.get('/login/forgot', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/forgot-password.html'));
 });
 
-app.use('/resapp', app_routes);
+//render files from the resapp route
+app.use('/resapp', resapp);
 
 //post method called after a user enters their email address to change their password
 app.post('/login/forgot', function (req, res) {

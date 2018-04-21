@@ -1,6 +1,7 @@
 
 /**
- * JQuery to do client-side validation on forgot password page. 
+ * forgotPass.js
+ * File to handle client-side validation on forgot password page. 
  */
 
 "use strict";

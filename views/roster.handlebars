@@ -1,13 +1,36 @@
 ﻿{{#section 'head'}}
 <!-- stuff/css stylesheets that goes in head: -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link href="css/roster.css" rel="stylesheet">
-{{/section}}
-
-{{#section 'script'}}
+<link href="css/roster.css" rel="stylesheet"> {{/section}} {{#section 'script'}}
 <!-- javascript files that go in the bottom html: -->
-<!-- Script for successful upload message for upload roster-->
 <script>
+    //Script for loading building list into dropdownlist on modal add window form load
+    $('#add-student').ready(function(){
+        var url = 'api/load-building-list'
+        $("#buildingDropList").empty();
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: null,
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data, status, xhr) {
+                $.each(data.results, function (key, val) {
+                    $("#buildingDropList").append(
+                        "<option value='" + val.buildingID + "'>" +
+                           val.buildingName +
+                        "</option>"
+                    );
+                });
+            },
+            error: function (xhr) {
+                alert("ERROR : " + xhr.responseText);
+            }
+        });
+});
+    //Script for successful upload message for upload roster
     $("#upload").submit(function (event) {
 
         //stop submit the form, we will post it manually.
@@ -16,10 +39,10 @@
         // Get form
         var form = $('#upload')[0];
 
-		    // Create an FormData object
+        // Create an FormData object
         var data = new FormData(form);
 
-		    // disabled the submit button
+        // disabled the submit button
         $("#chart_upload").prop("disabled", true);
 
         $.ajax({
@@ -60,7 +83,7 @@
         url += '/' + data.get('fn');
         url += '/' + data.get('ln');
         if (data.get('pn'))
-          url += '/' + data.get('pn');
+            url += '/' + data.get('pn');
         else url += '/NULL';
         url += '/' + data.get('e');
         url += '/' + data.get('id');
@@ -184,8 +207,7 @@
     })
 
 </script>
-<script src="js/accounts.js"></script>
-{{/section}}
+<script src="js/accounts.js"></script> {{/section}} 
 
 {{!-- Actual Content --}}
 <div class="content-wrapper">
@@ -199,12 +221,13 @@
         </ol>
         <div class="row">
             <div class="col-12">
+                {{!-- Upload Chart --}}
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fa fa-upload"></i> Upload New Student Chart
                     </div>
                     <div class="card-body">
-                        
+
                         <!--the upload form-->
                         <form id="upload" action="upload" method="post" enctype="multipart/form-data">
                             <div class="row">
@@ -228,7 +251,8 @@
                                 </div>
 
                                 <div class="col">
-                                    <b>Select Floor Chart:</b><br>
+                                    <b>Select Floor Chart:</b>
+                                    <br>
                                     <input type="file" class="btn m-t-10 m-b-15 p-none" name="chartupload">
                                     <br>
                                     <input type="submit" class="btn btn-dark m-b-10" value="Upload" id="chart_upload">
@@ -238,13 +262,16 @@
                         </form>
                     </div>
                 </div>
+
+                {{!-- Print Chart --}}
                 <div class="card mb-3">
+                    Print
                     <div class="card-header">
                         <i class="fa fa-print"></i> Print Chart
                     </div>
                     <div class="card-body">
                         <form id="print_chart" action="floorlist" target="_blank">
-                            <b>Dorm:</b>    
+                            <b>Dorm:</b>
                             <select class="form-control custom-select" name="dorm" style="margin-left:5px">
                                 <option value="Traber T2">Traber 2</option>
                                 <option value="Traber T3">Traber 3</option>
@@ -270,15 +297,25 @@
                                 <option value="Fischer 4W">Fischer 4W</option>
                                 <option value="Fischer 5W">Fischer 5W</option>
                             </select>
-                            <b>Include:</b><br>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="fn"> First Name</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="ln"> Last Name</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="pn"> Preferred Name</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="id"> Student ID</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="y"> Year of study</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="dob"> Birth date</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="c"> City of Origin</label>
-                            <label class="checkbox-inline"><input type="checkbox" name="fields" value="r"> Room</label><br>
+                            <b>Include:</b>
+                            <br>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="fn"> First Name</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="ln"> Last Name</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="pn"> Preferred Name</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="id"> Student ID</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="y"> Year of study</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="dob"> Birth date</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="c"> City of Origin</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="fields" value="r"> Room</label>
+                            <br>
                             <b>Order by:</b>
                             <select class="form-control custom-select" name='order-by'>
                                 <option value="name_first"> First Name</option>
@@ -290,12 +327,16 @@
                                 <option value="city"> City of Origin</option>
                                 <option value="room"> Room</option>
                             </select>
-                            <label class="radio-inline"><input type="radio" name="form" value="list" checked class='hidden'> List</label><br>
+                            <label class="radio-inline">
+                                <input type="radio" name="form" value="list" checked class='hidden'> List</label>
+                            <br>
                             <!-- <input type="radio" name="form" value="chart"> Chart<br> -->
                             <input type="submit" value="Print" class="btn btn-dark">
                         </form>
                     </div>
                 </div>
+
+                {{!-- Edit Roster --}}
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fa fa-edit"></i> Edit Roster
@@ -390,7 +431,8 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="control-label col-sm-3" for="">State<br>(two letters):</label>
+                        <label class="control-label col-sm-3" for="">State
+                            <br>(two letters):</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="state" name="s" pattern="[A-Z]{2}" placeholder="Example: IL" required>
                         </div>
@@ -404,14 +446,8 @@
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Building:</label>
                         <div class="col-sm-9">
-                            <select class="form-control" name='b'>
+                            <select class="form-control" id="buildingDropList" name='b'>
                                 <option value="smith">Smith</option>
-                                <option value="traber">Traber</option>
-                                <option value="fischer">Fischer</option>
-                                <option value="macevans">MacEvans</option>
-                                <option value="williston">Williston</option>
-                                <option value="apartments">Apartments</option>
-                                <option value="houses">Houses</option>
                             </select>
                         </div>
                     </div>
@@ -481,7 +517,9 @@
                         <div style="width: 100%; text-align: center">
                             <div class="btn-group" style="width: 60%;margin: auto">
                                 <input type="search" class="form-control" name="search" placeholder="Search student roster..." required>
-                                <button type="submit" class="btn btn-primary" id="search-submit"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-primary" id="search-submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
                             </div>
                             <b> Order by: </b>
                             <select name='order-by' class="custom-select" style="width: auto">

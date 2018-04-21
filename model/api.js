@@ -1,4 +1,9 @@
-//set of functions to retrieve data according to specific urls 
+/**
+* api.js
+* Set of functions to retrive data according to specific urls.
+*/
+
+//package added for mysql database communication
 let mysql = require('mysql');
 
 //currently connected with admin user. Pool instead of connection to deal with multiple requests.
@@ -37,7 +42,7 @@ exports.getRowFromTableEqual = (req,res,table,column,row) => {
 
 //get data from building
 exports.getAllFromBuilding = (req,res,building,order) => {
-    con.query('SELECT * FROM t_students WHERE building=? ORDER BY '+order.split(';')[0], [building], (error, results, fields) => {
+    con.query('SELECT * FROM t_students WHERE buildingID=? ORDER BY '+order.split(';')[0], [building], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
     });
@@ -45,7 +50,7 @@ exports.getAllFromBuilding = (req,res,building,order) => {
 
 exports.getAllFromFloor = (req,res,building,floor,order) => {
     // var regex = floorNameToQuery(floor) + '%';
-    con.query('SELECT * FROM t_students WHERE building=? AND floor=? ORDER BY '+order.split(';')[0],
+    con.query('SELECT * FROM t_students WHERE buildingID=? AND floor=? ORDER BY '+order.split(';')[0],
             [building, floor], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
@@ -55,7 +60,7 @@ exports.getAllFromFloor = (req,res,building,floor,order) => {
 //get data from room
 exports.getAllFromRoom = (req,res,building,floor,room,order) => {
     // var regex = room + '%';
-    con.query('SELECT * FROM t_students WHERE building=? AND floor=? AND room=? ORDER BY '+order.split(';')[0],
+    con.query('SELECT * FROM t_students WHERE buildingID=? AND floor=? AND room=? ORDER BY '+order.split(';')[0],
             [building, floor, rooom], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
@@ -83,7 +88,7 @@ exports.addStudent = (req,res,fields) => {
         fields[2] = '';
     var today = new Date();
     fields.push(today.getFullYear());
-    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, building, floor, room) ' +
+    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, buildingID, floor, room) ' +
             'VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
             fields, (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
@@ -100,9 +105,17 @@ exports.deleteStudentByID = (req,res,id) => {
     });
 };
 
-//delete all students in a dorm
+//load dropdownlist for buildings, giving the buildingName as text and buildingID as value
+exports.loadBuildingList = (req, res) => {
+    con.query('Select buildingName, buildingID From t_building order by buildingOrder asc', (error, results, fields) => {
+        if (error) return res.status(500).send(error);
+        return res.status(200).json({ results });
+    });
+};
+
+//delete all students in a dorm based on buildingID
 exports.deleteStudentByBuilding = (req,res,b) => {
-    con.query('DELETE FROM t_students WHERE building=?',
+    con.query('DELETE FROM t_students WHERE buildingID=?',
             [b], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
@@ -120,30 +133,3 @@ exports.deleteAllStudents = (req,res) => {
     else
         return res.status(400).send("Permission denied");
 };
-
-// this function turns the building query into the correct format
-function buildingNameToQuery(str) {
-    switch (str.toLowerCase()) {
-        // case "traber":
-        //     return "TRABE";
-        // case "smith":
-        //     return "SMITH";
-        // case "fischer":
-        //     return "FISCH";
-        // case "macManis":
-        //     return "MACMAN";
-        // case "evans":
-        //     return "EVANS";
-        default:
-            return str;
-    }
-}
-
-// this function turns the floor query into the correct format
-function floorNameToQuery(str) {
-    // if (isNaN(str)) {
-    //     return str.substring(str.length - 1, str.length) + str.substring(0,str.length - 1);
-    // }
-    // else 
-    return str;
-}

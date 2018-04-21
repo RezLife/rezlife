@@ -1,10 +1,7 @@
-
-// $(document).ready(function(){
-//     $("#Fischer").select(function(){
-      
-//     });
-//     });
-
+/**
+* accounts.js
+* Handles account page input/rendering.
+*/
 
 function showDorms(id) {
     var dorm = document.getElementById(id);

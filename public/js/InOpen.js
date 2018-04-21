@@ -1,3 +1,8 @@
+/**
+ * InOpen.js
+ * Code behind for InOpen.
+ */
+
 var schedule = [];
 var table = document.getElementById('maintable').getElementsByTagName('tbody')[0];
 var totalRows = 0;
@@ -137,14 +142,14 @@ function addRow() {
 
         for (var r = 1; r < 8; r++) {
 
-            if (isAccount == true){
+           // if (isAccount == true){
                  schedule[j][r].innerHTML = createButton(testVal, j, r);
                  
-            }
-            else schedule[j][r].innerHTML = testVal;
+           // }
+           // else schedule[j][r].innerHTML = testVal;
 
         }
-        if (isAccount == true) isAccount = false;
+        //if (isAccount == true) isAccount = false;
     }
     totalRows = j;
     $(document).ready(function() {
