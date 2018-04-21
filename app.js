@@ -197,7 +197,7 @@ app.post('/login/forgot', function (req, res) {
                             if (err) {
                                 console.log(err);
                             } else {
-                                console.log("1 record updated:", result);
+                                console.log("1 record updated");
                             }
                         });
                     }
@@ -224,6 +224,7 @@ app.post('/contact', function (req, res) {
             sendEmail.emailFeedback("No email entered", req.body.comment);
         }
     }
+    res.redirect('/resapp');
 });
 
 //post method called after the login button is pressed
@@ -241,7 +242,6 @@ app.post('/login', function (req, res) {
                 console.log("Error occurred:", error);
                 return res.status(400).send('Error occured.');
             } else {
-                console.log('Results: ', results);
                 //check if the user email exists
                 if (results.length > 0) {
                     //verify the password entered
@@ -380,7 +380,6 @@ app.post('/settings', function (req, res) {
                                 });
                             } else {
                                 res.send("Password updated!");
-                                console.log("1 record updated:", result);
                             }
                         });
                     }
