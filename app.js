@@ -9,6 +9,7 @@ var mysql = require('mysql');
 var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
 var createAccount = require('./controller/createAccount.js');
+var deleteAccount = require('./controller/deleteAccount.js');
 var sendEmail = require('./controller/sendEmail.js');
 var login = require('./controller/login.js');
 var session = require('client-sessions');
@@ -268,29 +269,7 @@ app.post('/accounts', function (req, res) {
 app.post('/deleteAccount', function (req, res) {
     //authentication and only allow admins to delete an account
     if (req.session && req.session.user && req.session.user.role == "Admin") {
-        //if email was entered
-        if (req.body && req.body.email) {
-            var email = req.body.email;
-            //delete the user from the database
-            var sql = `DELETE FROM t_users WHERE email = ?`;
-            con.query(sql, email, function (err, result) {
-                if (err) {
-                    res.send({
-                        "code": "400",
-                        "failed": err
-                    });
-                } else {
-                    console.log("1 record deleted:", result);
-                    res.send("Account deleted");
-                }
-            });
-        } //error handling
-        else {
-            res.send({
-                "code": "400",
-                "failed": "Error: must enter email to delete account."
-            });
-        }
+        deleteAccount.deleteAccount(req, res, con);
     } else {
         res.redirect("/login");
     }
