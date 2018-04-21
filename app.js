@@ -220,6 +220,7 @@ app.post('/contact', function (req, res) {
             sendEmail.emailFeedback("No email entered", req.body.comment);
         }
     }
+    res.redirect('/resapp');
 });
 
 //post method called after the login button is pressed

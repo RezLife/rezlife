@@ -16,7 +16,7 @@ exports.emailFeedback = function (email, feedback) {
         from: 'noreplyrezlife@gmail.com',
         to: 'noreplyrezlife@gmail.com',
         subject: 'Feedback for WebApp',
-        text: 'User who sent the feedback: ' + password + 
+        text: 'User who sent the feedback: ' + email + 
         '. Their comments:' + 
         feedback
     };
