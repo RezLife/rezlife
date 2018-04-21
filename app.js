@@ -205,34 +205,7 @@ app.post('/login', function (req, res) {
 
     //if email and password were entered
     if (req.body && req.body.email && req.body.password) {
-        var email = req.body.email;
-        var password = req.body.password;
-        //find the user in the database
-        con.query('SELECT * FROM t_users WHERE email = ?', [email], function (error, results, fields) {
-            if (error) {
-                console.log("Error occurred:", error);
-                return res.status(400).send('Error occured.');
-            } else {
-                //check if the user email exists
-                if (results.length > 0) {
-                    //verify the password entered
-                    bcrypt.compare(password, results[0].password, function (err, check) {
-                        if (check == false) {
-                            return res.status(400).send('Email and password do not match.');
-                        } else {
-                            req.user = results[0];
-                            delete req.user.password; // delete the password from the session
-                            req.session.user = req.user;  //refresh the session value
-
-                            res.send({ redirect: '/resapp' }); //send redirect to AJAX
-                        }
-                    });
-                } //error handling
-                else {
-                    return res.status(400).send('Email does not exist.');
-                }
-            }
-        });
+        login.login(req, res, con);
     } else {
         res.send({
             "code": 400,
