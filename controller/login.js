@@ -3,6 +3,37 @@ var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 var generator = require('generate-password');
 
+exports.login = function (req, res, con) {
+    var email = req.body.email;
+    var password = req.body.password;
+    //find the user in the database
+    con.query('SELECT * FROM t_users WHERE email = ?', [email], function (error, results, fields) {
+        if (error) {
+            console.log("Error occurred:", error);
+            return res.status(400).send('Error occured.');
+        } else {
+            //check if the user email exists
+            if (results.length > 0) {
+                //verify the password entered
+                bcrypt.compare(password, results[0].password, function (err, check) {
+                    if (check == false) {
+                        return res.status(400).send('Email and password do not match.');
+                    } else {
+                        req.user = results[0];
+                        delete req.user.password; // delete the password from the session
+                        req.session.user = req.user;  //refresh the session value
+
+                        res.send({ redirect: '/resapp' }); //send redirect to AJAX
+                    }
+                });
+            } //error handling
+            else {
+                return res.status(400).send('Email does not exist.');
+            }
+        }
+    });
+}
+
 exports.forgotPass = function (req, res, con) {
     var email = req.body.email;
     var password = generator.generate();
