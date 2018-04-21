@@ -29,10 +29,6 @@
             width: 0px;
             height: 0px;
         }
-        .contactText {
-            padding: 5px 5px 5px 5px; 
-            border-radius: 15px 15px 15px 15px;
-        }
         .inside {
             border-radius: 5px 5px 5px 5px;
             padding: 2px;
@@ -111,7 +107,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#contactModal">
-                        <i class="fa fa-envelope-o"></i> Contact Us</a>
+                        <i class="fa fa-envelope-o"></i> Contact Us / Bug Report</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#logoutModal">
@@ -141,37 +137,34 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Contact Us</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Contact Us / Bug Report</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Please enter your questions, comments, or bug reports below:</div>
-                <form action="/contact" method="post">
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-4">
-                        Email:
-                        <input class="inside" type="text" name="email">
+                <div class="modal-body">
+                    <form action="/contact" method="post" class="form-horizontal">
+                        <div class="form-row">
+                            <p style="margin-bottom:0.3rem">Your Email: </p>
+                            <input class="form-control" type="email" name="email" placeholder="Your Email Here" required>
                         </div>
-                    </div>
-                    <div class="row">&nbsp;</div>
-                    
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-4">
-                    <div class="contactText">
-                        <textarea class="inside" rows="4" cols="50" name="comment" placeholder="Enter text here ..."></textarea>
-                    </div>
-                            </div>
+                        <div class="form-row" >
+                            <p style="margin-bottom:0.3rem; margin-top:1rem;">Tell us what's wrong. Write your comment/feedback here:</p>
                         </div>
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-4">
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <input class="btn btn-primary" type="submit" style="color:white" value="Submit">
-                    </div>
-                            </div>
-                    </div>
-                </form>
+                        <div class="form-row">
+                            <textarea class="form-control" rows="4" name="comment" placeholder="Enter text here" required></textarea>
+                        </div>
+                        
+                            
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <input class="btn btn-primary" type="submit" style="color:white" value="Submit">
+                        </div>
+                            
+                        
+
+                    </form>
+                </div>
             </div>
         </div>
     </div>
