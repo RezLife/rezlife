@@ -1,25 +1,28 @@
 /**
  * Load modules
  */
-var express = require('express');
+let api = require('./model/api.js');
+var bcrypt = require('bcrypt');
 var bodyParser = require('body-parser');
-var path = require('path');
-var fs = require('fs');
-var mysql = require('mysql');
-var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
 var createAccount = require('./controller/createAccount.js');
-var sendEmail = require('./controller/sendEmail.js');
-var login = require('./controller/login.js');
-var session = require('client-sessions');
-var bcrypt = require('bcrypt');
-const saltRounds = 11; //number of salt rounds for encryption
-let api = require('./model/api.js');
-let resapp = require('./routes/resapp');
+var deleteAccount = require('./controller/deleteAccount.js');
+var express = require('express');
+var fileUpload = require('express-fileupload');
+var fs = require('fs');
 var generator = require('generate-password');
+let handlebars = require('express-handlebars');
+var login = require('./controller/login.js');
+var mysql = require('mysql');
+var path = require('path');
+let resapp = require('./routes/resapp');
+var sendEmail = require('./controller/sendEmail.js');
+var session = require('client-sessions');
+var settings = require('./controller/settings.js');
+const saltRounds = 11; //number of salt rounds for encryption
 
 var app = express();
-let handlebars = require('express-handlebars');
+
 /**
  * Set Handlebars as Template Engine
  */
@@ -268,29 +271,7 @@ app.post('/accounts', function (req, res) {
 app.post('/deleteAccount', function (req, res) {
     //authentication and only allow admins to delete an account
     if (req.session && req.session.user && req.session.user.role == "Admin") {
-        //if email was entered
-        if (req.body && req.body.email) {
-            var email = req.body.email;
-            //delete the user from the database
-            var sql = `DELETE FROM t_users WHERE email = ?`;
-            con.query(sql, email, function (err, result) {
-                if (err) {
-                    res.send({
-                        "code": "400",
-                        "failed": err
-                    });
-                } else {
-                    console.log("1 record deleted:", result);
-                    res.send("Account deleted");
-                }
-            });
-        } //error handling
-        else {
-            res.send({
-                "code": "400",
-                "failed": "Error: must enter email to delete account."
-            });
-        }
+        deleteAccount.deleteAccount(req, res, con);
     } else {
         res.redirect("/login");
     }
@@ -300,47 +281,7 @@ app.post('/deleteAccount', function (req, res) {
 app.post('/settings', function (req, res) {
     //authentication
     if (req.session && req.session.user) {
-        //if new password was entered twice
-        if (req.body && req.body.password && req.body.passcheck) {
-            //verify that passwords match
-            if (req.body.password == req.body.passcheck) {
-                var email = req.session.user.email;
-                //encrypt the password
-                bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-                    if (err) {
-                        res.send({
-                            "code": "400",
-                            "error": err
-                        });
-                        console.log("Error hashing password: " + err);
-                    } else {
-                        //update the user's password
-                        var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
-                        con.query(sql, function (err, result) {
-                            if (err) {
-                                res.send({
-                                    "code": "400",
-                                    "failed": err
-                                });
-                            } else {
-                                res.send("Password updated!");
-                            }
-                        });
-                    }
-                });
-            } //error handling
-            else {
-                res.send({
-                    "code": "400",
-                    "failed": "Error: passwords do not match."
-                });
-            }
-        } else {
-            res.send({
-                "code": "400",
-                "failed": "Error: must enter new password to update."
-            });
-        }
+        settings.updatePass(req, res, con);
     } else {
         res.redirect("/login");
     }
