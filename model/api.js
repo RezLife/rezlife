@@ -73,7 +73,9 @@ exports.searchAllStudents = (req,res,query,order) => {
     // all spaces are replaced with ORs in the regex
     var oredWords = query.replace(/ /g, '|');
     var searchString = '.*(' + oredWords + ').*';
-    con.query('SELECT * FROM t_students WHERE building RLIKE ? OR floor RLIKE ? OR room RLIKE ? OR name_first RLIKE ?'+
+    con.query('SELECT name_first, name_last, name_preferred, studentID, city, state_province, cohort_year, date_of_birth, floor ' +
+            'FROM t_students inner join t_building on t_students.buildingID = t_building.buildingID ' +
+            'WHERE buildingName RLIKE ? OR floor RLIKE ? OR room RLIKE ? OR name_first RLIKE ? '+
             'OR name_last RLIKE ? OR studentID RLIKE ? OR name_preferred RLIKE ? OR city RLIKE ? OR state_province RLIKE ?'+
             'ORDER BY '+order.split(';')[0],
             [searchString,searchString,searchString,searchString,searchString,searchString, searchString, searchString, searchString], (error, results, fields) => {
