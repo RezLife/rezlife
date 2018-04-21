@@ -133,3 +133,12 @@ exports.deleteAllStudents = (req,res) => {
     else
         return res.status(400).send("Permission denied");
 };
+
+// retrieve the list of all the floors from a specific building
+exports.loadFloorsFromBuilding = (req,res,buildingid) => {
+    con.query('SELECT floor FROM t_students WHERE buildingID=? ORDER BY floor',
+            [buildingid], (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
