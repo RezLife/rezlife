@@ -1,27 +1,28 @@
 /**
  * Load modules
  */
-var express = require('express');
+let api = require('./model/api.js');
+var bcrypt = require('bcrypt');
 var bodyParser = require('body-parser');
-var path = require('path');
-var fs = require('fs');
-var mysql = require('mysql');
-var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
 var createAccount = require('./controller/createAccount.js');
 var deleteAccount = require('./controller/deleteAccount.js');
-var sendEmail = require('./controller/sendEmail.js');
-var settings = require('./controller/settings.js');
-var login = require('./controller/login.js');
-var session = require('client-sessions');
-var bcrypt = require('bcrypt');
-const saltRounds = 11; //number of salt rounds for encryption
-let api = require('./model/api.js');
-let resapp = require('./routes/resapp');
+var express = require('express');
+var fileUpload = require('express-fileupload');
+var fs = require('fs');
 var generator = require('generate-password');
+let handlebars = require('express-handlebars');
+var login = require('./controller/login.js');
+var mysql = require('mysql');
+var path = require('path');
+let resapp = require('./routes/resapp');
+var sendEmail = require('./controller/sendEmail.js');
+var session = require('client-sessions');
+var settings = require('./controller/settings.js');
+const saltRounds = 11; //number of salt rounds for encryption
 
 var app = express();
-let handlebars = require('express-handlebars');
+
 /**
  * Set Handlebars as Template Engine
  */
