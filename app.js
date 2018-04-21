@@ -224,7 +224,7 @@ app.post('/accounts', function (req, res) {
             if (req.body.role == "RA" || req.body.role == "Admin") {
                 if (req.body.role == "RA") {
                     //make sure RA has valid dorm building and floor
-                    if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber")) {
+                    if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber" || req.body.dorm == "UCH")) {
                         if (createAccount.verifyFloor(req.body.floor, req.body.dorm) == true) {
                             createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
                         }
