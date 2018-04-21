@@ -29,10 +29,16 @@
             width: 0px;
             height: 0px;
         }
-
         .contactText {
             padding: 5px 5px 5px 5px; 
             border-radius: 15px 15px 15px 15px;
+        }
+        .inside {
+            border-radius: 5px 5px 5px 5px;
+            padding: 2px;
+            border-style: solid;
+            border-color: black;
+            border-width: 1px;
         }
     </style>
 
@@ -142,11 +148,11 @@
                 </div>
                 <div class="modal-body">Please enter your questions, comments, or bug reports below:</div>
                 <form action="/contact" method="post">
-                    Email:
-                    <input type="text" name="email">
+                     Email:
+                    <input class="inside" type="text" name="email">
                     <br>
                     <div class="contactText">
-                        <textarea rows="4" cols="50" name="comment" placeholder="Enter text here ..."></textarea>
+                        <textarea class="inside" rows="4" cols="50" name="comment" placeholder="Enter text here ..."></textarea>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
