@@ -37,7 +37,7 @@
             <br/>
             <p>Select type of account:</p>
             <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required" class="text-center">
-              <form action="/action_page.php">
+              <form>
                 <select name="role" id='roles'>
                   <option value="Select">Role</option>
                   <option value="Admin">Admin</option>
@@ -49,9 +49,9 @@
             </div>
             
             <br>
-            <div class="wrap-input100 validate-input m-b-16" data-validate="Dorm is required">
-              <form action="/action_page.php">
-                <select name="dorm" id='dorms' class="hidden">
+            <div class="wrap-input100 validate-input m-b-16 hidden" id='dorms' data-validate="Dorm is required">
+              <form>
+                <select name="dorm" >
                   <option value="Select">Select</option>
                   <option value="Fischer" id = "Fischer">Fischer</option>
                   <option value="Smaber" id = "Smaber">Smith-Traber</option>
@@ -59,9 +59,9 @@
                 <br>
                 <br>
             </div>
-            <div class="wrap-input100 validate-input m-b-16" data-validate="Floor is required">
-              <form action="/action_page.php">
-                <select name="floor" id='floors' class = "hidden" >
+            <div class="wrap-input100 validate-input m-b-16 hidden" id='floors' data-validate="Floor is required">
+              <form>
+                <select name="floor">
                   <option>Select</option>
                   <option>Fischer</option>
                   <option value="1 West">1 West</option>

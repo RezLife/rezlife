@@ -38,9 +38,7 @@ exports.verifyFloor = function (floor, building) {
 //create new user
 exports.addAccount = function (con, email, role, dorm, floor, res) {
     var password = generator.generate();
-
-    //send email with the temporary password
-    sendEmail.emailPassword(email, password);
+    var unencrypted = password;
 
     //encrypt the password
     bcrypt.hash(password, saltRounds, function (err, hash) {
@@ -51,6 +49,8 @@ exports.addAccount = function (con, email, role, dorm, floor, res) {
             });
             console.log("Error hashing password: " + err);
         } else {
+            //send email with the temporary password
+            sendEmail.emailPassword(email, unencrypted);
             //insert new user into the database
             var sql = `INSERT INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${floor}', '${dorm}')`;
             con.query(sql, function (err, result) {
@@ -61,7 +61,6 @@ exports.addAccount = function (con, email, role, dorm, floor, res) {
                     });
                 } else {
                     res.send("Account added!");
-                    console.log("1 record inserted:", result);
                 }
             });
         }
