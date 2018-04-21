@@ -5,6 +5,32 @@
 <!-- javascript files that go in the bottom html: -->
 <!-- Script for successful upload message for upload roster-->
 <script>
+    $('#add-student').ready(function(){
+        var url = 'api/load-building-list'
+        $("#buildingDropList").empty();
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: null,
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data, status, xhr) {
+                $.each(data.results, function (key, val) {
+                    $("#buildingDropList").append(
+                        "<option value='" + val.buildingID + "'>" +
+                           val.buildingName +
+                        "</option>"
+                    );
+                });
+            },
+            error: function (xhr) {
+                alert("ERROR : " + xhr.responseText);
+            }
+        });
+});
+
     $("#upload").submit(function (event) {
 
         //stop submit the form, we will post it manually.
@@ -420,14 +446,8 @@
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Building:</label>
                         <div class="col-sm-9">
-                            <select class="form-control" name='b'>
-                                <option value="smith">Smith</option>
-                                <option value="traber">Traber</option>
-                                <option value="fischer">Fischer</option>
-                                <option value="macevans">MacEvans</option>
-                                <option value="williston">Williston</option>
-                                <option value="apartments">Apartments</option>
-                                <option value="houses">Houses</option>
+                            <select class="form-control" id="buildingDropList" name='b'>
+
                             </select>
                         </div>
                     </div>

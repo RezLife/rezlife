@@ -121,6 +121,12 @@ app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/
     req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.building, req.params.floor, req.params.room]);
 });
 
+// Load in Building Drown Down list
+app.get('/resapp/api/load-building-list', (req, res) => {
+    api.loadBuildingList(req, res);
+});
+
+
 // Delete a student from the roster by ID
 app.delete('/resapp/api/stu-del-id/:id', (req, res) => {
     api.deleteStudentByID(req, res, req.params.id);

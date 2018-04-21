@@ -88,7 +88,7 @@ exports.addStudent = (req,res,fields) => {
         fields[2] = '';
     var today = new Date();
     fields.push(today.getFullYear());
-    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, building, floor, room) ' +
+    con.query('INSERT INTO t_students (name_first, name_last, name_preferred, email, studentID, date_of_birth, cohort_year, classification_description_1, state_province, city, buildingID, floor, room) ' +
             'VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
             fields, (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
@@ -101,6 +101,14 @@ exports.deleteStudentByID = (req,res,id) => {
     con.query('DELETE FROM t_students WHERE studentID=?',
             [id], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
+
+//load dropdownlist for buildings
+exports.loadBuildingList = (req, res) => {
+    con.query('Select buildingName, buildingID From t_building order by buildingOrder asc', (error, results, fields) => {
+        if (error) return res.status(500).send(error);
         return res.status(200).json({ results });
     });
 };
@@ -125,30 +133,3 @@ exports.deleteAllStudents = (req,res) => {
     else
         return res.status(400).send("Permission denied");
 };
-
-// this function turns the building query into the correct format
-function buildingNameToQuery(str) {
-    switch (str.toLowerCase()) {
-        // case "traber":
-        //     return "TRABE";
-        // case "smith":
-        //     return "SMITH";
-        // case "fischer":
-        //     return "FISCH";
-        // case "macManis":
-        //     return "MACMAN";
-        // case "evans":
-        //     return "EVANS";
-        default:
-            return str;
-    }
-}
-
-// this function turns the floor query into the correct format
-function floorNameToQuery(str) {
-    // if (isNaN(str)) {
-    //     return str.substring(str.length - 1, str.length) + str.substring(0,str.length - 1);
-    // }
-    // else 
-    return str;
-}
