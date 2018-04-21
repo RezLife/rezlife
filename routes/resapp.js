@@ -88,4 +88,15 @@ router.get('/emergency', function (req, res) {
     }
 });
 
+//return user session when prompted
+router.get('/user-session',function(req,res){
+    //authentication
+    if (req.session && req.session.user) {
+        // console.log('req.session: ' + req.session);
+        // console.log('req.session.user: ' + req.session.user);
+        res.send(req.session);
+    } else {
+        res.redirect('/login');
+    }
+});
 module.exports = router;

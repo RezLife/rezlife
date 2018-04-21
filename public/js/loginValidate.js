@@ -1,5 +1,6 @@
 
 /**
+ * loginValidate.js
  * JQuery to do client-side validation on initial login page. 
  */
 
@@ -75,7 +76,7 @@ $('form').submit(function(event){
         'email' : $('input[name=email]').val(),
         'password' : $('input[name=password]').val(),
     };
-
+    
     //send data through AJAX for client-side validation
     $.ajax({
         type: "POST",

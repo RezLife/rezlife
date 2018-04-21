@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-	<title>Login ResLife</title>
+	<title>Login ResApp</title>
+	<link rel="icon" type="image/png" href="https://png.icons8.com/color/50/000000/teapot.png" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
@@ -30,19 +31,13 @@
 	<!--===============================================================================================-->
 </head>
 
-<script>
-// $(document).ready(function(){
-	
-	
-// })
-</script>
-
 <body>
-	    <nav class="navbar navbar-light bg-light fixed-top">
-				<div class="container-fluid"> 
-				<a class="raleway btn btn-primary" onclick = "window.location.href='/'" style = "color:white">Back to Home</a>
-				</div> 
-		  </nav>
+	
+	<nav class="navbar navbar-light bg-light fixed-top">
+		<div class="container-fluid"> 
+		<a class="raleway btn btn-primary" onclick = "window.location.href='/'" style = "color:white">Back to Home</a>
+		</div> 
+	</nav>
 		  
 	
 	
@@ -54,14 +49,14 @@
 					ResApp Login
 				</span>
 				<!-- action="/login" -->
-				<form id="login-form" action = "/login" class="validate-form" method="post">
+				<form autocomplete="off" id="login-form" action = "/login" class="validate-form" method="post">
 					<div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-						<input class="input100" type="text" name="email" placeholder="User email">
+						<input class="input100" type="text" name="email" placeholder="User email" autocomplete="off">
 						<span class="focus-input100"></span>
 					</div>
 					<br/>
 					<div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
-						<input class="input100" type="password" name="password" placeholder="Password">
+						<input class="input100" type="password" name="password" placeholder="Password" autocomplete="off">
 						<span class="focus-input100"></span>
 					</div>
 					<div class="flex-sb-m w-full p-t-3 p-b-24">

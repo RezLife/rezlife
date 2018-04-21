@@ -34,16 +34,25 @@ document.write("Today's Date: " + today);
 //  End -->
 </script>
 </div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <iframe src="http://www.topverses.com/widget2.php?find1=&fg=4F474E&bg=F5F5F5&font=14pt Times New Roman&raw=&search=x&rate=H&" 
+        style="width:300px;height:250px;border-radius: 5px;border: 1px solid gray;">
+      </iframe>
+    </div>
+    <div class="col-sm">
 
- <div align="center" class="container">
-    <p>Today's weather:</p>
+      {{!-- Weather Widget --}}
+      <div class="container" style="width: 258px;"><iframe style="display: block;" 
+        src="https://cdnres.willyweather.com/widget/loadView.html?id=86638"
+        width="300" height="300" frameborder="0" scrolling="no"></iframe>
+        <a style="position: relative;display: block;height: 20px;z-index: 1;margin: -20px 0 0 0;text-indent: -9999em" 
+        href="https://www.willyweather.com/il/dupage-county/wheaton.html"
+         rel="nofollow">Willie's Weather</a></div>
+      </div>
+    </div>
   </div>
-{{!-- Weather Widget --}}
-<div class="container" style="width: 258px;"><iframe style="display: block;" 
-src="https://cdnres.willyweather.com/widget/loadView.html?id=86638"
- width="258" height="228" frameborder="0" scrolling="no"></iframe>
- <a style="position: relative;display: block;height: 20px;z-index: 1;margin: -20px 0 0 0;text-indent: -9999em" 
- href="https://www.willyweather.com/il/dupage-county/wheaton.html"
-  rel="nofollow">Willie's Weather</a></div>
-
 </div>
+
+ 

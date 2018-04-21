@@ -1,3 +1,7 @@
+/**
+ * gulpfile.js
+ */
+
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var header = require('gulp-header');
