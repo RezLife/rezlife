@@ -8,8 +8,9 @@ var fs = require('fs');
 var mysql = require('mysql');
 var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
-var createAccount = require('./createAccount.js');
-var sendEmail = require('./sendEmail.js');
+var createAccount = require('./controller/createAccount.js');
+var sendEmail = require('./controller/sendEmail.js');
+var login = require('./controller/login.js');
 var session = require('client-sessions');
 var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
@@ -167,48 +168,18 @@ app.get('/login/forgot', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/forgot-password.html'));
 });
 
+app.get('/credits', function(req,res) {
+    req.session.user = null;
+    res.sendFile(path.join(__dirname, 'views/credits.html'))
+})
+
 //render files from the resapp route
 app.use('/resapp', resapp);
 
 //post method called after a user enters their email address to change their password
 app.post('/login/forgot', function (req, res) {
     if (req.body && req.body.email) {
-        var email = req.body.email;
-        var password = generator.generate();
-
-        //verify that the email is for a valid account
-        var sql = `SELECT * FROM t_users WHERE email = '${email}'`;
-        con.query(sql, function (err, result) {
-            if (err) {
-                console.log(err);
-                return res.status(400).send(err);
-            } else if (result.length > 0) {
-                //send email with the temporary password
-                sendEmail.emailPassword(email, password);
-
-                //encrypt the password
-                bcrypt.hash(password, saltRounds, function (err, hash) {
-                    if (err) {
-                        console.log("Error hashing password: " + err);
-                    } else {
-                        //update user password
-                        var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
-                        con.query(sql, function (err, result) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                console.log("1 record updated");
-                            }
-                        });
-                    }
-                });
-                res.redirect("/login");
-            }
-            else {
-                console.log("No user found: ", result);
-                return res.status(400).send('No user found with that email.');
-            }
-        });
+        login.forgotPass(req, res, con);
     } else {
         return res.status(400).send('Must enter email.');
     }
@@ -234,34 +205,7 @@ app.post('/login', function (req, res) {
 
     //if email and password were entered
     if (req.body && req.body.email && req.body.password) {
-        var email = req.body.email;
-        var password = req.body.password;
-        //find the user in the database
-        con.query('SELECT * FROM t_users WHERE email = ?', [email], function (error, results, fields) {
-            if (error) {
-                console.log("Error occurred:", error);
-                return res.status(400).send('Error occured.');
-            } else {
-                //check if the user email exists
-                if (results.length > 0) {
-                    //verify the password entered
-                    bcrypt.compare(password, results[0].password, function (err, check) {
-                        if (check == false) {
-                            return res.status(400).send('Email and password do not match.');
-                        } else {
-                            req.user = results[0];
-                            delete req.user.password; // delete the password from the session
-                            req.session.user = req.user;  //refresh the session value
-
-                            res.send({ redirect: '/resapp' }); //send redirect to AJAX
-                        }
-                    });
-                } //error handling
-                else {
-                    return res.status(400).send('Email does not exist.');
-                }
-            }
-        });
+        login.login(req, res, con);
     } else {
         res.send({
             "code": 400,
