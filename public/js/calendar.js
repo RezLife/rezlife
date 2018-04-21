@@ -1,4 +1,9 @@
-$(document).ready(function(){
+/**
+* calendar.js
+* Handles calendar page input/rendering.
+*/
+
+$(document).ready(function () {
     //when a dorm is selected, the calendar specific to the dorm will be displayed
     $('#cal-option').change(function(){
         

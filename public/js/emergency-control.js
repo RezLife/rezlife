@@ -1,3 +1,8 @@
+/**
+* emergency-control.js
+* Handles emergency control page input.
+*/
+
 var speed = "500";
 //Document.Ready
 $(document).ready(function () {

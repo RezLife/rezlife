@@ -1,4 +1,9 @@
-//set of functions to retrieve data according to specific urls 
+/**
+* api.js
+* Set of functions to retrive data according to specific urls.
+*/
+
+//package added for mysql database communication
 let mysql = require('mysql');
 
 //currently connected with admin user. Pool instead of connection to deal with multiple requests.
