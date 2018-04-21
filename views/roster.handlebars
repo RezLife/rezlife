@@ -79,6 +79,7 @@
             success: function (data, status, xhr) {
                 alert("SUCCESS : " + xhr.responseText);
                 $("#add-student").prop("disabled", false);
+                form.reset();
             },
             error: function (xhr) {
                 alert("ERROR : " + xhr.responseText);
@@ -213,10 +214,10 @@
                                         <b>Dorm:</b>
                                         <select name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
                                             <option value="all">All dorms</option>
-                                            <option value="smith">Smith</option>
-                                            <option value="traber">Traber</option>
-                                            <option value="fischer">Fischer</option>
-                                            <option value="macevans">MacEvans</option>
+                                            <option value="Smith">Smith</option>
+                                            <option value="Traber">Traber</option>
+                                            <option value="Fischer">Fischer</option>
+                                            <option value="Macevans">MacEvans</option>
                                             <option value="williston">Williston</option>
                                             <option value="apartments">Apartments</option>
                                             <option value="houses">Houses</option>
@@ -301,8 +302,8 @@
                                 <option value="city"> City of Origin</option>
                                 <option value="room"> Room</option>
                             </select>
-                            <label class="radio-inline">
-                                <input type="radio" name="form" value="list" checked class='hidden'> List</label>
+                            <label class="radio-inline" style='opacity: 0'>
+                                <input type="radio" name="form" value="list" checked> List</label>
                             <br>
                             <!-- <input type="radio" name="form" value="chart"> Chart<br> -->
                             <input type="submit" value="Print" class="btn btn-dark">
@@ -421,13 +422,13 @@
                         <label class="control-label col-sm-3" for="">Building:</label>
                         <div class="col-sm-9">
                             <select class="form-control" name='b'>
-                                <option value="smith">Smith</option>
-                                <option value="traber">Traber</option>
-                                <option value="fischer">Fischer</option>
-                                <option value="macevans">MacEvans</option>
-                                <option value="williston">Williston</option>
-                                <option value="apartments">Apartments</option>
-                                <option value="houses">Houses</option>
+                                <option value="Smith">Smith</option>
+                                <option value="Traber">Traber</option>
+                                <option value="Fischer">Fischer</option>
+                                <option value="Macevans">MacEvans</option>
+                                <option value="Williston">Williston</option>
+                                <option value="Apartments">Apartments</option>
+                                <option value="Houses">Houses</option>
                             </select>
                         </div>
                     </div>
