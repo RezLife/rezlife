@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,30 +13,35 @@
     <title>ResApp</title>
     <!-- Bootstrap core CSS-->
     <!-- CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    {{!-- Vendor Bootstrap --}}
-    {{!-- <link href="vendor/bootstrap/css/font-awesome.min.css" rel="stylesheet" type="text/css"> --}}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"> {{!-- Vendor Bootstrap --}} {{!--
+    <link href="vendor/bootstrap/css/font-awesome.min.css" rel="stylesheet" type="text/css"> --}}
     <!-- Custom fonts for this template-->
-    
+
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin.css" rel="stylesheet">
-    {{!-- stylesheet for preloader --}}
+    <link href="css/sb-admin.css" rel="stylesheet"> {{!-- stylesheet for preloader --}}
     <link href="css/preloader.css" rel="stylesheet">
     <style>
-        .hidden{
+        .hidden {
             visibility: hidden;
             overflow: hidden;
             width: 0px;
             height: 0px;
         }
+
+        .contactText {
+            padding: 5px 5px 5px 5px; 
+            border-radius: 15px 15px 15px 15px;
+        }
     </style>
-    
+
     {{{_sections.head}}}
 </head>
-   <div id="preloader">
-      <div id="loader"></div>
-    </div> 
+<div id="preloader">
+    <div id="loader"></div>
+</div>
+
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -99,22 +104,24 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                    <a class="nav-link" data-toggle="modal" data-target="#contactModal">
+                        <i class="fa fa-envelope-o"></i> Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#logoutModal">
                         <i class="fa fa-fw fa-sign-out"></i>Logout</a>
                 </li>
             </ul>
         </div>
     </nav>
-    
-    {{{body}}}
-    
 
-    {{!-- Footer --}}
+    {{{body}}} {{!-- Footer --}}
     <footer class="sticky-footer">
         <div class="container">
             <div class="text-center">
-                <small>Copyright © ResApp 2018 | 
-                <a href="https://icons8.com" style="font-size: 80; font-weight:400; color:black">Icon pack by Icons8</a></small>
+                <small>Copyright © ResApp 2018 |
+                    <a href="https://icons8.com" style="font-size: 80; font-weight:400; color:black">Icon pack by Icons8</a>
+                </small>
             </div>
         </div>
     </footer>
@@ -123,8 +130,34 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fa fa-angle-up"></i>
     </a>
+    <!-- Contact Us Modal-->
+    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Contact Us</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Please enter your questions, comments, or bug reports below:</div>
+                <form action="/contact" method="post">
+                    Email:
+                    <input type="text" name="email">
+                    <br>
+                    <div class="contactText">
+                        <textarea rows="4" cols="50" name="comment" placeholder="Enter text here ..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <input class="btn btn-primary" type="submit" style="color:white" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- Logout Modal-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -142,60 +175,63 @@
         </div>
     </div>
 
-    
+
     <!-- Bootstrap core JavaScript-->
-    
-    
-    {{!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> --}}
-    {{!-- <script src="vendor/jquery/jquery.min.js"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    
+
+
+    {{!--
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script> --}} {{!--
+    <script src="vendor/jquery/jquery.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+
     <script type="text/javascript">
         //ajax request to get session from admin
         $.ajax({
             type: "GET",
             url: "/resapp/user-session",
-            success: function (res){
+            success: function (res) {
                 let user = res.user;
-                
-                
+
+
                 //if admin, show the extra features
-                if (user.role == "Admin"){
+                if (user.role == "Admin") {
                     $('.admin-features').removeClass("hidden");
                 }
             },
-            error: function(req,status,res){
-                console.log("Something went wrong..",status,err);
+            error: function (req, status, res) {
+                console.log("Something went wrong..", status, err);
             }
         });
 
-        $(document).ready(function($) {
-            window.onload = $("#preloader").fadeOut(500); 
-          
+        $(document).ready(function ($) {
+            window.onload = $("#preloader").fadeOut(500);
+
 
             //$(window).on('load',function)
-               // alert('yay');    
-              
+            // alert('yay');    
 
-            
 
-        
+
+
+
         });
     </script>
-    <script src="js/sb-admin.min.js"></script>
-     {{{_sections.script}}}
-    
-    
-    {{!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> --}}
+    <script src="js/sb-admin.min.js"></script> {{{_sections.script}}} {{!--
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> --}}
     <!-- Core plugin JavaScript-->
-    {{!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> --}}
+    {{!--
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script> --}}
     <!-- Custom scripts for all pages-->
-    
-   
-    
-    
+
+
+
+
 </body>
 
 </html>

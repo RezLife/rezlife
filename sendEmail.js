@@ -10,6 +10,36 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+//email feedback
+var feedbackTran = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'resappteam@gmail.com',
+        pass: 'eK2BieN83'
+    }
+});
+
+exports.emailFeedback = function (email, feedback) {
+    //layout for the email
+    var mailOptions = {
+        from: 'resappteam@gmail.com',
+        to: 'resappteam@gmail.com',
+        subject: 'Feedback for WebApp',
+        text: 'User who sent the feedback: ' + email + 
+        '. Their comments:' + 
+        feedback
+    };
+
+    //send the email with temporary password
+    feedbackTran.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+};
+
 exports.emailPassword = function (email, password) {
     //layout for the email
     var mailOptions = {
