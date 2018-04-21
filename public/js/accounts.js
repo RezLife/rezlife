@@ -11,17 +11,18 @@ function showDorms(id) {
 
 //Show dorms for RA Account creation
 $('#roles').change(function () {
-    if ($(this).val() == "Admin"|| $(this).val() == "Select") {
-        $('#dorms').hide();
-        $('#floors').hide();
+
+    if ($(this).val() === "Admin"|| $(this).val() == "Select") {
+        $('#dorms').addClass("hidden");
+        $('#floors').addClass("hidden");
        // $('#fiscFL').hide();
     }
-    if ($(this).val() == "RA") {
-        $('#dorms').show();
+    if ($(this).val() === "RA") {
+        $('#dorms').removeClass("hidden");
     }
 });
 
 //Show floors for RA Account creation
 $('#dorms').change(function () {
-     $('#floors').show();
+     $('#floors').removeClass("hidden");
 });
