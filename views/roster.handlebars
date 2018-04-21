@@ -3,8 +3,34 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link href="css/roster.css" rel="stylesheet"> {{/section}} {{#section 'script'}}
 <!-- javascript files that go in the bottom html: -->
-<!-- Script for successful upload message for upload roster-->
 <script>
+    //Script for loading building list into dropdownlist on modal add window form load
+    $('#add-student').ready(function(){
+        var url = 'api/load-building-list'
+        $("#buildingDropList").empty();
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: null,
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data, status, xhr) {
+                $.each(data.results, function (key, val) {
+                    $("#buildingDropList").append(
+                        "<option value='" + val.buildingID + "'>" +
+                           val.buildingName +
+                        "</option>"
+                    );
+                });
+            },
+            error: function (xhr) {
+                alert("ERROR : " + xhr.responseText);
+            }
+        });
+});
+    //Script for successful upload message for upload roster
     $("#upload").submit(function (event) {
 
         //stop submit the form, we will post it manually.
@@ -421,14 +447,8 @@
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Building:</label>
                         <div class="col-sm-9">
-                            <select class="form-control" name='b'>
-                                <option value="Smith">Smith</option>
-                                <option value="Traber">Traber</option>
-                                <option value="Fischer">Fischer</option>
-                                <option value="Macevans">MacEvans</option>
-                                <option value="Williston">Williston</option>
-                                <option value="Apartments">Apartments</option>
-                                <option value="Houses">Houses</option>
+                            <select class="form-control" id="buildingDropList" name='b'>
+                                <option value="smith">Smith</option>
                             </select>
                         </div>
                     </div>

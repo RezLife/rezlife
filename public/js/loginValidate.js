@@ -1,5 +1,6 @@
 
 /**
+ * loginValidate.js
  * JQuery to do client-side validation on initial login page. 
  */
 
