@@ -10,6 +10,27 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+exports.emailFeedback = function (email, feedback) {
+    //layout for the email
+    var mailOptions = {
+        from: 'noreplyrezlife@gmail.com',
+        to: 'noreplyrezlife@gmail.com',
+        subject: 'Feedback for WebApp',
+        text: 'User who sent the feedback: ' + password + 
+        '. Their comments:' + 
+        feedback
+    };
+
+    //send the email with temporary password
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+};
+
 exports.emailPassword = function (email, password) {
     //layout for the email
     var mailOptions = {
