@@ -6,35 +6,6 @@
 <script>
     $(document).ready(function(){
         var url = 'api/load-building-list'
-        $("#buildingListUpload").empty();
-        $("#buildingListUpload").append("<option value='all'>All</option>");
-     $.ajax({
-            type: "GET",
-            url: url,
-            data: null,
-            dataType: 'json',
-            cache: false,
-            timeout: 600000,
-            success: function (data, status, xhr) {
-                $.each(data.results, function (key, val) {
-                    $("#buildingListUpload").append(
-                        "<option value='" + val.buildingID + "'>" +
-                           val.buildingName +
-                        "</option>"
-                    );
-                });
-            },
-            error: function (xhr) {
-                alert("ERROR : " + xhr.responseText);
-            }
-        });
-});
-
-    //Script for loading building list into dropdownlist on modal add window form load
-    $('#add-student').ready(function(){
-        var url = 'api/load-building-list'
-        $("#buildingDropList").empty();
-
         $.ajax({
             type: "GET",
             url: url,
@@ -44,7 +15,7 @@
             timeout: 600000,
             success: function (data, status, xhr) {
                 $.each(data.results, function (key, val) {
-                    $("#buildingDropList").append(
+                    $("#upload-building-list, #add-building-list, #print-building-list").append(
                         "<option value='" + val.buildingID + "'>" +
                            val.buildingName +
                         "</option>"
@@ -55,7 +26,7 @@
                 alert("ERROR : " + xhr.responseText);
             }
         });
-});
+    });
     //Script for successful upload message for upload roster
     $("#upload").submit(function (event) {
 
@@ -131,6 +102,7 @@
             success: function (data, status, xhr) {
                 alert("SUCCESS : " + xhr.responseText);
                 $("#add-student").prop("disabled", false);
+                form.reset();
             },
             error: function (xhr) {
                 alert("ERROR : " + xhr.responseText);
@@ -227,10 +199,15 @@
 
     $('#add-upload').on('click', function (event) {
         $('#dorm-select, #reset-warning').hide();
-    })
+    });
     $('#reset-upload').on('click', function (event) {
         $('#dorm-select, #reset-warning').show();
-    })
+    });
+    
+    //
+    $("#print-building-list").on('click', function (event) {
+
+    });
 
 </script>
 <script src="js/accounts.js"></script> {{/section}} 
@@ -263,7 +240,7 @@
                                     <label class="radio-inline"><input id="reset-upload" type="radio" name="add-reset" value="reset" checked> Reset & add</label><br>
                                     <div id='dorm-select'>
                                         <b>Dorm:</b>
-                                        <select id="buildingListUpload" name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
+                                        <select id="upload-building-list" name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
                                             <option value="all">All dorms</option>
                                         </select>
                                     </div>
@@ -284,20 +261,19 @@
 
                 {{!-- Print Chart --}}
                 <div class="card mb-3">
-                    Print
                     <div class="card-header">
                         <i class="fa fa-print"></i> Print Chart
                     </div>
                     <div class="card-body">
                         <form id="print_chart" action="floorlist" target="_blank">
                             <b>Dorm:</b>
-                            <select class="form-control custom-select" name="dorm" style="margin-left:5px">
-                                <option value="Traber T2">Traber 2</option>
-                                <option value="Traber T3">Traber 3</option>
-                                <option value="Traber T4">Traber 4</option>
-                                <option value="Traber T5">Traber 5</option>
-                                <option value="Traber T6">Traber 6</option>
-                                <option value="Traber T7">Traber 7</option>
+                            <select id="print-building-list" class="form-control custom-select" name="dorm" style="margin-left:5px">
+                                <!-- <option value="Traber 2">Traber 2</option>
+                                <option value="Traber 3">Traber 3</option>
+                                <option value="Traber 4">Traber 4</option>
+                                <option value="Traber 5">Traber 5</option>
+                                <option value="Traber 6">Traber 6</option>
+                                <option value="Traber 7">Traber 7</option>
                                 <option value="Smith 1S">Smith 1S</option>
                                 <option value="Smith 2S">Smith 2S</option>
                                 <option value="Smith 2E">Smith 2E</option>
@@ -314,8 +290,14 @@
                                 <option value="Fischer 2W">Fischer 2W</option>
                                 <option value="Fischer 3W">Fischer 3W</option>
                                 <option value="Fischer 4W">Fischer 4W</option>
-                                <option value="Fischer 5W">Fischer 5W</option>
+                                <option value="Fischer 5W">Fischer 5W</option> -->
                             </select>
+                            <div class="hidden">
+                            <b>Floor:</b>
+                            <select id="print-floor-list" class="form-control custom-select" name="floor" style="margin-left:5px">
+
+                            </select>
+                            </div>
                             <b>Include:</b>
                             <br>
                             <label class="checkbox-inline">
@@ -346,8 +328,8 @@
                                 <option value="city"> City of Origin</option>
                                 <option value="room"> Room</option>
                             </select>
-                            <label class="radio-inline">
-                                <input type="radio" name="form" value="list" checked class='hidden'> List</label>
+                            <label class="radio-inline" style='opacity: 0'>
+                                <input type="radio" name="form" value="list" checked> List</label>
                             <br>
                             <!-- <input type="radio" name="form" value="chart"> Chart<br> -->
                             <input type="submit" value="Print" class="btn btn-dark">
@@ -465,8 +447,7 @@
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Building:</label>
                         <div class="col-sm-9">
-                            <select class="form-control" id="buildingDropList" name='b'>
-                                <option value="smith">Smith</option>
+                            <select class="form-control" id="add-building-list" name='b'>
                             </select>
                         </div>
                     </div>

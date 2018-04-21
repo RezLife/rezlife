@@ -126,6 +126,10 @@ app.get('/resapp/api/load-building-list', (req, res) => {
     api.loadBuildingList(req, res);
 });
 
+// Load in the floor list by building
+app.get('/resapp/api/load-floor-list/:buildingid', (req, res) => {
+    api.loadFloorsByBuilding(req, res, buildingid);
+});
 
 // Delete a student from the roster by ID
 app.delete('/resapp/api/stu-del-id/:id', (req, res) => {
