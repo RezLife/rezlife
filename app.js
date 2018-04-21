@@ -1,27 +1,28 @@
 /**
  * Load modules
  */
-var express = require('express');
+let api = require('./model/api.js');
+var bcrypt = require('bcrypt');
 var bodyParser = require('body-parser');
-var path = require('path');
-var fs = require('fs');
-var mysql = require('mysql');
-var fileUpload = require('express-fileupload');
 var chartParser = require('./chartParser.js');
 var createAccount = require('./controller/createAccount.js');
 var deleteAccount = require('./controller/deleteAccount.js');
-var sendEmail = require('./controller/sendEmail.js');
-var settings = require('./controller/settings.js');
-var login = require('./controller/login.js');
-var session = require('client-sessions');
-var bcrypt = require('bcrypt');
-const saltRounds = 11; //number of salt rounds for encryption
-let api = require('./model/api.js');
-let resapp = require('./routes/resapp');
+var express = require('express');
+var fileUpload = require('express-fileupload');
+var fs = require('fs');
 var generator = require('generate-password');
+let handlebars = require('express-handlebars');
+var login = require('./controller/login.js');
+var mysql = require('mysql');
+var path = require('path');
+let resapp = require('./routes/resapp');
+var sendEmail = require('./controller/sendEmail.js');
+var session = require('client-sessions');
+var settings = require('./controller/settings.js');
+const saltRounds = 11; //number of salt rounds for encryption
 
 var app = express();
-let handlebars = require('express-handlebars');
+
 /**
  * Set Handlebars as Template Engine
  */
@@ -226,7 +227,7 @@ app.post('/accounts', function (req, res) {
             if (req.body.role == "RA" || req.body.role == "Admin") {
                 if (req.body.role == "RA") {
                     //make sure RA has valid dorm building and floor
-                    if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber")) {
+                    if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber" || req.body.dorm == "UCH")) {
                         if (createAccount.verifyFloor(req.body.floor, req.body.dorm) == true) {
                             createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
                         }

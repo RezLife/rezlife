@@ -32,6 +32,23 @@ exports.verifyFloor = function (floor, building) {
             return true;
         } else return false;
     }
+    else if (building == "UCH")  {
+        //McManis floors
+        if(floor == "McManis 1" || floor == "McManis 2" || floor == "McManis 3" || floor == "McManis 4" || floor == "McManis 5"){
+            return true;
+        }
+        //Evans
+        else if(floor == "Evans 1" || floor == "Evans 2" || floor == "Evans 3"|| floor == "Evans 4" || floor == "Evans 5" ){
+            return true;
+        }
+        //Williston
+        else if(floor == "Willie 1" || floor == "Willie 2" || floor == "Willie 3"){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     return false;
 };
 
