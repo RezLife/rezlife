@@ -132,7 +132,7 @@ app.delete('/resapp/api/stu-del-id/:id', (req, res) => {
     api.deleteStudentByID(req, res, req.params.id);
 });
 
-// Delete a student from the roster by ID
+// Delete Students based on buildingID
 app.delete('/resapp/api/stu-del-building/:building', (req, res) => {
     api.deleteStudentByBuilding(req, res, req.params.building);
 });
