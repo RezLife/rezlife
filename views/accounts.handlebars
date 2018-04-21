@@ -17,12 +17,13 @@
       <li class="breadcrumb-item active">Accounts</li>
     </ol>
 <ul class="nav nav-tabs nav-justified">
+  <!--Creates tabs and connects the content to each one-->
     <div class="tab">
       <button class="tablinks" onclick="openCity(event, 'create')" id="defaultOpen">Create Account</button>
       <button class="tablinks" onclick="openCity(event, 'delete')">Delete Account</button>
     </div>
     </ul>
-
+  <!--Create accounts start here-->
     <div class="row">
       <div class="col">
         <div id="create" class="tabcontent">
@@ -104,6 +105,7 @@
       </div>
     </div>
     <br/>
+    <!--Create account ends-->
     <!-- Start of Delete Account -->
     <div class="row">
       <div class="col-12">
@@ -130,7 +132,14 @@
 
   </div>
 </div>
+<!-- Code that handles the tab switching -->
 <script>
+    /*
+    * Open city is a function that switches the information displayed
+    * in the tab
+    * @param cityName is the name of the tab that is clicked
+    */
+
     function openCity(evt, cityName) {
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");
