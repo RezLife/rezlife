@@ -61,7 +61,6 @@ exports.addAccount = function (con, email, role, dorm, floor, res) {
                     });
                 } else {
                     res.send("Account added!");
-                    console.log("1 record inserted:", result);
                 }
             });
         }
