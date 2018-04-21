@@ -1,4 +1,14 @@
 th {
-    background-color: blue;
+    background-color: #007bff;
     color: white;
+}
+hr {
+  border-color: #007bff;
+}
+
+.table-striped > tbody > tr:nth-child(even) > td, .table-striped > tbody > tr:nth-child(even) > th {
+   background-color: #dae7ed;
+}
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #d9dfe0;
 }

@@ -1,15 +1,60 @@
-@media only screen and (max-width: 1024px)
-{
+/* Mobile first */
+
+h1 {
+    font-size: 2rem;
+}
 
 .responsive {
- 
-position: relative; padding-bottom: 75%; height: 0; overflow: hidden;
- 
+    
+    position: relative; 
+    padding-bottom: 75%; 
+    height: 0; 
+    overflow: visible;
+    
 }
- 
+    
 .responsive iframe {
- 
-position: absolute; top:0; left: 0; width: 100%; height: 100%;
- 
+    
+    position: absolute; 
+    top:0; 
+    left: 0; 
+    width: 100%; 
+    height: 180%;
+    margin-bottom:20px;
 }
+
+.custom-select{
+    width:100%;
+    margin-bottom:20px;
+    
 }
+
+/* Medium and Large devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+    h1{
+        font-size:2.5rem;
+    }
+    .responsive iframe{
+        height:100%;
+    }
+    .custom-select{
+        width:35%;
+        overflow:hidden;
+    }
+}
+
+
+/* @media only screen and (max-width: 1024px)
+{
+    .responsive {
+    
+    position: relative; padding-bottom: 75%; height: 0; overflow: hidden;
+    
+    }
+    
+    .responsive iframe {
+    
+    position: absolute; top:0; left: 0; width: 100%; height: 100%;
+    
+    }
+} */

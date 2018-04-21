@@ -1,3 +1,8 @@
+/**
+ * InOpen.js
+ * Code behind for InOpen.
+ */
+
 var schedule = [];
 var table = document.getElementById('maintable').getElementsByTagName('tbody')[0];
 var totalRows = 0;
