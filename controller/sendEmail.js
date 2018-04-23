@@ -19,7 +19,7 @@ var feedbackTran = nodemailer.createTransport({
     }
 });
 
-exports.emailFeedback = function (email, feedback) {
+exports.emailFeedback = function (email, feedback, log) {
     //layout for the email
     var mailOptions = {
         from: 'resappteam@gmail.com',
@@ -33,6 +33,7 @@ exports.emailFeedback = function (email, feedback) {
     //send the email with temporary password
     feedbackTran.sendMail(mailOptions, function (error, info) {
         if (error) {
+            log.info(error);
             console.log(error);
         } else {
             console.log('Email sent: ' + info.response);
@@ -40,7 +41,7 @@ exports.emailFeedback = function (email, feedback) {
     });
 };
 
-exports.emailPassword = function (email, password) {
+exports.emailPassword = function (email, password, log) {
     //layout for the email
     var mailOptions = {
         from: 'noreplyrezlife@gmail.com',
@@ -54,6 +55,7 @@ exports.emailPassword = function (email, password) {
     //send the email with temporary password
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
+            log.info(error);
             console.log(error);
         } else {
             console.log('Email sent: ' + info.response);

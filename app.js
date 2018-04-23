@@ -218,7 +218,7 @@ app.use('/resapp', resapp);
 app.post('/login/forgot', function (req, res) {
     req.session.user = null;
     if (req.body && req.body.email) {
-        login.forgotPass(req, res, con);
+        login.forgotPass(req, res, con, log);
         res.status(200);
     } else {
         return res.status(400).send('Must enter email.');
@@ -229,10 +229,10 @@ app.post('/contact', function (req, res) {
     if (req.body && req.body.comment) {
         if (req.body.email) {
             //send email with the feedback
-            sendEmail.emailFeedback(req.body.email, req.body.comment);
+            sendEmail.emailFeedback(req.body.email, req.body.comment, log);
         } else {
             //send email with the feedback
-            sendEmail.emailFeedback("No email entered", req.body.comment);
+            sendEmail.emailFeedback("No email entered", req.body.comment, log);
         }
     }
     res.redirect('/resapp');
@@ -245,7 +245,7 @@ app.post('/login', function (req, res) {
 
     //if email and password were entered
     if (req.body && req.body.email && req.body.password) {
-        login.login(req, res, con);
+        login.login(req, res, con, log);
     } else {
         res.send({
             "code": 400,
@@ -266,7 +266,7 @@ app.post('/accounts', function (req, res) {
                     //make sure RA has valid dorm building and floor
                     if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber" || req.body.dorm == "UCH")) {
                         if (createAccount.verifyFloor(req.body.floor, req.body.dorm) == true) {
-                            createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
+                            createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res, log);
                         }
                         else {
                             res.send({
@@ -308,7 +308,7 @@ app.post('/accounts', function (req, res) {
 app.post('/deleteAccount', function (req, res) {
     //authentication and only allow admins to delete an account
     if (req.session && req.session.user && req.session.user.role == "Admin") {
-        deleteAccount.deleteAccount(req, res, con);
+        deleteAccount.deleteAccount(req, res, con, log);
     } else {
         res.redirect("/login");
     }
@@ -318,7 +318,7 @@ app.post('/deleteAccount', function (req, res) {
 app.post('/settings', function (req, res) {
     //authentication
     if (req.session && req.session.user) {
-        settings.updatePass(req, res, con);
+        settings.updatePass(req, res, con, log);
     } else {
         res.redirect("/login");
     }
@@ -356,20 +356,29 @@ app.post('/resapp/upload', function (req, res) {
                 // from the database;
                 if (dorm === "all") {
                     con.query("DELETE FROM t_students", function (err, result, fields) {
-                        if (err) return res.status(500).send(error);
+                        if (err) {
+                            log.info(err);
+                            return res.status(500).send(error);
+                        }
                     });
                 }
                 else {
                     con.query('DELETE FROM t_students WHERE building=?',
                         dorm, (err, results, fields) => {
-                            if (err) return res.status(500).send(err);
+                            if (err) {
+                                log.info(err);
+                                return res.status(500).send(err);
+                            }
                         });
                 }
             }
             // Parse the uploaded file into the database with the chartParser.js
             chartParser.parseIntoDatabase(con, "./chart", function (errstr) {
                 // if ChartParser sends an error, send it back to the page.
-                if (errstr) return res.status(400).send("3 " + errstr);
+                if (errstr) {
+                    log.info(errstr);
+                    return res.status(400).send("3 " + errstr);
+                }
                 // After dealing with the file, delete it.
                 fs.unlink(path.join(__dirname, 'chart'), function (err) {
                     // otherwise, everything is good! Send a success message.

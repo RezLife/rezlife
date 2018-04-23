@@ -3,13 +3,13 @@ var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 var generator = require('generate-password');
 
-exports.login = function (req, res, con) {
+exports.login = function (req, res, con, log) {
     var email = req.body.email;
     var password = req.body.password;
     //find the user in the database
     con.query('SELECT * FROM t_users WHERE email = ?', [email], function (error, results, fields) {
         if (error) {
-            console.log("Error occurred:", error);
+            log.info(error);
             return res.status(400).send('Error occured.');
         } else {
             //check if the user email exists
@@ -34,7 +34,7 @@ exports.login = function (req, res, con) {
     });
 }
 
-exports.forgotPass = function (req, res, con) {
+exports.forgotPass = function (req, res, con, log) {
     var email = req.body.email;
     var password = generator.generate();
 
@@ -42,25 +42,26 @@ exports.forgotPass = function (req, res, con) {
     var sql = `SELECT * FROM t_users WHERE email = '${email}'`;
     con.query(sql, function (err, result) {
         if (err) {
-            console.log(err);
+            log.info(err);
             return res.status(400).send(err);
         } else if (result.length > 0) {
             //send email with the temporary password
-            sendEmail.emailPassword(email, password);
+            sendEmail.emailPassword(email, password, log);
 
             //encrypt the password
             bcrypt.hash(password, saltRounds, function (err, hash) {
                 if (err) {
+                    log.info(err);
                     console.log("Error hashing password: " + err);
                 } else {
                     //update user password
                     var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
                     con.query(sql, function (err, result) {
                         if (err) {
+                            log.info(err);
                             console.log(err);
                         } else {
                             console.log("1 record updated");
-                            
                         }
                     });
                 }

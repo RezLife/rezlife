@@ -1,5 +1,5 @@
 //delete an account from the database
-exports.deleteAccount = function (req, res, con) {
+exports.deleteAccount = function (req, res, con, log) {
     //if email was entered
     if (req.body && req.body.email) {
         var email = req.body.email;
@@ -7,6 +7,7 @@ exports.deleteAccount = function (req, res, con) {
         var sql = `DELETE FROM t_users WHERE email = ?`;
         con.query(sql, email, function (err, result) {
             if (err) {
+                log.info(err);
                 res.send({
                     "code": "400",
                     "failed": err

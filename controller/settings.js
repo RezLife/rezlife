@@ -2,7 +2,7 @@ var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 
 //update the password for a user
-exports.updatePass = function (req, res, con) {
+exports.updatePass = function (req, res, con, log) {
     //if new password was entered twice
     if (req.body && req.body.password && req.body.passcheck) {
         //verify that passwords match
@@ -11,6 +11,7 @@ exports.updatePass = function (req, res, con) {
             //encrypt the password
             bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
                 if (err) {
+                    log.info(err);
                     res.send({
                         "code": "400",
                         "error": err
@@ -21,6 +22,7 @@ exports.updatePass = function (req, res, con) {
                     var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
                     con.query(sql, function (err, result) {
                         if (err) {
+                            log.info(err);
                             res.send({
                                 "code": "400",
                                 "failed": err

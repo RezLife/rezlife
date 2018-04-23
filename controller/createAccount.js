@@ -53,13 +53,13 @@ exports.verifyFloor = function (floor, building) {
 };
 
 //create new user
-exports.addAccount = function (con, email, role, dorm, floor, res) {
+exports.addAccount = function (con, email, role, dorm, floor, res, log) {
     var password = generator.generate();
     var unencrypted = password;
-
     //encrypt the password
     bcrypt.hash(password, saltRounds, function (err, hash) {
         if (err) {
+            log.info(err);
             res.send({
                 "code": "400",
                 "error": err
@@ -67,11 +67,12 @@ exports.addAccount = function (con, email, role, dorm, floor, res) {
             console.log("Error hashing password: " + err);
         } else {
             //send email with the temporary password
-            sendEmail.emailPassword(email, unencrypted);
+            sendEmail.emailPassword(email, unencrypted, log);
             //insert new user into the database
             var sql = `REPLACE INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${floor}', '${dorm}')`;
             con.query(sql, function (err, result) {
                 if (err) {
+                    log.info(err);
                     res.send({
                         "code": "400",
                         "failed": err
