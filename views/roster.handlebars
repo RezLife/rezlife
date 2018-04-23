@@ -217,12 +217,25 @@
         $('#dorm-select, #reset-warning').show();
     });
 
-    // Load the floor select list based off the building selected.
+    // Load the floor select list based off the building selected in the print list box.
     $('#print-building-list').on('change', function (event) {
         $.get('api/load-floor-list/' + $('#print-building-list').val(), function(data, status, xhr){
             $('#print-floor-list').empty();
             $.each(data.results, function (key, val) {
                 $("#print-floor-list").append(
+                    "<option value='" + val.floor + "'>" +
+                       (val.floor===null? '':val.floor) +
+                    "</option>"
+                );
+            });
+        })
+    });
+    // Load the floor select list based off the building selected in the add model.
+    $('#add-building-list').on('change', function (event) {
+        $.get('api/load-floor-list/' + $('#add-building-list').val(), function(data, status, xhr){
+            $('#add-floor-list').empty();
+            $.each(data.results, function (key, val) {
+                $("#add-floor-list").append(
                     "<option value='" + val.floor + "'>" +
                        (val.floor===null? '':val.floor) +
                     "</option>"
@@ -363,7 +376,7 @@
     </div>
 </div>
 
-<!-- Edit Student Modal -->
+<!-- Add Student Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="dialog">
         <div class="modal-content">
@@ -456,13 +469,22 @@
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Building:</label>
                         <div class="col-sm-9">
+<<<<<<< HEAD
                             <select class="form-control" id="add-building-list" name='b'></select>
+=======
+                            <select class="form-control" id="add-building-list" name='b'>
+                                <option value="" disabled selected hidden>Choose dorm...</option>
+                            </select>
+>>>>>>> 65b72402891b68e563a10b80ff9082f8e4a1c657
                         </div>
                     </div>
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Floor:</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="f" pattern="\d*[A-Z]{0,1}" placeholder="Example: 3E or 5" required>
+                            <select id="add-floor-list" class="form-control" name="floor">
+
+                            </select>
+                            <!-- <input type="text" class="form-control" name="f" pattern="\d*[A-Z]{0,1}" placeholder="Example: 3E or 5" required> -->
                         </div>
                     </div>
                     <div class="form-row">
