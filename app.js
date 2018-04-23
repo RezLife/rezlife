@@ -1,24 +1,28 @@
 /**
  * Load modules
  */
-var express = require('express');
-var bodyParser = require('body-parser');
-var path = require('path');
-var fs = require('fs');
-var mysql = require('mysql');
-var fileUpload = require('express-fileupload');
-var chartParser = require('./chartParser.js');
-var createAccount = require('./createAccount.js');
-var sendEmail = require('./sendEmail.js');
-var session = require('client-sessions');
-var bcrypt = require('bcrypt');
-const saltRounds = 11; //number of salt rounds for encryption
 let api = require('./model/api.js');
-let resapp = require('./routes/resapp');
+var bcrypt = require('bcrypt');
+var bodyParser = require('body-parser');
+var chartParser = require('./chartParser.js');
+var createAccount = require('./controller/createAccount.js');
+var deleteAccount = require('./controller/deleteAccount.js');
+var express = require('express');
+var fileUpload = require('express-fileupload');
+var fs = require('fs');
 var generator = require('generate-password');
+let handlebars = require('express-handlebars');
+var login = require('./controller/login.js');
+var mysql = require('mysql');
+var path = require('path');
+let resapp = require('./routes/resapp');
+var sendEmail = require('./controller/sendEmail.js');
+var session = require('client-sessions');
+var settings = require('./controller/settings.js');
+const saltRounds = 11; //number of salt rounds for encryption
 
 var app = express();
-let handlebars = require('express-handlebars');
+
 /**
  * Set Handlebars as Template Engine
  */
@@ -172,48 +176,18 @@ app.get('/login/forgot', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/forgot-password.html'));
 });
 
+app.get('/credits', function(req,res) {
+    req.session.user = null;
+    res.sendFile(path.join(__dirname, 'views/credits.html'))
+})
+
 //render files from the resapp route
 app.use('/resapp', resapp);
 
 //post method called after a user enters their email address to change their password
 app.post('/login/forgot', function (req, res) {
     if (req.body && req.body.email) {
-        var email = req.body.email;
-        var password = generator.generate();
-
-        //verify that the email is for a valid account
-        var sql = `SELECT * FROM t_users WHERE email = '${email}'`;
-        con.query(sql, function (err, result) {
-            if (err) {
-                console.log(err);
-                return res.status(400).send(err);
-            } else if (result.length > 0) {
-                //send email with the temporary password
-                sendEmail.emailPassword(email, password);
-
-                //encrypt the password
-                bcrypt.hash(password, saltRounds, function (err, hash) {
-                    if (err) {
-                        console.log("Error hashing password: " + err);
-                    } else {
-                        //update user password
-                        var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
-                        con.query(sql, function (err, result) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                console.log("1 record updated");
-                            }
-                        });
-                    }
-                });
-                res.redirect("/login");
-            }
-            else {
-                console.log("No user found: ", result);
-                return res.status(400).send('No user found with that email.');
-            }
-        });
+        login.forgotPass(req, res, con);
     } else {
         return res.status(400).send('Must enter email.');
     }
@@ -239,34 +213,7 @@ app.post('/login', function (req, res) {
 
     //if email and password were entered
     if (req.body && req.body.email && req.body.password) {
-        var email = req.body.email;
-        var password = req.body.password;
-        //find the user in the database
-        con.query('SELECT * FROM t_users WHERE email = ?', [email], function (error, results, fields) {
-            if (error) {
-                console.log("Error occurred:", error);
-                return res.status(400).send('Error occured.');
-            } else {
-                //check if the user email exists
-                if (results.length > 0) {
-                    //verify the password entered
-                    bcrypt.compare(password, results[0].password, function (err, check) {
-                        if (check == false) {
-                            return res.status(400).send('Email and password do not match.');
-                        } else {
-                            req.user = results[0];
-                            delete req.user.password; // delete the password from the session
-                            req.session.user = req.user;  //refresh the session value
-
-                            res.send({ redirect: '/resapp' }); //send redirect to AJAX
-                        }
-                    });
-                } //error handling
-                else {
-                    return res.status(400).send('Email does not exist.');
-                }
-            }
-        });
+        login.login(req, res, con);
     } else {
         res.send({
             "code": 400,
@@ -285,7 +232,7 @@ app.post('/accounts', function (req, res) {
             if (req.body.role == "RA" || req.body.role == "Admin") {
                 if (req.body.role == "RA") {
                     //make sure RA has valid dorm building and floor
-                    if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber")) {
+                    if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber" || req.body.dorm == "UCH")) {
                         if (createAccount.verifyFloor(req.body.floor, req.body.dorm) == true) {
                             createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res);
                         }
@@ -329,29 +276,7 @@ app.post('/accounts', function (req, res) {
 app.post('/deleteAccount', function (req, res) {
     //authentication and only allow admins to delete an account
     if (req.session && req.session.user && req.session.user.role == "Admin") {
-        //if email was entered
-        if (req.body && req.body.email) {
-            var email = req.body.email;
-            //delete the user from the database
-            var sql = `DELETE FROM t_users WHERE email = ?`;
-            con.query(sql, email, function (err, result) {
-                if (err) {
-                    res.send({
-                        "code": "400",
-                        "failed": err
-                    });
-                } else {
-                    console.log("1 record deleted:", result);
-                    res.send("Account deleted");
-                }
-            });
-        } //error handling
-        else {
-            res.send({
-                "code": "400",
-                "failed": "Error: must enter email to delete account."
-            });
-        }
+        deleteAccount.deleteAccount(req, res, con);
     } else {
         res.redirect("/login");
     }
@@ -361,47 +286,7 @@ app.post('/deleteAccount', function (req, res) {
 app.post('/settings', function (req, res) {
     //authentication
     if (req.session && req.session.user) {
-        //if new password was entered twice
-        if (req.body && req.body.password && req.body.passcheck) {
-            //verify that passwords match
-            if (req.body.password == req.body.passcheck) {
-                var email = req.session.user.email;
-                //encrypt the password
-                bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-                    if (err) {
-                        res.send({
-                            "code": "400",
-                            "error": err
-                        });
-                        console.log("Error hashing password: " + err);
-                    } else {
-                        //update the user's password
-                        var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
-                        con.query(sql, function (err, result) {
-                            if (err) {
-                                res.send({
-                                    "code": "400",
-                                    "failed": err
-                                });
-                            } else {
-                                res.send("Password updated!");
-                            }
-                        });
-                    }
-                });
-            } //error handling
-            else {
-                res.send({
-                    "code": "400",
-                    "failed": "Error: passwords do not match."
-                });
-            }
-        } else {
-            res.send({
-                "code": "400",
-                "failed": "Error: must enter new password to update."
-            });
-        }
+        settings.updatePass(req, res, con);
     } else {
         res.redirect("/login");
     }
