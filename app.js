@@ -80,6 +80,8 @@ var con = mysql.createConnection({
 app.get('/resapp/api/students/:order', (req, res) => {
     if (req.session && req.session.user) {
         api.getAllStudents(req, res, req.params.order);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -88,6 +90,8 @@ app.get('/resapp/api/students/:order', (req, res) => {
 app.get('/resapp/api/students/:building/:order', (req, res) => {
     if (req.session && req.session.user) {
         api.getAllFromBuilding(req, res, req.params.building, req.params.order);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -96,6 +100,8 @@ app.get('/resapp/api/students/:building/:order', (req, res) => {
 app.get('/resapp/api/students/:building/:floor/:order', (req, res) => {
     if (req.session && req.session.user) {
         api.getAllFromFloor(req, res, req.params.building, req.params.floor, req.params.order);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -104,6 +110,8 @@ app.get('/resapp/api/students/:building/:floor/:order', (req, res) => {
 app.get('/resapp/api/students/:building/:floor/:room/:order', (req, res) => {
     if (req.session && req.session.user) {
         api.getAllFromRoom(req, res, req.params.building, req.params.floor, req.params.room, req.params.order);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -111,6 +119,8 @@ app.get('/resapp/api/students/:building/:floor/:room/:order', (req, res) => {
 app.get('/resapp/api/stu-search/:query/:order', (req, res) => {
     if (req.session && req.session.user) {
         api.searchAllStudents(req, res, req.params.query, req.params.order);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -119,6 +129,8 @@ app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/
     if (req.session && req.session.user) {
         api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id,
         req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.building, req.params.floor, req.params.room]);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -126,6 +138,8 @@ app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/
 app.get('/resapp/api/load-building-list', (req, res) => {
     if (req.session && req.session.user) {
         api.loadBuildingList(req, res);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -133,6 +147,8 @@ app.get('/resapp/api/load-building-list', (req, res) => {
 app.get('/resapp/api/load-building-name/:id', (req, res, id) => {
     if (req.session && req.session.user) {
         api.loadBuildingNameByID(req, res, req.params.id);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -140,6 +156,8 @@ app.get('/resapp/api/load-building-name/:id', (req, res, id) => {
 app.get('/resapp/api/load-floor-list/:buildingid', (req, res) => {
     if (req.session && req.session.user) {
         api.loadFloorsFromBuilding(req, res, req.params.buildingid);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -147,6 +165,8 @@ app.get('/resapp/api/load-floor-list/:buildingid', (req, res) => {
 app.delete('/resapp/api/stu-del-id/:id', (req, res) => {
     if (req.session && req.session.user) {
         api.deleteStudentByID(req, res, req.params.id);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -154,6 +174,8 @@ app.delete('/resapp/api/stu-del-id/:id', (req, res) => {
 app.delete('/resapp/api/stu-del-building/:building', (req, res) => {
     if (req.session && req.session.user) {
         api.deleteStudentByBuilding(req, res, req.params.building);
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -161,6 +183,8 @@ app.delete('/resapp/api/stu-del-building/:building', (req, res) => {
 app.delete('/resapp/api/stu-del-all/:building', (req, res) => {
     if (req.session && req.session.user) {
         api.deleteAllStudents(req, res);
+    } else {
+        res.redirect('/login');
     }
 });
 
