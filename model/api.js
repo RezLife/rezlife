@@ -51,7 +51,7 @@ exports.getAllFromBuilding = (req,res,building,order) => {
 exports.getAllFromFloor = (req,res,building,floor,order) => {
     // this allows for the case when there is a dorm that doesn't have floors
     var floorQuery = '= ?';
-    if (floor.toLowerCase() === 'null') {
+    if (floor.toLowerCase() === 'null' || floor.toLowerCase() === '') {
         floorQuery = 'IS NULL';
     }
     con.query('SELECT * FROM t_students WHERE buildingID=? AND floor '+floorQuery+' ORDER BY '+order.split(';')[0],
@@ -65,7 +65,7 @@ exports.getAllFromFloor = (req,res,building,floor,order) => {
 exports.getAllFromRoom = (req,res,building,floor,room,order) => {
     // this allows for the case when there is a dorm that doesn't have floors
     var floorQuery = '= ?';
-    if (floor.toLowerCase() === 'null') {
+    if (floor.toLowerCase() === 'null' || floor.toLowerCase() === '') {
         floorQuery = 'IS NULL';
     }
     con.query('SELECT * FROM t_students WHERE buildingID=? AND floor '+floorQuery+' AND room=? ORDER BY '+order.split(';')[0],
