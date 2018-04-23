@@ -146,9 +146,6 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/homepage.html'));
 });
 
-app.post('/demo', (req, res) => {
-    res.send("you posted! Nice.");
-});
 app.get('/login', function (req, res) {
     req.session.user = null;
     res.sendFile(path.join(__dirname, 'views/login.html'));
@@ -169,6 +166,7 @@ app.use('/resapp', resapp);
 
 //post method called after a user enters their email address to change their password
 app.post('/login/forgot', function (req, res) {
+    req.session.user = null;
     if (req.body && req.body.email) {
         login.forgotPass(req, res, con);
     } else {
