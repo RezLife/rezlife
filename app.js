@@ -13,6 +13,7 @@ var fileUpload = require('express-fileupload');
 var fs = require('fs');
 var generator = require('generate-password');
 let handlebars = require('express-handlebars');
+var log = require('simple-node-logger').createSimpleLogger('errors.log');
 var login = require('./controller/login.js');
 var mysql = require('mysql');
 var path = require('path');
