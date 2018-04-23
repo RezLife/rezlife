@@ -215,8 +215,17 @@
     });
 
     //
-    $("#print-building-list").on('click', function (event) {
-
+    $('#print-building-list').on('change', function (event) {
+        $.get('api/load-floor-list/' + $('#print-building-list').val(), function(data, status, xhr){
+            $('#print-floor-list').empty();
+            $.each(data.results, function (key, val) {
+                $("#print-floor-list").append(
+                    "<option value='" + val.floor + "'>" +
+                       val.floor +
+                    "</option>"
+                );
+            });
+        })
     });
 
 </script>
@@ -302,7 +311,7 @@
                                 <option value="Fischer 4W">Fischer 4W</option>
                                 <option value="Fischer 5W">Fischer 5W</option> -->
                             </select>
-                            <div class="hidden">
+                            <div>
                             <b>Floor:</b>
                             <select id="print-floor-list" class="form-control custom-select" name="floor" style="margin-left:5px">
 
