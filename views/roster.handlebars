@@ -44,28 +44,28 @@
         }
 
         if (check) {
-        // disabled the submit button
-        $("#chart_upload").prop("disabled", true);
+            // disabled the submit button
+            $("#chart_upload").prop("disabled", true);
 
-        $.ajax({
-            type: "POST",
-            enctype: 'multipart/form-data',
-            url: "/resapp/upload",
-            data: data,
-            processData: false,
-            contentType: false,
-            cache: false,
-            timeout: 600000,
-            success: function (data, status, xhr) {
-                alert("SUCCESS : " + xhr.responseText);
-                $("#chart_upload").prop("disabled", false);
-            },
-            error: function (xhr) {
-                alert("ERROR : " + xhr.responseText);
-                $("#chart_upload").prop("disabled", false);
-            }
-        });
-    }
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/resapp/upload",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data, status, xhr) {
+                    alert("SUCCESS : " + xhr.responseText);
+                    $("#chart_upload").prop("disabled", false);
+                },
+                error: function (xhr) {
+                    alert("ERROR : " + xhr.responseText);
+                    $("#chart_upload").prop("disabled", false);
+                }
+            });
+        }
     });
     $("#add-student").submit(function (event) {
 

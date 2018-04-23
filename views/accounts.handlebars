@@ -30,14 +30,14 @@
     </div> -->
     </ul>
   <!--Create accounts start here-->
-    <div id="" class="tab-content">
+    <div id="accounts-tab" class="tab-content">
       <div class="tab-pane fade show active" id="create" role="tabpanel">
         <h1>Create Account</h1>
         <p>Note: Creating a new RA will automatically delete the previous RA of their floor.</p>
 
-        <form action="/accounts" method="post" target="_blank">
+        <form id="create-account" action="/accounts" method="post" target="_blank">
           <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-            <input class="form-control" type="text" name="email" placeholder="Enter user email" style="width: auto">
+            <input class="form-control" type="email" name="email" placeholder="Enter user email" style="width: auto">
             <span class="focus-input100"></span>
           </div>
           <br/>
@@ -106,7 +106,7 @@
           </div>
           <br/>
 
-          <input type="submit" value="Create" class = "btn btn-primary">
+          <input id="create-submit" type="submit" value="Create" class="btn btn-primary">
         </form>
       </div>
       <!--Create account ends-->
@@ -114,14 +114,13 @@
       <div div class="tab-pane fade" id="delete" role="tabpanel">
         <h1>Delete Account</h1>
         <p>Enter email of account to delete:</p>
-        <form action="/deleteAccount" method="post" target="_blank">
+        <form id="delete-account" action="/deleteAccount" method="post" target="_blank">
           <div class="wrap-input100 validate-input m-b-16" data-validate="Account email is required">
-            <input class="form-control" type="text" name="email" placeholder="Account email" style="width: auto">
+            <input class="form-control" type="email" name="email" placeholder="Account email" style="width: auto">
             <span class="focus-input100"></span>
           </div>
           <br/>
-          <input type="submit" value="Delete"  class = "btn btn-primary" onclick="return confirm('Are you sure you would like to delete this account?\n This action cannot be undone.')"
-          />
+          <input id="delete-submit" type="submit" value="Delete"  class="btn btn-primary"/>
         </form>
         <br/>
       </div>
