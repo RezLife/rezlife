@@ -113,9 +113,14 @@ app.get('/resapp/api/load-building-list', (req, res) => {
     api.loadBuildingList(req, res);
 });
 
+// Load in building name by ID
+app.get('/resapp/api/load-building-name/:id', (req, res, id) => {
+    api.loadBuildingNameByID(req, res, req.params.id);
+});
+
 // Load in the floor list by building
 app.get('/resapp/api/load-floor-list/:buildingid', (req, res) => {
-    api.loadFloorsByBuilding(req, res, buildingid);
+    api.loadFloorsFromBuilding(req, res, req.params.buildingid);
 });
 
 // Delete a student from the roster by ID
@@ -308,7 +313,7 @@ app.post('/resapp/upload', function (req, res) {
                 else {
                     con.query('DELETE FROM t_students WHERE building=?',
                         dorm, (err, results, fields) => {
-                            if (err) return res.status(500).send(error);
+                            if (err) return res.status(500).send(err);
                         });
                 }
             }
