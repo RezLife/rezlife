@@ -214,7 +214,7 @@
         $('#dorm-select, #reset-warning').show();
     });
 
-    //
+    // Load the floor select list based off the building selected.
     $('#print-building-list').on('change', function (event) {
         $.get('api/load-floor-list/' + $('#print-building-list').val(), function(data, status, xhr){
             $('#print-floor-list').empty();
@@ -287,29 +287,7 @@
                         <form id="print_chart" action="floorlist" target="_blank">
                             <b>Dorm:</b>
                             <select id="print-building-list" class="form-control custom-select" name="dorm" style="margin-left:5px">
-                                <!-- <option value="Traber 2">Traber 2</option>
-                                <option value="Traber 3">Traber 3</option>
-                                <option value="Traber 4">Traber 4</option>
-                                <option value="Traber 5">Traber 5</option>
-                                <option value="Traber 6">Traber 6</option>
-                                <option value="Traber 7">Traber 7</option>
-                                <option value="Smith 1S">Smith 1S</option>
-                                <option value="Smith 2S">Smith 2S</option>
-                                <option value="Smith 2E">Smith 2E</option>
-                                <option value="Smith 3S">Smith 3S</option>
-                                <option value="Smith 3E">Smith 3E</option>
-                                <option value="Fischer 2E">Fischer 2E</option>
-                                <option value="Fischer 3E">Fischer 3E</option>
-                                <option value="Fischer 4E">Fischer 4E</option>
-                                <option value="Fischer 5E">Fischer 5E</option>
-                                <option value="Fischer 3S">Fischer 3S</option>
-                                <option value="Fischer 4S">Fischer 4S</option>
-                                <option value="Fischer 5S">Fischer 5S</option>
-                                <option value="Fischer 1W">Fischer 1W</option>
-                                <option value="Fischer 2W">Fischer 2W</option>
-                                <option value="Fischer 3W">Fischer 3W</option>
-                                <option value="Fischer 4W">Fischer 4W</option>
-                                <option value="Fischer 5W">Fischer 5W</option> -->
+                                <option value="" disabled selected hidden>Choose dorm...</option>
                             </select>
                             <div>
                             <b>Floor:</b>
