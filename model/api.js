@@ -49,8 +49,14 @@ exports.getAllFromBuilding = (req,res,building,order) => {
 };
 
 exports.getAllFromFloor = (req,res,building,floor,order) => {
-    // var regex = floorNameToQuery(floor) + '%';
-    con.query('SELECT * FROM t_students WHERE buildingID=? AND floor=? ORDER BY '+order.split(';')[0],
+    // this allows for the case when there is a dorm that doesn't have floors
+    var floorQuery = '= ?';
+    console.log(floor.toLowerCase());
+    if (floor.toLowerCase() === 'null') {
+        console.log("thing");
+        floorQuery = 'IS NULL';
+    }
+    con.query('SELECT * FROM t_students WHERE buildingID=? AND floor '+floorQuery+' ORDER BY '+order.split(';')[0],
             [building, floor], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
@@ -59,8 +65,14 @@ exports.getAllFromFloor = (req,res,building,floor,order) => {
 
 //get data from room
 exports.getAllFromRoom = (req,res,building,floor,room,order) => {
-    // var regex = room + '%';
-    con.query('SELECT * FROM t_students WHERE buildingID=? AND floor=? AND room=? ORDER BY '+order.split(';')[0],
+    // this allows for the case when there is a dorm that doesn't have floors
+    var floorQuery = '= ?';
+    console.log(floor.toLowerCase());
+    if (floor.toLowerCase() === 'null') {
+        console.log("thing");
+        floorQuery = 'IS NULL';
+    }
+    con.query('SELECT * FROM t_students WHERE buildingID=? AND floor '+floorQuery+' AND room=? ORDER BY '+order.split(';')[0],
             [building, floor, rooom], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });
