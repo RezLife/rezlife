@@ -32,40 +32,34 @@
 
           <form action="/accounts" method="post" target="_blank">
             <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-              <input class="input100" type="text" name="email" placeholder="User email">
+              <input class="form-control" type="text" name="email" placeholder="Enter user email" style="width: auto">
               <span class="focus-input100"></span>
             </div>
             <br/>
             <p>Select type of account:</p>
             <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required" class="text-center">
               <form>
-                <select name="role" id='roles'>
-                  <option value="Select">Role</option>
+                <select name="role" id='roles' class="form-control" style="width: auto">
+                  <option value="Select" disabled selected hidden>Role</option>
                   <option value="Admin">Admin</option>
                   <option value="RA">RA</option>
-
                 </select>
-                <br>
-                <br>
             </div>
-            
             <br>
             <div class="wrap-input100 validate-input m-b-16 hidden" id='dorms' data-validate="Dorm is required">
               <form>
-                <select name="dorm" >
-                  <option value="Select">Select</option>
+                <select name="dorm" class="form-control" style="width: auto">
+                  <option value="Select" disabled selected hidden>Select Dorm</option>
                   <option value="Fischer" id = "Fischer">Fischer</option>
                   <option value="Smaber" id = "Smaber">Smith-Traber</option>
                   <option value="UCH" id = "UCH">UCH</option>
                 </select>
-                <br>
-                <br>
             </div>
             <div class="wrap-input100 validate-input m-b-16 hidden" id='floors' data-validate="Floor is required">
               <form>
-                <select name="floor">
-                  <option>Select</option>
-                  <option>Fischer</option>
+                <select name="floor" class="form-control" style="width: auto">
+                  <option disabled selected hidden>Select Floor</option>
+                  <option disabled>Fischer</option>
                   <option value="1 West">1 West</option>
                   <option value="2 West">2 West</option>
                   <option value="3 West">3 West</option>
@@ -78,7 +72,7 @@
                   <option value="3 East">3 East</option>
                   <option value="4 East">4 East</option>
                   <option value="5 East">5 East</option>
-                  <option>Smith-Traber</option>
+                  <option disabled>Smith-Traber</option>
                   <option value="1 South">1 South</option>
                   <option value="2 South">2 South</option>
                   <option value="3 South">3 South</option>
@@ -90,7 +84,7 @@
                   <option value="Traber 5">Traber 5</option>
                   <option value="Traber 6">Traber 6</option>
                   <option value="Traber 7">Traber 7</option>
-                  <option>UCH</option>
+                  <option disabled>UCH</option>
                   <option value="McManis 1">McManis 1</option>
                   <option value="McManis 2">McManis 2</option>
                   <option value="McManis 3">McManis 3</option>
@@ -105,9 +99,6 @@
                   <option value="Willie 2">Willie 2</option>
                   <option value="Willie 3">Willie 3</option>
                 </select>
-                <br>
-                <br>
-
             </div>
             <br/>
 
@@ -130,7 +121,7 @@
           <p>Enter email of account to delete:</p>
           <form action="/deleteAccount" method="post" target="_blank">
             <div class="wrap-input100 validate-input m-b-16" data-validate="Account email is required">
-              <input class="input100" type="text" name="email" placeholder="Account email">
+              <input class="form-control" type="text" name="email" placeholder="Account email" style="width: auto">
               <span class="focus-input100"></span>
             </div>
             <br/>

@@ -60,10 +60,13 @@ exports.forgotPass = function (req, res, con) {
                             console.log(err);
                         } else {
                             console.log("1 record updated");
+                            
                         }
                     });
                 }
             });
+            
+            
             res.redirect("/login");
         }
         else {

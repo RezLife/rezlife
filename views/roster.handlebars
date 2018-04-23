@@ -38,7 +38,12 @@
 
         // Create an FormData object
         var data = new FormData(form);
+        var check = true;
+        if (document.getElementById('reset-upload').checked) {
+            check = confirm("Are you sure you wish to write over all student records associated with this dorm?");
+        }
 
+        if (check) {
         // disabled the submit button
         $("#chart_upload").prop("disabled", true);
 
@@ -60,6 +65,7 @@
                 $("#chart_upload").prop("disabled", false);
             }
         });
+    }
     });
     $("#add-student").submit(function (event) {
 
@@ -211,7 +217,7 @@
         $('#dorm-select, #reset-warning').show();
     });
 
-    // Load the floor select list based off the building selected.
+    // Load the floor select list based off the building selected in the print list box.
     $('#print-building-list').on('change', function (event) {
         $.get('api/load-floor-list/' + $('#print-building-list').val(), function(data, status, xhr){
             $('#print-floor-list').empty();
@@ -224,9 +230,22 @@
             });
         })
     });
+    // Load the floor select list based off the building selected in the add model.
+    $('#add-building-list').on('change', function (event) {
+        $.get('api/load-floor-list/' + $('#add-building-list').val(), function(data, status, xhr){
+            $('#add-floor-list').empty();
+            $.each(data.results, function (key, val) {
+                $("#add-floor-list").append(
+                    "<option value='" + val.floor + "'>" +
+                       (val.floor===null? '':val.floor) +
+                    "</option>"
+                );
+            });
+        })
+    });
 
 </script>
-<script src="js/accounts.js"></script> {{/section}} 
+<script src="js/accounts.js"></script> {{/section}}
 
 {{!-- Actual Content --}}
 <div class="content-wrapper">
@@ -287,29 +306,35 @@
                                 <option value="" disabled selected hidden>Choose dorm...</option>
                             </select>
                             <div>
-                            <b>Floor:</b>
-                            <select id="print-floor-list" class="form-control custom-select" name="floor" style="margin-left:5px">
-
-                            </select>
+                                <b>Floor:</b>
+                                <select id="print-floor-list" class="form-control custom-select" name="floor" style="margin-left:5px"></select>
                             </div>
                             <b>Include:</b>
                             <br>
                             <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="fn"> First Name</label>
+                                <input type="checkbox" name="fields" value="fn"> First Name
+                            </label>
                             <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="ln"> Last Name</label>
+                                <input type="checkbox" name="fields" value="ln"> Last Name
+                            </label>
                             <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="pn"> Preferred Name</label>
+                                <input type="checkbox" name="fields" value="pn"> Preferred Name
+                            </label>
                             <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="id"> Student ID</label>
+                                <input type="checkbox" name="fields" value="id"> Student ID
+                            </label>
                             <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="y"> Year of study</label>
+                                <input type="checkbox" name="fields" value="y"> Year of study
+                            </label>
                             <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="dob"> Birth date</label>
+                                <input type="checkbox" name="fields" value="dob"> Birth date
+                            </label>
                             <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="c"> City of Origin</label>
+                                <input type="checkbox" name="fields" value="c"> City of Origin
+                            </label>
                             <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="r"> Room</label>
+                                <input type="checkbox" name="fields" value="r"> Room
+                            </label>
                             <br>
                             <b>Order by:</b>
                             <select class="form-control custom-select" name='order-by'>
@@ -323,7 +348,8 @@
                                 <option value="room"> Room</option>
                             </select>
                             <label class="radio-inline" style='opacity: 0'>
-                                <input type="radio" name="form" value="list" checked> List</label>
+                                <input type="radio" name="form" value="list" checked> List
+                            </label>
                             <br>
                             <!-- <input type="radio" name="form" value="chart"> Chart<br> -->
                             <input type="submit" value="Print" class="btn btn-dark">
@@ -350,7 +376,7 @@
     </div>
 </div>
 
-<!-- Edit Student Modal -->
+<!-- Add Student Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="dialog">
         <div class="modal-content">
@@ -426,8 +452,10 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="control-label col-sm-3" for="">State
-                            <br>(two letters):</label>
+                        <label class="control-label col-sm-3" for="">
+                            State
+                            <br>(two letters):
+                        </label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="state" name="s" pattern="[A-Z]{2}" placeholder="Example: IL" required>
                         </div>
@@ -441,14 +469,22 @@
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Building:</label>
                         <div class="col-sm-9">
+<<<<<<< HEAD
+                            <select class="form-control" id="add-building-list" name='b'></select>
+=======
                             <select class="form-control" id="add-building-list" name='b'>
+                                <option value="" disabled selected hidden>Choose dorm...</option>
                             </select>
+>>>>>>> 65b72402891b68e563a10b80ff9082f8e4a1c657
                         </div>
                     </div>
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Floor:</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="f" pattern="\d*[A-Z]{0,1}" placeholder="Example: 3E or 5" required>
+                            <select id="add-floor-list" class="form-control" name="floor">
+
+                            </select>
+                            <!-- <input type="text" class="form-control" name="f" pattern="\d*[A-Z]{0,1}" placeholder="Example: 3E or 5" required> -->
                         </div>
                     </div>
                     <div class="form-row">
