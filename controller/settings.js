@@ -1,3 +1,5 @@
+var bcrypt = require('bcrypt');
+
 //update the password for a user
 exports.updatePass = function (req, res, con) {
     //if new password was entered twice
