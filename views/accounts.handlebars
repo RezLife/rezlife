@@ -16,121 +16,114 @@
       </li>
       <li class="breadcrumb-item active">Accounts</li>
     </ol>
-<ul class="nav nav-tabs nav-justified">
-  <!--Creates tabs and connects the content to each one-->
-    <div class="tab">
+    <ul class="nav nav-tabs">
+    <!--Creates tabs and connects the content to each one-->
+      <li class="nav-item">
+        <a class="nav-link active" id="create-tab" data-toggle="tab" href="#create" role="tab">Create Account</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="delete-tab" data-toggle="tab" href="#delete" role="tab">Delete Account</a>
+      </li>
+    <!-- <div class="tab">
       <button class="tablinks" onclick="openCity(event, 'create')" id="defaultOpen">Create Account</button>
       <button class="tablinks" onclick="openCity(event, 'delete')">Delete Account</button>
-    </div>
+    </div> -->
     </ul>
   <!--Create accounts start here-->
-    <div class="row">
-      <div class="col">
-        <div id="create" class="tabcontent">
-          <h1>Create Account</h1>
-          <p>Note: Creating a new RA will automatically delete the previous RA of their floor.</p>
+    <div id="" class="tab-content">
+      <div class="tab-pane fade show active" id="create" role="tabpanel">
+        <h1>Create Account</h1>
+        <p>Note: Creating a new RA will automatically delete the previous RA of their floor.</p>
 
-          <form action="/accounts" method="post" target="_blank">
-            <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-              <input class="form-control" type="text" name="email" placeholder="Enter user email" style="width: auto">
-              <span class="focus-input100"></span>
-            </div>
-            <br/>
-            <p>Select type of account:</p>
-            <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required" class="text-center">
-              <form>
-                <select name="role" id='roles' class="form-control" style="width: auto">
-                  <option value="Select" disabled selected hidden>Role</option>
-                  <option value="Admin">Admin</option>
-                  <option value="RA">RA</option>
-                </select>
-            </div>
-            <br>
-            <div class="wrap-input100 validate-input m-b-16 hidden" id='dorms' data-validate="Dorm is required">
-              <form>
-                <select name="dorm" class="form-control" style="width: auto">
-                  <option value="Select" disabled selected hidden>Select Dorm</option>
-                  <option value="Fischer" id = "Fischer">Fischer</option>
-                  <option value="Smaber" id = "Smaber">Smith-Traber</option>
-                  <option value="UCH" id = "UCH">UCH</option>
-                </select>
-            </div>
-            <div class="wrap-input100 validate-input m-b-16 hidden" id='floors' data-validate="Floor is required">
-              <form>
-                <select name="floor" class="form-control" style="width: auto">
-                  <option disabled selected hidden>Select Floor</option>
-                  <option disabled>Fischer</option>
-                  <option value="1 West">1 West</option>
-                  <option value="2 West">2 West</option>
-                  <option value="3 West">3 West</option>
-                  <option value="4 West">4 West</option>
-                  <option value="5 West">5 West</option>
-                  <option value="3 South">3 South</option>
-                  <option value="4 South">4 South</option>
-                  <option value="5 South">5 South</option>
-                  <option value="2 East">2 East</option>
-                  <option value="3 East">3 East</option>
-                  <option value="4 East">4 East</option>
-                  <option value="5 East">5 East</option>
-                  <option disabled>Smith-Traber</option>
-                  <option value="1 South">1 South</option>
-                  <option value="2 South">2 South</option>
-                  <option value="3 South">3 South</option>
-                  <option value="2 East">2 East</option>
-                  <option value="3 East">3 East</option>
-                  <option value="Traber 2">Traber 2</option>
-                  <option value="Traber 3">Traber 3</option>
-                  <option value="Traber 4">Traber 4</option>
-                  <option value="Traber 5">Traber 5</option>
-                  <option value="Traber 6">Traber 6</option>
-                  <option value="Traber 7">Traber 7</option>
-                  <option disabled>UCH</option>
-                  <option value="McManis 1">McManis 1</option>
-                  <option value="McManis 2">McManis 2</option>
-                  <option value="McManis 3">McManis 3</option>
-                  <option value="McManis 4">McManis 4</option>
-                  <option value="McManis 5">McManis 5</option>
-                  <option value="Evans 1">Evans 1</option>
-                  <option value="Evans 2">Evans 2</option>
-                  <option value="Evans 3">Evans 3</option>
-                  <option value="Evans 4">Evans 4</option>
-                  <option value="Evans 5">Evans 5</option>
-                  <option value="Willie 1">Willie 1</option>
-                  <option value="Willie 2">Willie 2</option>
-                  <option value="Willie 3">Willie 3</option>
-                </select>
-            </div>
-            <br/>
-
-            <input type="submit" value="Create" class = "btn btn-primary">
-            </form>
-
-        </div>
-
-
-      </div>
-    </div>
-    <br/>
-    <!--Create account ends-->
-    <!-- Start of Delete Account -->
-    <div class="row">
-      <div class="col-12">
-
-        <div id="delete" class="tabcontent">
-          <h1>Delete Account</h1>
-          <p>Enter email of account to delete:</p>
-          <form action="/deleteAccount" method="post" target="_blank">
-            <div class="wrap-input100 validate-input m-b-16" data-validate="Account email is required">
-              <input class="form-control" type="text" name="email" placeholder="Account email" style="width: auto">
-              <span class="focus-input100"></span>
-            </div>
-            <br/>
-            <input type="submit" value="Delete"  class = "btn btn-primary" onclick="return confirm('Are you sure you would like to delete this account?\n This action cannot be undone.')"
-            />
-          </form>
+        <form action="/accounts" method="post" target="_blank">
+          <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+            <input class="form-control" type="text" name="email" placeholder="Enter user email" style="width: auto">
+            <span class="focus-input100"></span>
+          </div>
           <br/>
-        </div>
+          <p>Select type of account:</p>
+          <div class="wrap-input100 validate-input m-b-16" data-validate="Role is required" class="text-center">
+            <form>
+              <select name="role" id='roles' class="form-control" style="width: auto">
+                <option value="Select" disabled selected hidden>Role</option>
+                <option value="Admin">Admin</option>
+                <option value="RA">RA</option>
+              </select>
+          </div>
+          <br>
+          <div class="wrap-input100 validate-input m-b-16 hidden" id='dorms' data-validate="Dorm is required">
+            <form>
+              <select name="dorm" class="form-control" style="width: auto">
+                <option value="Select" disabled selected hidden>Select Dorm</option>
+                <option value="Fischer" id = "Fischer">Fischer</option>
+                <option value="Smaber" id = "Smaber">Smith-Traber</option>
+                <option value="UCH" id = "UCH">UCH</option>
+              </select>
+          </div>
+          <div class="wrap-input100 validate-input m-b-16 hidden" id='floors' data-validate="Floor is required">
+            <select name="floor" class="form-control" style="width: auto">
+              <option disabled selected hidden>Select Floor</option>
+              <option disabled>Fischer</option>
+              <option value="1 West">1 West</option>
+              <option value="2 West">2 West</option>
+              <option value="3 West">3 West</option>
+              <option value="4 West">4 West</option>
+              <option value="5 West">5 West</option>
+              <option value="3 South">3 South</option>
+              <option value="4 South">4 South</option>
+              <option value="5 South">5 South</option>
+              <option value="2 East">2 East</option>
+              <option value="3 East">3 East</option>
+              <option value="4 East">4 East</option>
+              <option value="5 East">5 East</option>
+              <option disabled>Smith-Traber</option>
+              <option value="1 South">1 South</option>
+              <option value="2 South">2 South</option>
+              <option value="3 South">3 South</option>
+              <option value="2 East">2 East</option>
+              <option value="3 East">3 East</option>
+              <option value="Traber 2">Traber 2</option>
+              <option value="Traber 3">Traber 3</option>
+              <option value="Traber 4">Traber 4</option>
+              <option value="Traber 5">Traber 5</option>
+              <option value="Traber 6">Traber 6</option>
+              <option value="Traber 7">Traber 7</option>
+              <option disabled>UCH</option>
+              <option value="McManis 1">McManis 1</option>
+              <option value="McManis 2">McManis 2</option>
+              <option value="McManis 3">McManis 3</option>
+              <option value="McManis 4">McManis 4</option>
+              <option value="McManis 5">McManis 5</option>
+              <option value="Evans 1">Evans 1</option>
+              <option value="Evans 2">Evans 2</option>
+              <option value="Evans 3">Evans 3</option>
+              <option value="Evans 4">Evans 4</option>
+              <option value="Evans 5">Evans 5</option>
+              <option value="Willie 1">Willie 1</option>
+              <option value="Willie 2">Willie 2</option>
+              <option value="Willie 3">Willie 3</option>
+            </select>
+          </div>
+          <br/>
 
+          <input type="submit" value="Create" class = "btn btn-primary">
+        </form>
+      </div>
+      <!--Create account ends-->
+      <!-- Start of Delete Account -->            
+      <div div class="tab-pane fade" id="delete" role="tabpanel">
+        <h1>Delete Account</h1>
+        <p>Enter email of account to delete:</p>
+        <form action="/deleteAccount" method="post" target="_blank">
+          <div class="wrap-input100 validate-input m-b-16" data-validate="Account email is required">
+            <input class="form-control" type="text" name="email" placeholder="Account email" style="width: auto">
+            <span class="focus-input100"></span>
+          </div>
+          <br/>
+          <input type="submit" value="Delete"  class = "btn btn-primary" onclick="return confirm('Are you sure you would like to delete this account?\n This action cannot be undone.')"
+          />
+        </form>
+        <br/>
       </div>
     </div>
     <!-- End of Delete Account -->
