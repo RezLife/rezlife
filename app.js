@@ -1,4 +1,5 @@
 /**
+ * app.js
  * Load modules
  */
 let api = require('./model/api.js');
@@ -73,24 +74,6 @@ var con = mysql.createConnection({
  * API data requests
  */
 
-//get all data from designated table
-//SELECT * FROM 'table'
-// app.get('/api/:table', (req, res) => {
-//     api.getAllFromTable(req, res, req.params.table);
-// });
-//
-// //get all data from a specific column
-// //SELECT  + column +  FROM  + table
-// app.get('/api/:table/:column', (req, res) => {
-//     api.getColumnFromTable(req, res, req.params.table, req.params.column);
-// });
-//
-// //get the row of data conditional to data of a specific column
-// //SELECT * FROM + table + WHERE + column + row
-// app.get('/api/:table/:column/:row', (req, res) => {
-//     api.getRowFromTableEqual(req, res, req.params.table, req.params.column, req.params.row);
-// });
-
 // Get all data relating to students ordered by order
 app.get('/resapp/api/students/:order', (req, res) => {
     api.getAllStudents(req, res, req.params.order);
@@ -130,9 +113,14 @@ app.get('/resapp/api/load-building-list', (req, res) => {
     api.loadBuildingList(req, res);
 });
 
+// Load in building name by ID
+app.get('/resapp/api/load-building-name/:id', (req, res, id) => {
+    api.loadBuildingNameByID(req, res, req.params.id);
+});
+
 // Load in the floor list by building
 app.get('/resapp/api/load-floor-list/:buildingid', (req, res) => {
-    api.loadFloorsByBuilding(req, res, buildingid);
+    api.loadFloorsFromBuilding(req, res, req.params.buildingid);
 });
 
 // Delete a student from the roster by ID
@@ -325,7 +313,7 @@ app.post('/resapp/upload', function (req, res) {
                 else {
                     con.query('DELETE FROM t_students WHERE building=?',
                         dorm, (err, results, fields) => {
-                            if (err) return res.status(500).send(error);
+                            if (err) return res.status(500).send(err);
                         });
                 }
             }
@@ -374,12 +362,6 @@ app.use(function (req, res, next) {
     res.status(404);
     res.sendFile(path.join(__dirname, 'views/404.html'));
 });
-// // 500 error handler (middleware)
-// app.use(function(err, req, res, next){
-//     console.error(err.stack);
-//     res.status(500);
-//     res.render('500');
-// });
 
 //the server is listening on port 3000. access in browser with localhost:3000
 app.listen(3000, function (req, res) {

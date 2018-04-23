@@ -73,7 +73,7 @@ exports.searchAllStudents = (req,res,query,order) => {
     // all spaces are replaced with ORs in the regex
     var oredWords = query.replace(/ /g, '|');
     var searchString = '.*(' + oredWords + ').*';
-    con.query('SELECT name_first, name_last, name_preferred, studentID, city, state_province, cohort_year, date_of_birth, floor ' +
+    con.query('SELECT * ' +
             'FROM t_students inner join t_building on t_students.buildingID = t_building.buildingID ' +
             'WHERE buildingName RLIKE ? OR floor RLIKE ? OR room RLIKE ? OR name_first RLIKE ? '+
             'OR name_last RLIKE ? OR studentID RLIKE ? OR name_preferred RLIKE ? OR city RLIKE ? OR state_province RLIKE ?'+
@@ -107,14 +107,6 @@ exports.deleteStudentByID = (req,res,id) => {
     });
 };
 
-//load dropdownlist for buildings, giving the buildingName as text and buildingID as value
-exports.loadBuildingList = (req, res) => {
-    con.query('Select buildingName, buildingID From t_building order by buildingOrder asc', (error, results, fields) => {
-        if (error) return res.status(500).send(error);
-        return res.status(200).json({ results });
-    });
-};
-
 //delete all students in a dorm based on buildingID
 exports.deleteStudentByBuilding = (req,res,b) => {
     con.query('DELETE FROM t_students WHERE buildingID=?',
@@ -136,9 +128,26 @@ exports.deleteAllStudents = (req,res) => {
         return res.status(400).send("Permission denied");
 };
 
+//load dropdownlist for buildings, giving the buildingName as text and buildingID as value
+exports.loadBuildingList = (req, res) => {
+    con.query('Select buildingName, buildingID From t_building order by buildingOrder asc', (error, results, fields) => {
+        if (error) return res.status(500).send(error);
+        return res.status(200).json({ results });
+    });
+};
+
 // retrieve the list of all the floors from a specific building
 exports.loadFloorsFromBuilding = (req,res,buildingid) => {
-    con.query('SELECT floor FROM t_students WHERE buildingID=? ORDER BY floor',
+    con.query('SELECT DISTINCT floor FROM t_students WHERE buildingID=? ORDER BY floor',
+            [buildingid], (error, results, fields) => {
+        if (error) return res.status(500).send(error); //need work
+        return res.status(200).json({ results });
+    });
+};
+
+// retrieve the list of all the floors from a specific building
+exports.loadBuildingNameByID = (req,res,buildingid) => {
+    con.query('SELECT buildingName FROM t_building WHERE buildingID=?',
             [buildingid], (error, results, fields) => {
         if (error) return res.status(500).send(error); //need work
         return res.status(200).json({ results });

@@ -63,98 +63,102 @@
 <script>
     $(document).ready(function() {
         var fields = [];
-        var building, floor, form, order;
+        var buildingID, buildingName, floor, form, order;
         var objects = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for(var i = 0; i < objects.length; i++) {
-            elements = objects[i].split('=');
-            switch (elements[0]) {
-                case 'dorm':
-                    building = elements[1].split("+")[0];
-                    floor = elements[1].split("+")[1];
-                    break;
-                case 'fields':
-                    fields.push(elements[1]);
-                    break;
-                case 'order-by':
-                    order = elements[1];
-                    break;
-                case 'form':
-                    form = elements[1];
-                    break;
-                default:
-                    break;
+        buildingID = objects[0].split('=')[1];
+        $.get('api/load-building-name/'+buildingID, function(data, status, xhr) {
+            buildingName = data.results[0].buildingName;
+            for(var i = 1; i < objects.length; i++) {
+                elements = objects[i].split('=');
+                switch (elements[0]) {
+                    case 'floor':
+                        floor = elements[1];
+                        break;
+                    case 'fields':
+                        fields.push(elements[1]);
+                        break;
+                    case 'order-by':
+                        order = elements[1];
+                        break;
+                    case 'form':
+                        form = elements[1];
+                        break;
+                    default:
+                        break;
+                }
             }
-        }
-        // Create the headers to the table
-        if (fields.includes('fn')) {
-            $('#header').append('<th>'+'First Name'+'</th>');
-        }
-        if (fields.includes('ln')) {
-            $('#header').append('<th>'+'Last Name'+'</th>');
-        }
-        if (fields.includes('pn')){
-            $('#header').append('<th>'+'Nickname'+'</th>');
-        }
-        if (fields.includes('id')){
-            $('#header').append('<th>'+'Student ID'+'</th>');
-        }
-        if (fields.includes('y')){
-            $('#header').append('<th>'+'Year'+'</th>');
-        }
-        if (fields.includes('dob')){
-            $('#header').append('<th>'+'Birth Date'+'</th>');
-        }
-        if (fields.includes('c')){
-            $('#header').append('<th>'+'City'+'</th>');
-        }
-        if (fields.includes('r')){
-            $('#header').append('<th>'+'Room'+'</th>');
-        }
-        $("h2").append(building + " " + floor);
-        // If the list radio is chosen, create the list
-        if (form === 'list') {
-            $.getJSON("api/students/"+building+"/"+floor+"/"+order, function (data, status, xhr) {
-                if (status >= 400) return alert("ERROR : " + xhr.responseText);
-                // for each of the results back from the API, create the rows necessary
-                $.each(data.results, function (key, val) {
-                    var row = '';
-                    if (fields.includes('fn')) {
-                        row += "<td>"+val.name_first+"</td>";
-                    }
-                    if (fields.includes('ln')) {
-                        row += "<td>"+val.name_last+"</td>";
-                    }
-                    if (fields.includes('pn')){
-                        row += "<td>"+val.name_preferred+"</td>";
-                    }
-                    if (fields.includes('id')){
-                        row += "<td>"+val.studentID+"</td>";
-                    }
-                    if (fields.includes('y')){
-                        row += "<td>"+val.cohort_year+"</td>";
-                    }
-                    if (fields.includes('dob')){
-                        var dob = new Date(val.date_of_birth);
-                        row += "<td>"+dob.getDate()+"/"+(dob.getMonth()+1)+"/"+dob.getFullYear()+"</td>";
-                    }
-                    if (fields.includes('c')){
-                        row += "<td>"+val.city+", "+val.state_province+"</td>";
-                    }
-                    if (fields.includes('r')){
-                        row += "<td id='room'>"+val.room+"</td>";
-                    }
-                    $("table").append(
-                        "<tr>"+
-                            row+
-                        "</tr>"
-                    );
-                    // $("#first").append(val.name_first + "<br />");
-                    // $("#last").append(val.name_last + "<br />");
-                    // $("#room").append(val.floor_and_room + "<br />");
+            // Create the headers to the table
+            console.log(floor);
+            if (fields.includes('fn')) {
+                $('#header').append('<th>'+'First Name'+'</th>');
+            }
+            if (fields.includes('ln')) {
+                $('#header').append('<th>'+'Last Name'+'</th>');
+            }
+            if (fields.includes('pn')){
+                $('#header').append('<th>'+'Nickname'+'</th>');
+            }
+            if (fields.includes('id')){
+                $('#header').append('<th>'+'Student ID'+'</th>');
+            }
+            if (fields.includes('y')){
+                $('#header').append('<th>'+'Year'+'</th>');
+            }
+            if (fields.includes('dob')){
+                $('#header').append('<th>'+'Birth Date'+'</th>');
+            }
+            if (fields.includes('c')){
+                $('#header').append('<th>'+'City'+'</th>');
+            }
+            if (fields.includes('r')){
+                $('#header').append('<th>'+'Room'+'</th>');
+            }
+            $("h2").append(buildingName + " " + floor);
+            // If the list radio is chosen, create the list
+            if (form === 'list') {
+                $.getJSON("api/students/"+buildingID+"/"+floor+"/"+order, function (data, status, xhr) {
+                    if (status >= 400) return alert("ERROR : " + xhr.responseText);
+                    // for each of the results back from the API, create the rows necessary
+                    $.each(data.results, function (key, val) {
+                        var row = '';
+                        if (fields.includes('fn')) {
+                            row += "<td>"+val.name_first+"</td>";
+                        }
+                        if (fields.includes('ln')) {
+                            row += "<td>"+val.name_last+"</td>";
+                        }
+                        if (fields.includes('pn')){
+                            row += "<td>"+val.name_preferred+"</td>";
+                        }
+                        if (fields.includes('id')){
+                            row += "<td>"+val.studentID+"</td>";
+                        }
+                        if (fields.includes('y')){
+                            row += "<td>"+val.cohort_year+"</td>";
+                        }
+                        if (fields.includes('dob')){
+                            var dob = new Date(val.date_of_birth);
+                            row += "<td>"+dob.getDate()+"/"+(dob.getMonth()+1)+"/"+dob.getFullYear()+"</td>";
+                        }
+                        if (fields.includes('c')){
+                            row += "<td>"+val.city+", "+val.state_province+"</td>";
+                        }
+                        if (fields.includes('r')){
+                            row += "<td id='room'>"+val.room+"</td>";
+                        }
+                        $("table").append(
+                            "<tr>"+
+                                row+
+                            "</tr>"
+                        );
+                        // $("#first").append(val.name_first + "<br />");
+                        // $("#last").append(val.name_last + "<br />");
+                        // $("#room").append(val.floor_and_room + "<br />");
+                    });
+                    window.print();
                 });
-                window.print();
-            });
-        }
+            }
+        });
     });
 </script>
 

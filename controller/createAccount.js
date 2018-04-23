@@ -69,7 +69,7 @@ exports.addAccount = function (con, email, role, dorm, floor, res) {
             //send email with the temporary password
             sendEmail.emailPassword(email, unencrypted);
             //insert new user into the database
-            var sql = `INSERT INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${floor}', '${dorm}')`;
+            var sql = `REPLACE INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${floor}', '${dorm}')`;
             con.query(sql, function (err, result) {
                 if (err) {
                     res.send({
