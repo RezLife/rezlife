@@ -24,7 +24,7 @@
         
         }
 
-        #room{
+        #room{    
             text-align:center;
         }
 
@@ -88,7 +88,6 @@
                 }
             }
             // Create the headers to the table
-            console.log(floor);
             if (fields.includes('fn')) {
                 $('#header').append('<th>'+'First Name'+'</th>');
             }
@@ -113,7 +112,7 @@
             if (fields.includes('r')){
                 $('#header').append('<th>'+'Room'+'</th>');
             }
-            $("h2").append(buildingName + " " + floor);
+            $("h2").append(buildingName + " " + (floor==='null'? '': floor));
             // If the list radio is chosen, create the list
             if (form === 'list') {
                 $.getJSON("api/students/"+buildingID+"/"+floor+"/"+order, function (data, status, xhr) {
@@ -151,9 +150,6 @@
                                 row+
                             "</tr>"
                         );
-                        // $("#first").append(val.name_first + "<br />");
-                        // $("#last").append(val.name_last + "<br />");
-                        // $("#room").append(val.floor_and_room + "<br />");
                     });
                     window.print();
                 });

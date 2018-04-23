@@ -15,17 +15,7 @@
             timeout: 600000,
             success: function (data, status, xhr) {
                 $.each(data.results, function (key, val) {
-                    $("#upload-building-list").append(
-                        "<option value='" + val.buildingID + "'>" +
-                           val.buildingName +
-                        "</option>"
-                    );
-                     $("#add-building-list").append(
-                        "<option value='" + val.buildingID + "'>" +
-                           val.buildingName +
-                        "</option>"
-                    );
-                    $("#print-building-list").append(
+                    $("#upload-building-list, #add-building-list, #print-building-list").append(
                         "<option value='" + val.buildingID + "'>" +
                            val.buildingName +
                         "</option>"
@@ -185,6 +175,13 @@
             timeout: 600000,
             success: function (data, status, xhr) {
                 $.each(data.results, function (key, val) {
+                    var FloorRoom;
+                    if (val.floor == null) {
+                        FloorRoom = val.room;
+                    }
+                    else {
+                        FloorRoom = val.floor + " " + val.room;
+                    }
                     $("#search-table-body").append(
                         "<tr>" +
                             "<td>"+val.name_first+"</td>"+
@@ -194,7 +191,7 @@
                             "<td>"+val.cohort_year+"</td>"+
                             "<td>"+val.date_of_birth.substring(0,10)+"</td>"+
                             "<td>"+val.city+", "+val.state_province+"</td>"+
-                            "<td>"+val.buildingName+" "+val.floor+" "+val.room+"</td>"+
+                            "<td>"+val.buildingName+" "+FloorRoom+"</td>"+
                         "</tr>"
                     );
                 });
@@ -221,7 +218,7 @@
             $.each(data.results, function (key, val) {
                 $("#print-floor-list").append(
                     "<option value='" + val.floor + "'>" +
-                       val.floor +
+                       (val.floor===null? '':val.floor) +
                     "</option>"
                 );
             });
