@@ -284,7 +284,13 @@
                                 <div class="col">
                                     <b>Select Floor Chart:</b>
                                     <br>
-                                    <input type="file" class="btn m-t-10 m-b-15 p-none" name="chartupload">
+                                    <div class="input-group mb-3">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="fileSelect" name="chartupload">
+                                            <label class="custom-file-label" for="fileSelect">Choose file...</label>
+                                        </div>
+                                    </div>
+                                    <input type="file" class="form-control custom-file" name="chartupload">
                                     <br>
                                     <input type="submit" class="btn btn-dark m-b-10" value="Upload" id="chart_upload">
                                     <p id="reset-warning" style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building.</p>
@@ -311,31 +317,40 @@
                             </div>
                             <b>Include:</b>
                             <br>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="fn"> First Name
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="ln"> Last Name
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="pn"> Preferred Name
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="id"> Student ID
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="y"> Year of study
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="dob"> Birth date
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="c"> City of Origin
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="fields" value="r"> Room
-                            </label>
-                            <br>
+                            <div class="form-row">
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="fields" value="fn" id="fn">
+                                    <label class="custom-control-label" for="fn">First Name</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="fields" value="ln" id="ln">
+                                    <label class="custom-control-label" for="ln">Last Name</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="fields" value="pn" id="pn"> 
+                                    <label class="custom-control-label" for="pn">Preferred Name</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="fields" value="id" id="id"> 
+                                    <label class="custom-control-label" for="id">Student ID</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="fields" value="y" id="y">
+                                    <label class="custom-control-label" for="y">Year of study</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="fields" value="dob" id="dob">
+                                    <label class="custom-control-label" for="fn">Birth date</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="fields" value="c" id="c">
+                                    <label class="custom-control-label" for="c">City of Origin</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="fields" value="r" id="r">
+                                    <label class="custom-control-label" for="r">Room</label>
+                                </div>
+                            </div>
                             <b>Order by:</b>
                             <select class="form-control custom-select" name='order-by'>
                                 <option value="name_first"> First Name</option>
@@ -356,21 +371,6 @@
                         </form>
                     </div>
                 </div>
-
-                <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#">Active</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                  </li>
-                </ul>
 
                 {{!-- Edit Roster --}}
                 <div class="card mb-3">
