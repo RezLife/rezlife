@@ -78,66 +78,90 @@ var con = mysql.createConnection({
 
 // Get all data relating to students ordered by order
 app.get('/resapp/api/students/:order', (req, res) => {
-    api.getAllStudents(req, res, req.params.order);
+    if (req.session && req.session.user) {
+        api.getAllStudents(req, res, req.params.order);
+    }
 });
 
 // Get all data about students in a specific building ordered by order
 // TRABE SMITH FISCH MCMAN EVANS ...
 app.get('/resapp/api/students/:building/:order', (req, res) => {
-    api.getAllFromBuilding(req, res, req.params.building, req.params.order);
+    if (req.session && req.session.user) {
+        api.getAllFromBuilding(req, res, req.params.building, req.params.order);
+    }
 });
 
 // Get all data about students on a specific floor ordered by order
 // Traber: 2 3 4 5 6 7 Smith: S1 E2 S2 E3 S3 Fischer: E2-5 S3-5 W1-5
 app.get('/resapp/api/students/:building/:floor/:order', (req, res) => {
-    api.getAllFromFloor(req, res, req.params.building, req.params.floor, req.params.order);
+    if (req.session && req.session.user) {
+        api.getAllFromFloor(req, res, req.params.building, req.params.floor, req.params.order);
+    }
 });
 
 // Get all data about students in a specific room ordered by order
 // examples: 211 E408 S100 613 ...
 app.get('/resapp/api/students/:building/:floor/:room/:order', (req, res) => {
-    api.getAllFromRoom(req, res, req.params.building, req.params.floor, req.params.room, req.params.order);
+    if (req.session && req.session.user) {
+        api.getAllFromRoom(req, res, req.params.building, req.params.floor, req.params.room, req.params.order);
+    }
 });
 
 // Search for students who's attributes match the query string ordered by order
 app.get('/resapp/api/stu-search/:query/:order', (req, res) => {
-    api.searchAllStudents(req, res, req.params.query, req.params.order);
+    if (req.session && req.session.user) {
+        api.searchAllStudents(req, res, req.params.query, req.params.order);
+    }
 });
 
 // Add a student to the roster
 app.get('/resapp/api/students/add/:first/:last/:preferred/:email/:id/:dob/:year/:class/:state/:city/:building/:floor/:room', (req, res) => {
-    api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id,
-    req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.building, req.params.floor, req.params.room]);
+    if (req.session && req.session.user) {
+        api.addStudent(req, res, [req.params.first, req.params.last, req.params.preferred, req.params.email, req.params.id,
+        req.params.dob, req.params.year, req.params.class, req.params.state, req.params.city, req.params.building, req.params.floor, req.params.room]);
+    }
 });
 
 // Load in Building Drown Down list
 app.get('/resapp/api/load-building-list', (req, res) => {
-    api.loadBuildingList(req, res);
+    if (req.session && req.session.user) {
+        api.loadBuildingList(req, res);
+    }
 });
 
 // Load in building name by ID
 app.get('/resapp/api/load-building-name/:id', (req, res, id) => {
-    api.loadBuildingNameByID(req, res, req.params.id);
+    if (req.session && req.session.user) {
+        api.loadBuildingNameByID(req, res, req.params.id);
+    }
 });
 
 // Load in the floor list by building
 app.get('/resapp/api/load-floor-list/:buildingid', (req, res) => {
-    api.loadFloorsFromBuilding(req, res, req.params.buildingid);
+    if (req.session && req.session.user) {
+        api.loadFloorsFromBuilding(req, res, req.params.buildingid);
+    }
 });
 
 // Delete a student from the roster by ID
 app.delete('/resapp/api/stu-del-id/:id', (req, res) => {
-    api.deleteStudentByID(req, res, req.params.id);
+    if (req.session && req.session.user) {
+        api.deleteStudentByID(req, res, req.params.id);
+    }
 });
 
 // Delete Students based on buildingID
 app.delete('/resapp/api/stu-del-building/:building', (req, res) => {
-    api.deleteStudentByBuilding(req, res, req.params.building);
+    if (req.session && req.session.user) {
+        api.deleteStudentByBuilding(req, res, req.params.building);
+    }
 });
 
 // Delete all students
 app.delete('/resapp/api/stu-del-all/:building', (req, res) => {
-    api.deleteAllStudents(req, res);
+    if (req.session && req.session.user) {
+        api.deleteAllStudents(req, res);
+    }
 });
 
 /**
@@ -158,7 +182,7 @@ app.get('/login/forgot', function (req, res) {
     res.sendFile(path.join(__dirname, 'views/forgot-password.html'));
 });
 
-app.get('/credits', function(req,res) {
+app.get('/credits', function (req, res) {
     req.session.user = null;
     res.sendFile(path.join(__dirname, 'views/credits.html'))
 })
