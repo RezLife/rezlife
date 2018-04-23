@@ -55,6 +55,7 @@ app.use(session({
 
 //middleware, serves static files
 app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/login', express.static(path.join(__dirname, 'public')));
 app.use('/resapp', express.static(path.join(__dirname, 'public')));
 
 //read urls and receive json from post requests
@@ -169,6 +170,7 @@ app.post('/login/forgot', function (req, res) {
     req.session.user = null;
     if (req.body && req.body.email) {
         login.forgotPass(req, res, con);
+        res.status(200);
     } else {
         return res.status(400).send('Must enter email.');
     }

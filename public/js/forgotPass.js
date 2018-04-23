@@ -87,11 +87,8 @@ $('form').submit(function(event){
             //if error occurs, give alert
     		alert("ERROR : " + xhr.responseText);
         },
-        success: function (response){
-            if (response.redirect){
-                // response.redirect contains the string URL to redirect to
-                window.location = response.redirect;
-            }
+        success: function (){
+            $('#modalBackToLogin').modal('show'); 
         }
     });
 
