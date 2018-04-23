@@ -27,6 +27,13 @@
             }
         });
     });
+    //Script for changing the display of the file selector when a file is chosen
+    $('#fileSelect').on('change', function(event) {
+        var filePaths = $(this).val().split(/\\|\)/);
+        console.log(filePaths[filePaths.length-1]);
+        $('#fileDisplay').empty();
+        $('#fileDisplay').append(filePaths[filePaths.length-1]);
+    });
     //Script for successful upload message for upload roster
     $("#upload").submit(function (event) {
 
@@ -287,11 +294,9 @@
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="fileSelect" name="chartupload">
-                                            <label class="custom-file-label" for="fileSelect">Choose file...</label>
+                                            <label class="custom-file-label" for="fileSelect" id="fileDisplay">Choose file...</label>
                                         </div>
                                     </div>
-                                    <input type="file" class="form-control custom-file" name="chartupload">
-                                    <br>
                                     <input type="submit" class="btn btn-dark m-b-10" value="Upload" id="chart_upload">
                                     <p id="reset-warning" style="font-size:13px; color:red;">Warning: Uploading will overwrite the current roster with specified building.</p>
                                 </div>
