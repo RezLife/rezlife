@@ -1,29 +1,30 @@
-
-    <div class="content-wrapper">
-        <div class="container-fluid">
-            <!-- Breadcrumbs-->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="home">Home</a>
-                </li>
-                <li class="breadcrumb-item active">Settings</li>
-            </ol>
-            <div class="row">
-                <div class="col-12">
-                    <h1>Change Settings</h1>
-                    <form action="/settings" method="post" target="_blank">
-                        <p id="RA">Change Password:</p>
-                        <input class="form-control" type="password" name="password" placeholder="New password">
-                        <span class="focus-input100"></span>
-                        <br/>
-                        <br/>
-                        <input class="form-control" type="password" name="passcheck" placeholder="Confirm password">
-                        <span class="focus-input100"></span>
-                        <br/>
-                        <br/>
-                        <input type="submit" value="Update"  class = "btn btn-primary">
-                    </form>
-
-                </div>
+{{#section 'script'}}
+{{!-- javascript files that go in the bottom html: --}}
+<script src="js/settings.js"></script>
+{{/section}}
+{{!-- Actual Content --}}
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="home">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Settings</li>
+        </ol>
+        <div class="row">
+            <div class="col-12">
+                <h1>Change Settings</h1>
+                <form id="password-update" action="/settings" method="post" target="_blank">
+                    <p id="RA">Change Password:</p>
+                    <input class="form-control" type="password" name="password" placeholder="New password" style="width: auto">
+                    <br/>
+                    <input class="form-control" type="password" name="passcheck" placeholder="Confirm password" style="width: auto">
+                    <br/>
+                    <br/>
+                    <input id="password-submit" type="submit" value="Update"  class="btn btn-primary">
+                </form>
             </div>
         </div>
+    </div>
+</div>
