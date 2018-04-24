@@ -6,7 +6,6 @@ const saltRounds = 11; //number of salt rounds for encryption
 
 //check if a valid floor and building were selected
 exports.verifyFloor = function (floor, building) {
-    console.log("floor: " + floor + " building: " + building);
     //floors in Fischer
     if (building == "Fischer") {
         //West floors
@@ -59,12 +58,11 @@ exports.addAccount = function (con, email, role, dorm, floor, res, log) {
     //encrypt the password
     bcrypt.hash(password, saltRounds, function (err, hash) {
         if (err) {
-            log.info(err);
+            log.info("Error hashing password: " + err);
             res.send({
                 "code": "400",
                 "error": err
             });
-            console.log("Error hashing password: " + err);
         } else {
             //send email with the temporary password
             sendEmail.emailPassword(email, unencrypted, log);
@@ -72,7 +70,7 @@ exports.addAccount = function (con, email, role, dorm, floor, res, log) {
             var sql = `REPLACE INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${floor}', '${dorm}')`;
             con.query(sql, function (err, result) {
                 if (err) {
-                    log.info(err);
+                    log.info("Error replacing user: " + err);
                     res.send({
                         "code": "400",
                         "failed": err
