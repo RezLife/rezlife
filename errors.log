@@ -1,0 +1,9 @@
+14:28:28.824 INFO  Error sending email: Error: No recipients defined 
+14:31:59.627 INFO  Error sending email: Error: No recipients defined 
+14:32:41.730 INFO  Error sending email: Error: No recipients defined 
+09:17:14.182 INFO  Error getting user: Error: read ECONNRESET 
+09:17:18.453 INFO  Error getting user: Error: Cannot enqueue Query after fatal error. 
+09:17:28.523 INFO  Error getting user: Error: Cannot enqueue Query after fatal error. 
+09:17:33.996 INFO  Error getting user: Error: Cannot enqueue Query after fatal error. 
+09:17:37.528 INFO  Error getting user: Error: Cannot enqueue Query after fatal error. 
+09:17:41.009 INFO  Error getting user: Error: Cannot enqueue Query after fatal error. 

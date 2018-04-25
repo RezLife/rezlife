@@ -120,10 +120,10 @@ $("#create-account").submit(function (event) {
 
 //Use Ajax for the post method so we can get better error handling
 $("#delete-account").submit(function (event) {
-    if (confirm('Are you sure you would like to delete this account?\nThis action cannot be undone.')) {
         //stop submit the form, we will post it manually.
         event.preventDefault();
 
+    if (confirm('Are you sure you would like to delete this account?\nThis action cannot be undone.')) {
         // Get form
         var form = $('#delete-account')[0];
 

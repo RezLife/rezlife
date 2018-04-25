@@ -126,10 +126,10 @@
 
     //function to delete student - written by Caleb so possibly error prone (Asher please check this haha)
     $("#delete-student").submit(function (event) {
-        if (confirm("Are you sure you wish to delete this student?")) {
-            //stop submit the form, we will post it manually.
-            event.preventDefault();
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
 
+        if (confirm("Are you sure you wish to delete this student?")) {
             // Get form
             var form = $('#delete-student')[0];
 
@@ -313,12 +313,12 @@
                     <div class="card-body">
                         <form id="print_chart" action="floorlist" target="_blank">
                             <b>Dorm:</b>
-                            <select id="print-building-list" class="form-control custom-select" name="dorm" style="margin-left:5px">
+                            <select id="print-building-list" class="form-control custom-select" name="dorm" style="margin-left:5px" required>
                                 <option value="" disabled selected hidden>Choose dorm...</option>
                             </select>
                             <div>
                                 <b>Floor:</b>
-                                <select id="print-floor-list" class="form-control custom-select" name="floor" style="margin-left:5px"></select>
+                                <select id="print-floor-list" class="form-control custom-select" name="floor" style="margin-left:5px" required=""></select>
                             </div>
                             <b>Include:</b>
                             <br>
