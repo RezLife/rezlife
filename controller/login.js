@@ -9,7 +9,7 @@ exports.login = function (req, res, con, log) {
     //find the user in the database
     con.query('SELECT * FROM t_users WHERE email = ?', [email], function (error, results, fields) {
         if (error) {
-            log.info(error);
+            log.info("Error getting user: " + error);
             return res.status(400).send('Error occured.');
         } else {
             //check if the user email exists

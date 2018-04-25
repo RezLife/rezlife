@@ -7,7 +7,7 @@ exports.deleteAccount = function (req, res, con, log) {
         var sql = `DELETE FROM t_users WHERE email = ?`;
         con.query(sql, email, function (err, result) {
             if (err) {
-                log.info(err);
+                log.info("Error deleting user: " + err);
                 res.send({
                     "code": "400",
                     "failed": err

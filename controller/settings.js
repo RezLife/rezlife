@@ -11,7 +11,7 @@ exports.updatePass = function (req, res, con, log) {
             //encrypt the password
             bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
                 if (err) {
-                    log.info(err);
+                    log.info("Error hashing password: " + err);
                     res.send({
                         "code": "400",
                         "error": err
@@ -22,7 +22,7 @@ exports.updatePass = function (req, res, con, log) {
                     var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
                     con.query(sql, function (err, result) {
                         if (err) {
-                            log.info(err);
+                            log.info("Error updating password: " + err);
                             res.send({
                                 "code": "400",
                                 "failed": err

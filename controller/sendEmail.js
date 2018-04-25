@@ -33,15 +33,14 @@ exports.emailFeedback = function (email, feedback, log) {
     //send the email with temporary password
     feedbackTran.sendMail(mailOptions, function (error, info) {
         if (error) {
-            log.info(error);
-            console.log(error);
+            log.info("Error sending email: " + error);
         } else {
             console.log('Email sent: ' + info.response);
         }
     });
 };
 
-exports.emailPassword = function (email, password, log) {
+exports.emailPassword = function (email, password, logger) {
     //layout for the email
     var mailOptions = {
         from: 'noreplyrezlife@gmail.com',
@@ -53,12 +52,12 @@ exports.emailPassword = function (email, password, log) {
     };
 
     //send the email with temporary password
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function (error, resp) {
         if (error) {
-            log.info(error);
-            console.log(error);
+            logger.info("Error sending email: " + error);
+            console.log("Error sending email: " + error);
         } else {
-            console.log('Email sent: ' + info.response);
+            console.log('Email sent: ' + resp.response);
         }
     });
 };
