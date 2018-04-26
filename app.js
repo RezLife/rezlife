@@ -143,7 +143,7 @@ app.get('/resapp/api/load-building-list', (req, res) => {
     }
 });
 
-// Load in building name by ID
+// Load in building name by buildingID
 app.get('/resapp/api/load-building-name/:id', (req, res, id) => {
     if (req.session && req.session.user) {
         api.loadBuildingNameByID(req, res, req.params.id);
@@ -253,7 +253,6 @@ app.post('/login', function (req, res) {
         });
     }
 });
-
 //post method called after the create button is pressed
 app.post('/accounts', function (req, res) {
     //authentication and only allow admin to create an account
