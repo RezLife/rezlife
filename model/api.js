@@ -128,11 +128,7 @@ exports.deleteStudentByBuilding = (req,res,b) => {
 exports.deleteAllStudents = (req,res) => {
     if (req.session && req.session.user && req.session.user.role == "Admin") {
         con.query('DELETE FROM t_students', (error, results, fields) => {
-<<<<<<< HEAD
             if (error) return res.status(500).send(error);
-=======
-            if (error) return res.status(500).send(error); 
->>>>>>> 679a45083f4980a7f61dbe20ab09345e5bed7ca9
             return res.status(200).json({ results });
         });
     }

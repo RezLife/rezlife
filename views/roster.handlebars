@@ -128,7 +128,7 @@
         });
     });
 
-    //function to delete student - written by Caleb so possibly error prone (Asher please check this haha)
+    //function to delete student
     $("#delete-student").submit(function (event) {
         //stop submit the form, we will post it manually.
         event.preventDefault();
@@ -170,7 +170,7 @@
 
         if (confirm("Delete ALL students?")) {
             // disable the delete button until server confirmation
-            $("#delete-student").prop("disabled", true);
+            $("#delete-all").prop("disabled", true);
 
             var url = 'api/stu-del-all'
 
@@ -182,11 +182,11 @@
                 timeout: 600000,
                 success: function (data, status, xhr) {
                     alert("SUCCESS : " + xhr.responseText);
-                    $("#delete-student").prop("disabled", false);
+                    $("#delete-all").prop("disabled", false);
                 },
                 error: function (xhr) {
                     alert("ERROR : " + xhr.responseText);
-                    $("#delete-student").prop("disabled", false);
+                    $("#delete-all").prop("disabled", false);
                 }
             });
         }
@@ -528,10 +528,9 @@
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Floor:</label>
                         <div class="col-sm-9">
-                            <select id="add-floor-list" class="form-control" name="floor">
+                            <select id="add-floor-list" class="form-control" name="f">
 
                             </select>
-                            <!-- <input type="text" class="form-control" name="f" pattern="\d*[A-Z]{0,1}" placeholder="Example: 3E or 5" required> -->
                         </div>
                     </div>
                     <div class="form-row">
@@ -577,7 +576,7 @@
                         <label class="control-label col-sm-3" for="">Delete all:</label>
                         <div class="col-sm-9">
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-danger" value="Delete" id="delete-all" style="width: 100%">Delete</button>
+                                <button type="button" class="btn btn-danger" value="Delete" id="delete-all" style="width: 100%">Delete</button>
                             </div>
                         </div>
                     </div>
