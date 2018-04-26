@@ -26,6 +26,8 @@
                 alert("ERROR : " + xhr.responseText);
             }
         });
+        // In order to hide the dorm selector before reset is clicked
+        $('#dorm-select, #reset-warning').hide();
     });
     //Script for changing the display of the file selector when a file is chosen
     $('#fileSelect').on('change', function(event) {
@@ -142,6 +144,33 @@
             var url = 'api/stu-del-id'
 
             url += '/' + data.get('id');
+
+            $.ajax({
+                type: "DELETE",
+                url: url,
+                data: null,
+                cache: false,
+                timeout: 600000,
+                success: function (data, status, xhr) {
+                    alert("SUCCESS : " + xhr.responseText);
+                    $("#delete-student").prop("disabled", false);
+                },
+                error: function (xhr) {
+                    alert("ERROR : " + xhr.responseText);
+                    $("#delete-student").prop("disabled", false);
+                }
+            });
+        }
+    });
+
+    //function to delete student - written by Caleb so possibly error prone (Asher please check this haha)
+    $("#delete-all").click(function (event) {
+
+        if (confirm("Delete ALL students?")) {
+            // disable the delete button until server confirmation
+            $("#delete-student").prop("disabled", true);
+
+            var url = 'api/stu-del-all'
 
             $.ajax({
                 type: "DELETE",
@@ -278,8 +307,8 @@
                             <div class="row">
                                 <div class="col">
                                     <p>To update roster data, first indicate the dorm of the roster chart to be uploaded.</p>
-                                    <label class="radio-inline"><input id="add-upload" type="radio" name="add-reset" value="add"> Add</label>
-                                    <label class="radio-inline"><input id="reset-upload" type="radio" name="add-reset" value="reset" checked> Reset & add</label><br>
+                                    <label class="radio-inline"><input id="add-upload" type="radio" name="add-reset" value="add" checked> Add</label>
+                                    <label class="radio-inline"><input id="reset-upload" type="radio" name="add-reset" value="reset"> Reset & add</label><br>
                                     <div id='dorm-select'>
                                         <b>Dorm:</b>
                                         <select id="upload-building-list" name="dorm" class="custom-select m-b-10 m-l-5 custom-select-sm" style="width:40%;">
@@ -534,13 +563,25 @@
                     <div class="form-row">
                         <label class="control-label col-sm-3" for="">Student ID number:</label>
                         <div class="col-sm-9">
-                            <input type="number" class="form-control" name="id" placeholder="Enter ID" min="10000" max="99999" required>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="id" placeholder="Enter ID" min="10000" max="99999" required>
+                                <div class="input-group-append">
+                                    <input type="submit" class="btn btn-danger" value="Delete" id="delete-submit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="control-label col-sm-3" for="">Delete all:</label>
+                        <div class="col-sm-9">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-danger" value="Delete" id="delete-all" style="width: 100%">Delete</button>
+                            </div>
                         </div>
                     </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <input type="submit" class="btn btn-primary" value="Delete" id="delete-submit">
                 </form>
             </div>
         </div>

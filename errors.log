@@ -7,3 +7,26 @@
 09:17:33.996 INFO  Error getting user: Error: Cannot enqueue Query after fatal error. 
 09:17:37.528 INFO  Error getting user: Error: Cannot enqueue Query after fatal error. 
 09:17:41.009 INFO  Error getting user: Error: Cannot enqueue Query after fatal error. 
+22:27:17.860 INFO  ER_BAD_FIELD_ERROR: Unknown column 'building' in 'where clause'
+Error: ER_BAD_FIELD_ERROR: Unknown column 'building' in 'where clause'
+    at Query.Sequence._packetToError (C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\mysql\lib\protocol\sequences\Sequence.js:52:14)
+    at Query.ErrorPacket (C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\mysql\lib\protocol\Protocol.js:279:23)
+    at Parser.write (C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\mysql\lib\protocol\Parser.js:76:12)
+    at Protocol.write (C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\mysql\lib\protocol\Protocol.js:39:16)
+    at Socket.<anonymous> (C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\mysql\lib\Connection.js:103:28)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    --------------------
+    at Protocol._enqueue (C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\mysql\lib\protocol\Protocol.js:145:48)
+    at Connection.query (C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\mysql\lib\Connection.js:208:25)
+    at C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\app.js:366:25
+    at doMove (C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\express-fileupload\lib\index.js:152:17)
+    at WriteStream.<anonymous> (C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\express-fileupload\lib\index.js:182:15)
+    at emitNone (events.js:106:13)
+    at WriteStream.emit (events.js:208:7)
+    at fs.close (fs.js:2078:12)
+    at C:\Users\ASher Grand Master\OneDrive\Wheaton\cs335\reslife\node_modules\graceful-fs\graceful-fs.js:43:10
+    at FSReqWrap.oncomplete (fs.js:135:15) 

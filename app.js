@@ -180,7 +180,7 @@ app.delete('/resapp/api/stu-del-building/:building', (req, res) => {
 });
 
 // Delete all students
-app.delete('/resapp/api/stu-del-all/:building', (req, res) => {
+app.delete('/resapp/api/stu-del-all', (req, res) => {
     if (req.session && req.session.user) {
         api.deleteAllStudents(req, res);
     } else {
@@ -363,7 +363,7 @@ app.post('/resapp/upload', function (req, res) {
                     });
                 }
                 else {
-                    con.query('DELETE FROM t_students WHERE building=?',
+                    con.query('DELETE FROM t_students WHERE buildingID=?',
                         dorm, (err, results, fields) => {
                             if (err) {
                                 log.info(err);
@@ -386,7 +386,7 @@ app.post('/resapp/upload', function (req, res) {
                 });
             });
 
-            //con.end;
+            con.end;
         });
     } else {
         res.redirect('/login');
