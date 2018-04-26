@@ -15,6 +15,8 @@
             timeout: 600000,
             success: function (data, status, xhr) {
                 $.each(data.results, function (key, val) {
+                    //load in building list into each of the three building drop-down lists on this form
+                    //value corresponds to buildingID, text to buildingName
                     $("#upload-building-list, #add-building-list, #print-building-list").append(
                         "<option value='" + val.buildingID + "'>" +
                            val.buildingName +

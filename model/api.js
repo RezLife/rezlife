@@ -1,6 +1,6 @@
 /**
 * api.js
-* Set of functions to retrive data according to specific urls.
+* Set of functions to retrieve data according to specific urls.
 */
 
 //package added for mysql database communication
@@ -148,7 +148,7 @@ exports.loadBuildingList = (req, res) => {
 exports.loadFloorsFromBuilding = (req,res,buildingid) => {
     con.query('SELECT DISTINCT floor FROM t_students WHERE buildingID=? ORDER BY floor',
             [buildingid], (error, results, fields) => {
-        if (error) return res.status(500).send(error); //need work
+        if (error) return res.status(500).send(error);
         return res.status(200).json({ results });
     });
 };
@@ -157,7 +157,7 @@ exports.loadFloorsFromBuilding = (req,res,buildingid) => {
 exports.loadBuildingNameByID = (req,res,buildingid) => {
     con.query('SELECT buildingName FROM t_building WHERE buildingID=?',
             [buildingid], (error, results, fields) => {
-        if (error) return res.status(500).send(error); //need work
+        if (error) return res.status(500).send(error);
         return res.status(200).json({ results });
     });
 };
