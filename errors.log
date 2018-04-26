@@ -1,0 +1,160 @@
+<<<<<<< HEAD
+10:46:49.356 INFO  read ECONNRESET
+Error: read ECONNRESET
+    at _errnoException (util.js:1019:11)
+    at TCP.onread (net.js:608:25)
+    --------------------
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:145:48)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22
+    at Function.process_params (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:330:12) 
+16:42:30.040 INFO  connect ETIMEDOUT
+Error: connect ETIMEDOUT
+    at Connection._handleConnectTimeout (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:419:13)
+    at Object.onceWrapper (events.js:314:30)
+    at emitNone (events.js:105:13)
+    at Socket.emit (events.js:207:7)
+    at Socket._onTimeout (net.js:400:8)
+    at ontimeout (timers.js:469:11)
+    at tryOnTimeout (timers.js:304:5)
+    at Timer.listOnTimeout (timers.js:264:5)
+    --------------------
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:145:48)
+    at Protocol.handshake (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:52:23)
+    at Connection.connect (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:130:18)
+    at Connection._implyConnect (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:461:10)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:206:8)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3) 
+16:43:28.833 INFO  Cannot enqueue Query after fatal error.
+Error: Cannot enqueue Query after fatal error.
+    at Protocol._validateEnqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:201:16)
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:139:13)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+16:43:32.419 INFO  Cannot enqueue Query after fatal error.
+Error: Cannot enqueue Query after fatal error.
+    at Protocol._validateEnqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:201:16)
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:139:13)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+16:49:09.685 INFO  Cannot enqueue Query after fatal error.
+Error: Cannot enqueue Query after fatal error.
+    at Protocol._validateEnqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:201:16)
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:139:13)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+16:49:39.493 INFO  Cannot enqueue Query after fatal error.
+Error: Cannot enqueue Query after fatal error.
+    at Protocol._validateEnqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:201:16)
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:139:13)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+16:49:42.932 INFO  Cannot enqueue Query after fatal error.
+Error: Cannot enqueue Query after fatal error.
+    at Protocol._validateEnqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:201:16)
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:139:13)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+16:49:52.624 INFO  Cannot enqueue Query after fatal error.
+Error: Cannot enqueue Query after fatal error.
+    at Protocol._validateEnqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:201:16)
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:139:13)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+16:49:55.023 INFO  Cannot enqueue Query after fatal error.
+Error: Cannot enqueue Query after fatal error.
+    at Protocol._validateEnqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:201:16)
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:139:13)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+16:50:03.675 INFO  Cannot enqueue Query after fatal error.
+Error: Cannot enqueue Query after fatal error.
+    at Protocol._validateEnqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:201:16)
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:139:13)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+16:50:44.411 INFO  Cannot enqueue Query after fatal error.
+Error: Cannot enqueue Query after fatal error.
+    at Protocol._validateEnqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:201:16)
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:139:13)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+16:50:46.910 INFO  Cannot enqueue Query after fatal error.
+Error: Cannot enqueue Query after fatal error.
+    at Protocol._validateEnqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:201:16)
+    at Protocol._enqueue (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/protocol/Protocol.js:139:13)
+    at Connection.query (/Users/TimGimi/rezlife/rezlife/node_modules/mysql/lib/Connection.js:208:25)
+    at Object.exports.login (/Users/TimGimi/rezlife/rezlife/controller/login.js:10:9)
+    at /Users/TimGimi/rezlife/rezlife/app.js:248:15
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:131:13)
+    at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+=======
+14:32:26.998 INFO  Error sending email: Error: No recipients defined 
+>>>>>>> 91d986c6e1b1c1be314b4fadca735fb2f5fb19ff
