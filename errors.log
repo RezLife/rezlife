@@ -155,4 +155,5 @@ Error: Cannot enqueue Query after fatal error.
     at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
     at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
 =======
-14:32:26.998 INFO  Error sending email: Error: No recipients defined 
+14:32:26.998 INFO  Error sending email: Error: No recipients defined 00:40:29.856 INFO  Error getting user: Error: read ECONNRESET 
+00:40:50.971 INFO  Error getting user: Error: Cannot enqueue Query after fatal error. 
