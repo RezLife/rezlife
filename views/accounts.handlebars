@@ -38,7 +38,7 @@
 
         <form id="create-account" action="/accounts" method="post" target="_blank">
           <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-            <input class="form-control" type="email" name="email" placeholder="Enter user email" style="width: auto">
+            <input class="form-control" type="email" name="email" placeholder="Enter user email" style="width: auto" required>
             <span class="focus-input100"></span>
           </div>
           <br/>
@@ -75,7 +75,7 @@
         <p>Enter email of account to delete:</p>
         <form id="delete-account" action="/deleteAccount" method="post" target="_blank">
           <div class="wrap-input100 validate-input m-b-16" data-validate="Account email is required">
-            <input class="form-control" type="email" name="email" placeholder="Account email" style="width: auto">
+            <input class="form-control" type="email" name="email" placeholder="Account email" style="width: auto" required>
             <span class="focus-input100"></span>
           </div>
           <br/>
