@@ -343,67 +343,73 @@
                     </div>
                     <div class="card-body">
                         <form id="print_chart" action="floorlist" target="_blank">
-                            <b>Dorm:</b>
-                            <select id="print-building-list" class="form-control custom-select" name="dorm" style="margin-left:5px" required>
-                                <option value="" disabled selected hidden>Choose dorm...</option>
-                            </select>
-                            <div>
-                                <b>Floor:</b>
-                                <select id="print-floor-list" class="form-control custom-select" name="floor" style="margin-left:5px" required=""></select>
+                            <div class="row">
+                                <div class="col">
+                                    <b>Dorm:</b>
+                                    <select id="print-building-list" class="form-control custom-select" name="dorm" style="width:50%;margin-left:5px; margin-bottom:10px;" required>
+                                        <option value="" disabled selected hidden>Choose dorm...</option>
+                                    </select>
+                                    <div style="margin-bottom:10px;">
+                                        <b>Floor:</b>
+                                        <select id="print-floor-list" class="form-control custom-select" name="floor" style="width:50%;margin-left:5px" required=""></select>
+                                    </div>
+                                    <b>Include:</b>
+                                    <br>
+                                    <div class="form-row">
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" name="fields" value="fn" id="fn">
+                                            <label class="custom-control-label" for="fn">First Name</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" name="fields" value="ln" id="ln">
+                                            <label class="custom-control-label" for="ln">Last Name</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" name="fields" value="pn" id="pn"> 
+                                            <label class="custom-control-label" for="pn">Preferred Name</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" name="fields" value="id" id="id"> 
+                                            <label class="custom-control-label" for="id">Student ID</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" name="fields" value="y" id="y">
+                                            <label class="custom-control-label" for="y">Year of study</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" name="fields" value="dob" id="dob">
+                                            <label class="custom-control-label" for="dob">Birth date</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" name="fields" value="c" id="c">
+                                            <label class="custom-control-label" for="c">City of Origin</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" name="fields" value="r" id="r">
+                                            <label class="custom-control-label" for="r">Room</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <b>Order by:</b>
+                                    <select class="form-control custom-select" name='order-by'>
+                                        <option value="name_first"> First Name</option>
+                                        <option value="name_last"> Last Name</option>
+                                        <option value="name_preferred"> Preferred Name</option>
+                                        <option value="studentID"> Student ID</option>
+                                        <option value="cohort_year"> Year of study</option>
+                                        <option value="date_of_birth"> Birth date</option>
+                                        <option value="city"> City of Origin</option>
+                                        <option value="room"> Room</option>
+                                    </select>
+                                    <label class="radio-inline" style='opacity: 0'>
+                                        <input type="radio" name="form" value="list" checked> List
+                                    </label>
+                                    <br>
+                                    <!-- <input type="radio" name="form" value="chart"> Chart<br> -->
+                                    <input type="submit" value="Print" class="btn btn-dark">
+                                </div>
                             </div>
-                            <b>Include:</b>
-                            <br>
-                            <div class="form-row">
-                                <div class="custom-control custom-checkbox mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input" name="fields" value="fn" id="fn">
-                                    <label class="custom-control-label" for="fn">First Name</label>
-                                </div>
-                                <div class="custom-control custom-checkbox mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input" name="fields" value="ln" id="ln">
-                                    <label class="custom-control-label" for="ln">Last Name</label>
-                                </div>
-                                <div class="custom-control custom-checkbox mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input" name="fields" value="pn" id="pn"> 
-                                    <label class="custom-control-label" for="pn">Preferred Name</label>
-                                </div>
-                                <div class="custom-control custom-checkbox mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input" name="fields" value="id" id="id"> 
-                                    <label class="custom-control-label" for="id">Student ID</label>
-                                </div>
-                                <div class="custom-control custom-checkbox mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input" name="fields" value="y" id="y">
-                                    <label class="custom-control-label" for="y">Year of study</label>
-                                </div>
-                                <div class="custom-control custom-checkbox mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input" name="fields" value="dob" id="dob">
-                                    <label class="custom-control-label" for="dob">Birth date</label>
-                                </div>
-                                <div class="custom-control custom-checkbox mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input" name="fields" value="c" id="c">
-                                    <label class="custom-control-label" for="c">City of Origin</label>
-                                </div>
-                                <div class="custom-control custom-checkbox mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input" name="fields" value="r" id="r">
-                                    <label class="custom-control-label" for="r">Room</label>
-                                </div>
-                            </div>
-                            <b>Order by:</b>
-                            <select class="form-control custom-select" name='order-by'>
-                                <option value="name_first"> First Name</option>
-                                <option value="name_last"> Last Name</option>
-                                <option value="name_preferred"> Preferred Name</option>
-                                <option value="studentID"> Student ID</option>
-                                <option value="cohort_year"> Year of study</option>
-                                <option value="date_of_birth"> Birth date</option>
-                                <option value="city"> City of Origin</option>
-                                <option value="room"> Room</option>
-                            </select>
-                            <label class="radio-inline" style='opacity: 0'>
-                                <input type="radio" name="form" value="list" checked> List
-                            </label>
-                            <br>
-                            <!-- <input type="radio" name="form" value="chart"> Chart<br> -->
-                            <input type="submit" value="Print" class="btn btn-dark">
                         </form>
                     </div>
                 </div>
