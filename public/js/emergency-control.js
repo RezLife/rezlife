@@ -15,8 +15,6 @@ $(document).ready(function () {
 
         //Grab img from clicked question
         var img = $(this).children('img');
-        //Remove Rotate class from all images except the active
-        $('img').not(img).removeClass('rotate');
         //toggle rotate class
         img.toggleClass('rotate');
 

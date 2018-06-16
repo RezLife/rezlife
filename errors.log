@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 10:46:49.356 INFO  read ECONNRESET
 Error: read ECONNRESET
     at _errnoException (util.js:1019:11)
@@ -154,3 +155,7 @@ Error: Cannot enqueue Query after fatal error.
     at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
     at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
     at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+=======
+14:32:26.998 INFO  Error sending email: Error: No recipients defined 00:40:29.856 INFO  Error getting user: Error: read ECONNRESET 
+00:40:50.971 INFO  Error getting user: Error: Cannot enqueue Query after fatal error. 
+>>>>>>> f02625181602bd1e30132444e0496574f7c8fe02
