@@ -1,12 +1,59 @@
-# RezLife
+# ResApp
+
 Web App for Resident Life Staff/Residents 
 
+## Installation Instructions
+
+Follow the steps below to host the web app on your local machine. 
+
+### Prerequisites
+
+1. Node.js
+2. npm 
+3. Command line / Shell
+4. Connection to Wheaton College network/database
+5. Browser
+
+Refer to the Not-so-Quickstart for installation guides for the tools above.
+
+### Step-by-Step Instructions
+
+1. Clone the source code to your working directory: `git clone https://github.com/RezLife/rezlife.git`.
+2. Open up the command line tool / shell.
+3. Navigate to the `rezlife` folder within your working directory (top level of the source code) and install all dependencies by executing `npm install` in the command line.
+4. After installing, run `node app.js` in the command line. The terminal should output: `Listening on port 3000...`.
+5. Open up your browser and type in `localhost:3000` and the landing page of the web app should load.
+6. Congratulations! You've successfully loaded the web app.
+
+## Developer Notes
+
+### General Notes
+
+1. A file named `errors.log` will be created during production, which will log all errors occurring within the app for debugging purposes.
+2. `package.json` lists all the dependencies used in this app, which can be installed using `npm install`. The dependencies are then stored in the `node_modules` folder.
+3. **DO NOT** commit and push `package-lock.json`, `node_modules` and `errors.log` as this will cause many merge conflicts and chaos for others. **Tip:** Include these files in your `.gitignore`. 
+4. If you're not connected to the Wheaton Network, you would not be able to login since the database containing login information is only accessible through the Wheaton Network. **To change database configurations,** go to `model/api.js` and change the variables within the `con` variable.
+
+### Tips and Tricks
+
+1. Use a package manager like `nvm` or `homebrew` to make installation a whole lot easier. 
+2. Install `nodemon` when developing, as it will stop and start the server automatically as you make changes. 
+
+### Understanding the Code
+1. `app.js` is the entrypoint of the app, acting as the controller of the web app.
+2. `model` contains code and services that interact with the database.
+2. `views` contains all the HTML / Handlebars files.
+3. `public` contains all the static content of the web app.
+4. `controller` contains functions that is used within `app.js`
+
+## Not-so-Quickstart
+
 The programming languages/frameworks that will be used in this web app: 
-1. **Front-end/Client-side**: HTML, CSS, JavaScript 
+1. **Front-end/Client-side**: HTML, CSS, JQuery, JavaScript 
 2. **Back-end/Server-side**: Node.js, Express.js
 3. **Database**: MySQL
 
-HTML, CSS, and Javascript should be already installed in your systems (unless you somehow never needed a browser.)
+HTML, CSS, and Javascript should be already installed in your systems (unless you somehow never used a browser in your life.)
 
 Below are instructions to set up your own local server and start serving/displaying your web app. 
 
@@ -21,17 +68,6 @@ First, we need to install/download all the tools needed for start creating our w
 2. Run the installer and accept default installation settings. 
 
 More details can be found [here](http://blog.teamtreehouse.com/install-node-js-npm-windows).
-
-##### 2. Express.js
-Before we install express, we would need to get our repository ready.
-1. Using command line, clone the repo: `git clone https://github.com/RezLife/rezlife.git`.
-2. Then install a *package.json* file and *node_module* folder (which contains express.js) by following the instructions [here](https://expressjs.com/en/starter/installing.html). 
-
-**Note about the installation:** 
-1. What the instruction means by "entry point" is which "main file" does the app start in. In Java, it's like the file where the "main" method is located.  
-2. *node_module* is a folder containing various packages handy for web app development. Its like the java library containing things like HashMap, Math, etc. 
-
-Now you're ready to start your server!
 
 ### MacOS
 
@@ -49,17 +85,6 @@ Node.js is a JavaScript framework that allows Javascript use in the server.
 Install Node.js using brew: `brew install node`. 
 
 This should also install npm, which is the package manager for JavaScript.
-
-##### 4. Express.js
-Before we install express, we would need to get our repository ready.
-1. Using command line, clone the repo: `git clone https://github.com/RezLife/rezlife.git`.
-2. Then install a *package.json* file and *node_module* folder (which contains express.js) by following the instructions [here](https://expressjs.com/en/starter/installing.html). 
-
-**Note about the installation:** 
-1. What the instruction means by "entry point" is which "main file" does the app start in. In Java, it's like the file where the "main" method is located.  
-2. *node_module* is a folder containing various packages handy for web app development. Its like the java library containing things like HashMap, Math, etc. 
-
-Now you're ready to start your server!
 
 ### Linux
 
@@ -83,21 +108,4 @@ Install Node.js using brew: `brew install node`.
 
 This should also install npm, which is the package manager for JavaScript.
 
-##### 4. Express.js
-Before we install express, we would need to get our repository ready.
-1. Using command line, clone the repo: `git clone https://github.com/RezLife/rezlife.git`.
-2. Then install a *package.json* file and *node_module* folder (which contains express.js) by following the instructions [here](https://expressjs.com/en/starter/installing.html). 
-
-**Note about the installation:** 
-1. What the instruction means by "entry point" is which "main file" does the app start in. In Java, it's like the file where the "main" method is located.  
-2. *node_module* is a folder containing various packages handy for web app development. Its like the java library containing things like HashMap, Math, etc. 
-
-Now you're ready to start your server!
-
-### B. Server Creation
-Below are instructions to start a server on your local machine and display it on your own browser:
-
-1. First, you would need to create a main .js file from which the server runs. An example script is written in [helloworld.js](https://github.com/RezLife/rezlife/blob/master/src/helloworld.js), which is in the script. Currently, helloworld.js serves an html file (index.html) included in the folder *views*. Details of how it works is commented in the script. 
-2. In the same directory of the main script, execute `node helloworld.js` in command line. In the console, `Listening on port 3000....` should be displayed.
-3. Go to browser and go to `localhost:3000`, and a static html file should be displayed!
 
