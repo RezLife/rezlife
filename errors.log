@@ -154,3 +154,5 @@ Error: Cannot enqueue Query after fatal error.
     at Route.dispatch (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/route.js:112:3)
     at Layer.handle [as handle_request] (/Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/layer.js:95:5)
     at /Users/TimGimi/rezlife/rezlife/node_modules/express/lib/router/index.js:277:22 
+20:21:43.367 INFO  Error getting user: Error: getaddrinfo ENOTFOUND csdb.wheaton.edu csdb.wheaton.edu:3306 
+08:14:59.064 INFO  Error getting user: Error: getaddrinfo ENOTFOUND csdb.wheaton.edu csdb.wheaton.edu:3306 

@@ -3,7 +3,7 @@
  * Load modules
  */
 let api = require('./model/api.js');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var bodyParser = require('body-parser');
 var chartParser = require('./chartParser.js');
 var createAccount = require('./controller/createAccount.js');

@@ -1,7 +1,7 @@
 //modules
 var generator = require('generate-password');
 var sendEmail = require('./sendEmail.js');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 const saltRounds = 11; //number of salt rounds for encryption
 
 //check if a valid floor and building were selected

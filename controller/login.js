@@ -1,5 +1,5 @@
 var sendEmail = require('./sendEmail.js');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 const saltRounds = 11; //number of salt rounds for encryption
 var generator = require('generate-password');
 
