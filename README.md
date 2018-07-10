@@ -1,6 +1,54 @@
 # ResApp
 
-Web App for Resident Life Staff/Residents 
+## What's ResApp?
+
+ResApp is a Web App developed by Wheaton CS students to assist Resident Life staff in doing day-to-day tasks. 
+
+As many former RAs and RDs have shared, working in ResLife can be daunting. They have to organize event, respond to emergencies, clean up facilities, undergo training, facilitate storage, keep quiet hours, and many, many more tasks. It is easy to be overwhelmed by all the moving pieces.
+
+As a team, we wanted to provide a solution. Our main goal is to help ResLife staff focus less on the logistics and more on what's important: their students. 
+
+## Features 
+Below is a high-level overview of the existing features in ResApp: 
+
+### 1. Emergency Manual: 
+
+**This feature provides access to the emergency procedures that is in the official ResLife Manual.**
+
+Reslife Staff is often the number one responders when a crisis happens in the dorms and apartments. Currently, all the emergency procedures are located in a heavy, thick binder and often out of reach when these emergencies occur. With this feature, staff can access crucial information anywhere, anytime. 
+
+### 2. Phonebook: Access important phone numbers 
+
+**This feature provides access to all the phone numbers important to a ResLife staff.** 
+
+From Public Safety to the Counseling center, any number can be quickly looked up and called. In mobile, users can simply click on a number and it will dial automatically.
+
+### 3. Calendar:
+
+**This feature allows staff to view events going on in the dorms on their devices.**
+
+Usually, the staff keeps track of dorm events (floor raids, training times, etc) in a physical calendar, located in the staff lounge. With this feature, staff can view the dorm calendar anywhere and anytime.
+
+This feature of the app is integrated with Google Calendar, thus the ARDs, who is tasked with keeping track of events, can simply login to the Google Calendar account and edit the events on the Google Calendar UI, instead of having to keep track of the calendar in multiple physical locations. 
+
+### 4. Roster 
+
+**This feature allows staff to upload the entire student roster to an online database, print rosters by floor number, and search students by their ID, name, and room number**
+
+Every beginning of the semester, RDs receives a large Excel file containing resident information. During orientation week, the RDs would then have to manually (in Excel) categorize the residents by floor/dorm and print out these lists, since new students need a reference in finding their designated room.
+
+During the semester, RDs would have to update these Excel files whenever a student transfers in or out of the dorm: find the person in the Excel file, erase their information, reformat the table, add the new student, etc. 
+
+Often, RDs would also have to look through these Excel files to find a student by their ID, room number, so that the student can be notified of emergencies, policy violations, or a lost ID. RDs often have to communicate with other dorms in finding these students, since at the time they only have access to their dorm's roster.
+
+With this feature, Reslife staff can do all of the above with only a few button clicks. We have streamlined the process so that all Reslife needs to do is upload a .csv file, then they can print student information by floor, search students on any dorms, and delete the roster whenever the year ends. 
+
+### 5. Account Management
+
+**This feature allows admins (RDs, GRAs) to control who has access to the Web App.**
+
+Only those with access to the Wheaton network and those given permission by the Admin can access the app. RDs and GRAs can simply submit and delete email addresses that can access the app.
+
 
 ## Installation Instructions
 
