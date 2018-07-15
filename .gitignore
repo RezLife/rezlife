@@ -1,0 +1,7 @@
+# directory containing node packages
+node_modules/
+
+# log file created or appended to when running the app
+errors.log
+
+package-lock.json
