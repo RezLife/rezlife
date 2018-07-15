@@ -79,7 +79,7 @@ Refer to the Not-so-Quickstart for installation guides for the tools above.
 
 1. A file named `errors.log` will be created during production, which will log all errors occurring within the app for debugging purposes.
 2. `package.json` lists all the dependencies used in this app, which can be installed using `npm install`. The dependencies are then stored in the `node_modules` folder.
-3. **DO NOT** commit and push `package-lock.json`, `node_modules` and `errors.log` as this will cause many merge conflicts and chaos for others. **Tip:** Include these files in your `.gitignore`. 
+3. **DO NOT** commit and push `package-lock.json`, `node_modules` and `errors.log` as this will cause many merge conflicts and chaos for others. **Tip:** These are included in the `.gitignore` to prevent accidental commits.
 4. If you're not connected to the Wheaton Network, you would not be able to login since the database containing login information is only accessible through the Wheaton Network. **To change database configurations,** go to `model/api.js` and change the variables within the `con` variable. **Tip:** If you're off-campus, use Wheaton's GlobalProtect VPN to access the network. 
 
 ### Tips and Tricks
