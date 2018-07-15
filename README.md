@@ -136,8 +136,8 @@ This should also install npm, which is the package manager for JavaScript.
 
 ### Linux
 
-##### 1. Linuxbrew
-Linux is a package installer that makes installing packages easier in Linux, an extension of Homebrew for MacOS. 
+##### 1. Linuxbrew (optional)
+Linux has some great native package managers like `apt` and `yum`. If you're coming from the Mac world and are more comfortable with Homebrew, you could use Linuxbrew (an extension of Homebrew for MacOS) instead of the native Linux package managers.
 
 Install it [here](http://linuxbrew.sh/).
 
@@ -152,7 +152,8 @@ These installation details can be found [here](http://blog.teamtreehouse.com/ins
 ##### 3. Node.js and NPM
 Node.js is a JavaScript framework that allows Javascript use in the server. 
 
-Install Node.js using brew: `brew install node`. 
+Install Node.js using brew: `brew install node` 
+Install Node.js and npm on **Ubuntu** or **Debian** using apt-get: `sudo apt-get install nodejs npm` 
 
 This should also install npm, which is the package manager for JavaScript.
 
