@@ -209,7 +209,7 @@ app.use('/resapp', resapp);
 app.post('/login/forgot', function (req, res) {
     req.session.user = null;
     if (req.body && req.body.email) {
-        login.forgotPass(req, res, con, log);
+        login.forgotPass(req, res, log);
         res.status(200);
     } else {
         return res.status(400).send('Must enter email.');
@@ -232,7 +232,7 @@ app.post('/contact', function (req, res) {
 //post method called after the login button is pressed
 app.post('/login', function (req, res) {
     //make sure there is no current user logged in, this also takes care of in logout
-    req.session = null;
+    req.session.user = null;
 
     //if email and password were entered
     if (req.body && req.body.email && req.body.password) {

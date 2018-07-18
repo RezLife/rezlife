@@ -36,17 +36,13 @@ exports.login = function (req, res, log) {
     });
 }
 
-exports.forgotPass = function (req, res, con, log) {
+exports.forgotPass = function (req, res, log) {
     var email = req.body.email;
     var password = generator.generate();
 
     //verify that the email is for a valid account
-    var sql = `SELECT * FROM t_users WHERE email = '${email}'`;
-    con.query(sql, function (err, result) {
-        if (err) {
-            log.info(err);
-            return res.status(400).send(err);
-        } else if (result.length > 0) {
+    api.getUser(res, email, function (users, error) {
+        if (users && users.length > 0) {
             //send email with the temporary password
             sendEmail.emailPassword(email, password, log);
 
@@ -57,23 +53,11 @@ exports.forgotPass = function (req, res, con, log) {
                     console.log("Error hashing password: " + err);
                 } else {
                     //update user password
-                    var sql = `UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`;
-                    con.query(sql, function (err, result) {
-                        if (err) {
-                            log.info(err);
-                            console.log(err);
-                        } else {
-                            console.log("1 record updated");
-                        }
-                    });
+                    api.updatePass(res, hash, email);
                 }
             });
-            
-            
-            res.redirect("/login");
-        }
-        else {
-            console.log("No user found: ", result);
+        } else {
+            console.log("No user found: ", error);
             return res.status(400).send('No user found with that email.');
         }
     });
