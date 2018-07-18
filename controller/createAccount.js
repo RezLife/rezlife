@@ -1,7 +1,8 @@
 //modules
+var api = require("../model/api.js");
 var generator = require('generate-password');
 var sendEmail = require('./sendEmail.js');
-var bcrypt = require('bcryptjs');
+var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 
 //check if a valid floor and building were selected
@@ -52,7 +53,7 @@ exports.verifyFloor = function (floor, building) {
 };
 
 //create new user
-exports.addAccount = function (con, email, role, dorm, floor, res, log) {
+exports.addAccount = function (email, role, dorm, floor, res, log) {
     var password = generator.generate();
     var unencrypted = password;
     //encrypt the password
@@ -67,18 +68,7 @@ exports.addAccount = function (con, email, role, dorm, floor, res, log) {
             //send email with the temporary password
             sendEmail.emailPassword(email, unencrypted, log);
             //insert new user into the database
-            var sql = `REPLACE INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${floor}', '${dorm}')`;
-            con.query(sql, function (err, result) {
-                if (err) {
-                    log.info("Error replacing user: " + err);
-                    res.send({
-                        "code": "400",
-                        "failed": err
-                    });
-                } else {
-                    res.send("Account added!");
-                }
-            });
+            api.addUser(res, email, hash, role, floor, dorm);
         }
     });
 };

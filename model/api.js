@@ -16,6 +16,15 @@ let con = mysql.createPool({
     database: 'reslife'
 });
 
+//user credentials for mysql database
+/*var con = mysql.createConnection({
+    host: "csdb.wheaton.edu",
+    port: "3306",
+    user: "reslife_user",
+    password: "rez4Life!)GrTZ",
+    database: "reslife"
+});*/
+
 //get all data from stated table
 exports.getAllStudents = (req,res,order) => {
     con.query('SELECT * FROM t_students ORDER BY '+order.split(';')[0], (error, results, fields) => {
@@ -92,7 +101,32 @@ exports.searchAllStudents = (req,res,query,order) => {
     });
 };
 
-//add a students
+//finds a user by emails
+exports.getUser = (res, email, callback) => {
+    con.query('SELECT * FROM t_users WHERE email = ?', [email], function (error, results, fields) {
+        if (error) {
+            callback(false, error);
+        } else {
+            callback(results);
+        }
+    });
+};
+
+//add a user
+exports.addUser = (res, email, hash, role, floor, dorm) => {
+    con.query(`REPLACE INTO t_users (email, password, role, floor, building) VALUES ('${email}', '${hash}', '${role}', '${floor}', '${dorm}')`, function (err, result) {
+        if (err) {
+            res.send({
+                "code": "400",
+                "failed": err
+            });
+        } else {
+            res.send("Account added!");
+        }
+    });
+};
+
+//add a student
 exports.addStudent = (req,res,fields) => {
     if (fields[2] === 'NULL')
         fields[2] = '';
@@ -106,12 +140,50 @@ exports.addStudent = (req,res,fields) => {
     });
 };
 
+//replaces a student
+exports.replaceStudent = (columns, record, callback) => {
+    con.query("REPLACE INTO t_students ("+columns+") VALUES (?,?,?,?,?,?,?,?,?,?,?)", record, function (err, result, fields) {
+        if (err) return callback(false, err);
+        else callback(true);
+    });
+};
+
+//updates a user's password
+exports.updatePass = (res, hash, email) => {
+    con.query(`UPDATE t_users SET password = '${hash}' WHERE email = '${email}'`, function (err, result) {
+        if (err) {
+            res.send({
+                "code": "400",
+                "failed": err
+            });
+        } else {
+            res.send("Password updated!");
+        }
+    });
+};
+
 //delete a student
 exports.deleteStudentByID = (req,res,id) => {
     con.query('DELETE FROM t_students WHERE studentID=?',
             [id], (error, results, fields) => {
         if (error) return res.status(500).send(error);
         return res.status(200).json({ results });
+    });
+};
+
+//delete a user
+exports.deleteUserByEmail = (res,email) => {
+    con.query(`DELETE FROM t_users WHERE email = ?`,
+    email, (error, result, fields) => {
+        if (err) {
+            res.send({
+                "code": "400",
+                "failed": err
+            });
+        } else {
+            console.log("1 record deleted:", result);
+            res.send("Account deleted");
+        }
     });
 };
 

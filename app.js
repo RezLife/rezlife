@@ -3,27 +3,27 @@
  * Load modules
  */
 let api = require('./model/api.js');
-var bcrypt = require('bcryptjs');
-var bodyParser = require('body-parser');
-var chartParser = require('./chartParser.js');
-var createAccount = require('./controller/createAccount.js');
-var deleteAccount = require('./controller/deleteAccount.js');
-var express = require('express');
-var fileUpload = require('express-fileupload');
-var fs = require('fs');
-var generator = require('generate-password');
+let bcrypt = require('bcrypt');
+let bodyParser = require('body-parser');
+let chartParser = require('./chartParser.js');
+let createAccount = require('./controller/createAccount.js');
+let deleteAccount = require('./controller/deleteAccount.js');
+let express = require('express');
+let fileUpload = require('express-fileupload');
+let fs = require('fs');
+let generator = require('generate-password');
 let handlebars = require('express-handlebars');
-var log = require('simple-node-logger').createSimpleLogger('errors.log');
-var login = require('./controller/login.js');
-var mysql = require('mysql');
-var path = require('path');
+let log = require('simple-node-logger').createSimpleLogger('errors.log');
+let login = require('./controller/login.js');
+let path = require('path');
 let resapp = require('./routes/resapp');
-var sendEmail = require('./controller/sendEmail.js');
-var session = require('client-sessions');
-var settings = require('./controller/settings.js');
+let sendEmail = require('./controller/sendEmail.js');
+let session = require('client-sessions');
+let settings = require('./controller/settings.js');
 const saltRounds = 11; //number of salt rounds for encryption
 
-var app = express();
+let app = express();
+
 
 /**
  * Set Handlebars as Template Engine
@@ -49,7 +49,7 @@ app.use(fileUpload());
 //session allows for persistent logins with authentication
 app.use(session({
     cookieName: 'session',
-    secret: 'randomsecretstringssshhh123',
+    secret: 'Dj19Fn38OSp04h30MQp27XnIisjW',
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
 }));
@@ -62,15 +62,6 @@ app.use('/resapp', express.static(path.join(__dirname, 'public')));
 //read urls and receive json from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-//connect to mysql database
-var con = mysql.createConnection({
-    host: "csdb.wheaton.edu",
-    port: "3306",
-    user: "reslife_user",
-    password: "rez4Life!)GrTZ",
-    database: "reslife"
-});
 
 /**
  * API data requests
@@ -240,12 +231,12 @@ app.post('/contact', function (req, res) {
 
 //post method called after the login button is pressed
 app.post('/login', function (req, res) {
-    //make sure there is no current user logged in, this also takes care of logout
-    req.session.user = null;
+    //make sure there is no current user logged in, this also takes care of in logout
+    req.session = null;
 
     //if email and password were entered
     if (req.body && req.body.email && req.body.password) {
-        login.login(req, res, con, log);
+        login.login(req, res, log);
     } else {
         res.send({
             "code": 400,
@@ -265,7 +256,7 @@ app.post('/accounts', function (req, res) {
                     //make sure RA has valid dorm building and floor
                     if (req.body.dorm && req.body.floor && (req.body.dorm == "Fischer" || req.body.dorm == "Smaber" || req.body.dorm == "UCH")) {
                         if (createAccount.verifyFloor(req.body.floor, req.body.dorm) == true) {
-                            createAccount.addAccount(con, req.body.email, req.body.role, req.body.dorm, req.body.floor, res, log);
+                            createAccount.addAccount(req.body.email, req.body.role, req.body.dorm, req.body.floor, res, log);
                         }
                         else {
                             res.send({
@@ -280,7 +271,7 @@ app.post('/accounts', function (req, res) {
                         });
                     }
                 }
-                else createAccount.addAccount(con, req.body.email, req.body.role, ' ', ' ', res, log);
+                else createAccount.addAccount(req.body.email, req.body.role, ' ', ' ', res, log);
             } else {
                 res.send({
                     "code": "400",
@@ -307,7 +298,7 @@ app.post('/accounts', function (req, res) {
 app.post('/deleteAccount', function (req, res) {
     //authentication and only allow admins to delete an account
     if (req.session && req.session.user && req.session.user.role == "Admin") {
-        deleteAccount.deleteAccount(req, res, con, log);
+        deleteAccount.deleteAccount(req, res, log);
     } else {
         res.redirect("/login");
     }
@@ -317,7 +308,7 @@ app.post('/deleteAccount', function (req, res) {
 app.post('/settings', function (req, res) {
     //authentication
     if (req.session && req.session.user) {
-        settings.updatePass(req, res, con, log);
+        settings.updatePass(req, res, log);
     } else {
         res.redirect("/login");
     }
@@ -340,13 +331,6 @@ app.post('/resapp/upload', function (req, res) {
         chart.mv(path.join(__dirname, 'chart'), function (err) {
             if (err) return res.status(500).send(err);
 
-            // connect to the database as the reslifeadmin
-            var con = mysql.createConnection({
-                host: "csdb.wheaton.edu",
-                user: "reslifeadmin",
-                password: "eoekK8bRe4wa",
-                database: "reslife"
-            });
             // if reset was selected in the upload form, first delete everything from
             // the selected building.
             if (req.body["add-reset"] === "reset") {
@@ -354,25 +338,14 @@ app.post('/resapp/upload', function (req, res) {
                 // csv that will have all students in it, and we should delete everything
                 // from the database;
                 if (dorm === "all") {
-                    con.query("DELETE FROM t_students", function (err, result, fields) {
-                        if (err) {
-                            log.info(err);
-                            return res.status(500).send(error);
-                        }
-                    });
+                    api.deleteAllStudents(req,res);
                 }
                 else {
-                    con.query('DELETE FROM t_students WHERE buildingID=?',
-                        dorm, (err, results, fields) => {
-                            if (err) {
-                                log.info(err);
-                                return res.status(500).send(err);
-                            }
-                        });
+                    api.deleteStudentByBuilding(req,res,dorm);
                 }
             }
             // Parse the uploaded file into the database with the chartParser.js
-            chartParser.parseIntoDatabase(con, "./chart", function (errstr) {
+            chartParser.parseIntoDatabase("./chart", function (errstr) {
                 // if ChartParser sends an error, send it back to the page.
                 if (errstr) {
                     log.info(errstr);
@@ -384,8 +357,6 @@ app.post('/resapp/upload', function (req, res) {
                     res.status(200).send("File successfully uploaded and parsed!");
                 });
             });
-
-            con.end;
         });
     } else {
         res.redirect('/login');

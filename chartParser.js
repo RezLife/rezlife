@@ -1,7 +1,8 @@
 var parse = require('csv-parse');
 var fs = require('fs');
+var api = require('./model/api.js');
 
-exports.parseIntoDatabase = function (con, fileName, callback) {
+exports.parseIntoDatabase = function (fileName, callback) {
     fs.readFile(fileName, function(err, data) {
         if (err) return callback(err.message);
         parse(data, function(err, output) {
@@ -45,8 +46,8 @@ exports.parseIntoDatabase = function (con, fileName, callback) {
                     // first delete any instances of this same student in case there are duplicates
                     // this will replace duplicate records.\
                     // insert the info.
-                    con.query("REPLACE INTO t_students ("+columns+") VALUES (?,?,?,?,?,?,?,?,?,?,?)", record, function (err, result, fields) {
-                        if (err) return callback(err.message);
+                    api.replaceStudent(columns, record, function(check, err) {
+                        if (!check) return callback(err.message);
                         // this continues the function call so things run in order.
                         // Make sure to only callback when the for loop has ended.
                         if (i == (csv.length - 1)) callback();

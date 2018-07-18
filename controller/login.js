@@ -1,13 +1,15 @@
+//modules
+var api = require("../model/api.js");
 var sendEmail = require('./sendEmail.js');
-var bcrypt = require('bcryptjs');
+var bcrypt = require('bcrypt');
 const saltRounds = 11; //number of salt rounds for encryption
 var generator = require('generate-password');
 
-exports.login = function (req, res, con, log) {
+exports.login = function (req, res, log) {
     var email = req.body.email;
     var password = req.body.password;
     //find the user in the database
-    con.query('SELECT * FROM t_users WHERE email = ?', [email], function (error, results, fields) {
+    api.getUser(res, email, function (results, error) {
         if (error) {
             log.info("Error getting user: " + error);
             return res.status(400).send('Error occured.');
